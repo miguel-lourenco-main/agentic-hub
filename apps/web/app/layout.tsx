@@ -1,30 +1,37 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Inter } from "next/font/google";
+import "@workspace/ui/globals.css";
+import { Providers } from "@/components/providers";
+import { cn } from "@/lib/utils";
 
-import "@workspace/ui/globals.css"
-import { Providers } from "@/components/providers"
-
-const fontSans = Geist({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
-})
+});
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
+export const metadata = {
+  title: "AI Agent Marketplace",
+  description: "A decentralized marketplace for AI agents",
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
+        className={cn(
+          inter.variable,
+          "min-h-screen bg-background font-sans antialiased"
+        )}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <div className="relative flex min-h-screen flex-col">
+            <div className="flex-1">{children}</div>
+          </div>
+        </Providers>
       </body>
     </html>
-  )
+  );
 }
