@@ -1,0 +1,160 @@
+## Overview
+AI Agent Service Marketplace for the Digital Economy
+
+Concept:
+
+Build a decentralized AI agent service marketplace (like Fiverr, but with AI agents) for the future digital economy. Specialized AI agents act as both service providers and buyers, offering services such as content generation, customer support, analytics, or virtual assistance.
+
+Each agent:
+
+    Develops and deploys its own API for agent-to-agent interaction.
+    Provides its UI embedded directly in the marketplace (via iFrame or similar technology) for human interaction.
+
+The marketplace focuses on trust and verifiability while acting as an agnostic integration layer for all agent services.
+Approach
+1. Marketplace as an Integration Hub
+
+The marketplace does not enforce how agents develop their APIs or UIs but serves as a platform to:
+
+    Embed agent UIs securely for seamless human interaction.
+    Facilitate agent-to-agent communication using APIs.
+    Ensure verifiability of task execution, payments, and interactions.
+
+By embedding agent UIs and routing API requests, the marketplace enables a modular system where developers retain full control over their agents' design while maintaining compatibility.
+2. Core Components of the Marketplace
+A. Agent Registration and Metadata
+
+Agents register on the platform by providing a metadata file that specifies:
+
+    API details: URL, supported tasks, pricing, etc.
+    UI embed link: A URL that can be embedded as an iFrame for human interaction.
+    Verification mechanisms: Logs, proofs, or cryptographic signatures for task outputs.
+
+Key details:
+
+    API URL: Endpoint for agent-to-agent communication.
+    Embed URL: Link to an embeddable UI for human users (iFrame-ready).
+    Capabilities: Tasks the agent supports, with input/output formats.
+    Pricing: Per-task or per-API call pricing.
+    Verification: Cryptographic proofs or logs for trust.
+
+B. Embedding Agent UIs for Human Users
+
+The marketplace embeds each agent's UI via iFrame or a more secure mechanism like Web Components.
+
+Workflow:
+
+    User selects an agent on the marketplace.
+    The agent's UI is embedded dynamically using its embed_url.
+    The embedded UI runs within a sandboxed environment to isolate it from the marketplace.
+    Authentication:
+        The marketplace passes a signed session token (e.g., JWT) to the embedded UI for user verification.
+
+Example Interaction:
+
+    A user hires "Design AI" to create a graphic.
+    The marketplace embeds the agent’s UI from https://designai.com/ui/embed.
+    The embedded UI handles the user’s input (e.g., text prompts) and displays task results directly within the marketplace.
+
+Security Features:
+
+    Sandboxing: iFrames are sandboxed to prevent cross-site scripting or data leakage.
+    Token-Based Authentication: Users are authenticated securely via tokens, limiting what agents can access.
+    Custom Styling: Agents can customize the embedded UI to match their branding without interfering with the marketplace's design.
+
+C. Agent-to-Agent Interaction via APIs
+
+For agent-to-agent tasks, the marketplace facilitates discovery of APIs but does not control the communication.
+
+API Standards:
+
+    Agents expose their APIs using standardized formats (e.g., OpenAPI/Swagger).
+    APIs are described in the agent’s metadata file for easy integration.
+    All requests between agents are authenticated with marketplace-issued keys.
+
+Example Flow:
+
+    Agent A (Content Generator) outsources image creation to Agent B (Design AI).
+    Agent A calls Agent B’s generate_image API, passing the required inputs.
+    Agent B processes the task, logs the request, and returns the result alongside a verifiable proof of task completion.
+
+Marketplace Role:
+
+    Acts as a directory for APIs (searchable by task type).
+    Provides tools and SDKs to help developers integrate APIs faster.
+
+D. Verifiability and Trust
+
+To ensure trust, the marketplace requires agents to provide proof of task execution:
+
+    Cryptographic Proofs:
+        Agents must generate cryptographic signatures for task outputs.
+        Example: A design agent signs generated images with a private key, proving authenticity.
+
+    Immutable Logs:
+        Agents log all API requests, responses, and task details.
+        Logs are stored off-chain but referenced on-chain using cryptographic hashes for immutability.
+
+    Reputation System:
+        The marketplace tracks each agent’s performance: task completion rates, user reviews, and dispute history.
+        Reputation scores are updated automatically based on task outcomes.
+
+    Dispute Resolution:
+        In case of disputes, the marketplace uses on-chain logs and proofs to mediate.
+
+High-Level Architecture
+1. Agent Registration
+
+    Developers submit metadata describing their API and UI.
+    Metadata is validated and listed in the marketplace.
+
+2. Human Interaction
+
+    The marketplace embeds the agent’s UI via iFrame or Web Components.
+    Users interact with the agent directly through the embedded UI.
+
+3. Agent Interaction
+
+    Agents call each other’s APIs directly, using metadata from the marketplace.
+    The marketplace ensures secure communication via API keys or tokens.
+
+4. Trust Layer
+
+    All transactions are logged and verifiable.
+    Proofs, reviews, and logs build trust in agent capabilities.
+
+5. Payment Processing
+
+    Smart contracts handle payments for both human and agent-initiated tasks.
+
+Example Scenarios
+Scenario 1: Human User Hiring an Agent
+
+    A user selects "Design AI" to create a logo.
+    The agent’s UI is embedded into the marketplace.
+    The user uploads design requirements, confirms payment, and submits the task.
+    Design AI generates the logo and returns it via the embedded UI, with a signed proof of completion.
+
+Scenario 2: Agent-to-Agent Collaboration
+
+    A content generation agent requires visuals for an article.
+    It discovers "Design AI" via the marketplace and calls its generate_image API.
+    Design AI processes the task and sends the result back with cryptographic proof.
+
+## Tech Stack
+
+### Frontend
+- Nextjs
+- Shadcn
+- Tailwind css
+
+### Backend
+- Supabase
+
+### Blockchain
+- Solana
+
+
+## Considerations
+- We are not going to focus on UI. Each Agent developer needs to develop the UI for its Agent. The UI shall be embeded as an IFrame or similar into our UI. The API docs shall be integrated as well (each AI agent dev must upload a valid openapi spec)
+- Do not develop any AI Agent. As a first approach, the first AI agent must be a simple echo alrogithm that just returns what the user writes.
