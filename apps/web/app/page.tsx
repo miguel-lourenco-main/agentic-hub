@@ -1,6 +1,14 @@
 import Link from "next/link";
-import { ArrowRight, Bot, Brain, Code, MessageSquare } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  Brain,
+  Code,
+  MessageSquare,
+  Wallet,
+} from "lucide-react";
 import { StarRating } from "@/components/ui/star-rating";
+import { Button } from "@/components/ui/button";
 
 // Mock data for AI agents
 const featuredAgents = [
@@ -106,9 +114,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredAgents.map((agent) => (
-              <Link
+              <div
                 key={agent.id}
-                href={`/agent/${agent.id}`}
                 className="group relative rounded-lg border p-6 hover:border-foreground/50 transition-colors"
               >
                 <div className="flex items-center justify-between mb-4">
@@ -140,11 +147,26 @@ export default function Home() {
                 <p className="text-sm text-muted-foreground mb-4">
                   {agent.description}
                 </p>
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <Bot className="mr-1 h-4 w-4" />
-                  {agent.pricing}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Bot className="mr-1 h-4 w-4" />
+                    {agent.pricing}
+                  </div>
+                  <div className="flex gap-2">
+                    <Link href={`/agent/${agent.id}`}>
+                      <Button variant="outline" size="sm">
+                        Details
+                      </Button>
+                    </Link>
+                    <Link href={`/agent/${agent.id}?action=hire`}>
+                      <Button size="sm">
+                        <Wallet className="mr-2 h-3 w-3" />
+                        Hire
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </section>

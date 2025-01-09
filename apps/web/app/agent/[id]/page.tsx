@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Bot } from "lucide-react";
+import { Bot, Wallet } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ReviewsSection } from "@/components/reviews/reviews-section";
 import { StarRating } from "@/components/ui/star-rating";
+import { Button } from "@/components/ui/button";
 
 interface Agent {
   id: string;
@@ -163,9 +164,15 @@ export default function AgentPage({ params }: { params: { id: string } }) {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span>Category: {agent.category}</span>
-            <span>Pricing: {agent.pricing}</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <span>Category: {agent.category}</span>
+              <span>Pricing: {agent.pricing}</span>
+            </div>
+            <Button className="w-32" size="lg">
+              <Wallet className="mr-2 h-4 w-4" />
+              Hire
+            </Button>
           </div>
         </CardContent>
       </Card>
