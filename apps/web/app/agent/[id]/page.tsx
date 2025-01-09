@@ -18,6 +18,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { ReviewsSection } from "@/components/reviews/reviews-section";
+import { StarRating } from "@/components/ui/star-rating";
 
 interface Agent {
   id: string;
@@ -33,6 +35,17 @@ interface Agent {
       version: string;
     };
   };
+  reviews: Array<{
+    id: string;
+    userId: string;
+    userName: string;
+    userImage?: string;
+    rating: number;
+    comment: string;
+    createdAt: Date;
+    updatedAt?: Date;
+  }>;
+  averageRating: number;
 }
 
 type Agents = {
@@ -56,6 +69,27 @@ const agents: Agents = {
         version: "1.0.0",
       },
     },
+    reviews: [
+      {
+        id: "1",
+        userId: "user1",
+        userName: "Alice",
+        rating: 5,
+        comment:
+          "Incredible coding assistant! Helped me solve complex problems quickly.",
+        createdAt: new Date("2024-01-01"),
+      },
+      {
+        id: "2",
+        userId: "user2",
+        userName: "Bob",
+        rating: 4,
+        comment:
+          "Very helpful for pair programming. Could use more language support.",
+        createdAt: new Date("2024-01-02"),
+      },
+    ],
+    averageRating: 4.5,
   },
 };
 
@@ -106,9 +140,25 @@ export default function AgentPage({ params }: { params: { id: string } }) {
             <div className="rounded-full bg-primary/10 p-2">
               <Bot className="h-8 w-8" />
             </div>
-            <div>
-              <CardTitle className="text-2xl">{agent.name}</CardTitle>
-              <CardDescription>{agent.description}</CardDescription>
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-2xl">{agent.name}</CardTitle>
+                  <CardDescription>{agent.description}</CardDescription>
+                </div>
+                <div className="text-right">
+                  <div className="flex items-center gap-2">
+                    <StarRating rating={agent.averageRating} readOnly />
+                    <span className="text-sm font-medium">
+                      {agent.averageRating.toFixed(1)}
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {agent.reviews.length} review
+                    {agent.reviews.length !== 1 ? "s" : ""}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </CardHeader>
@@ -122,10 +172,11 @@ export default function AgentPage({ params }: { params: { id: string } }) {
 
       {/* Main Content Tabs */}
       <Tabs defaultValue="interface" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="interface">Agent Interface</TabsTrigger>
           <TabsTrigger value="docs">API Documentation</TabsTrigger>
           <TabsTrigger value="playground">API Playground</TabsTrigger>
+          <TabsTrigger value="reviews">Reviews</TabsTrigger>
         </TabsList>
 
         {/* Agent Interface Tab */}
@@ -209,6 +260,26 @@ export default function AgentPage({ params }: { params: { id: string } }) {
                   </Card>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Reviews Tab */}
+        <TabsContent value="reviews" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Reviews & Ratings</CardTitle>
+              <CardDescription>
+                See what others are saying about this agent
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ReviewsSection
+                agentId={agent.id}
+                reviews={agent.reviews}
+                averageRating={agent.averageRating}
+                totalReviews={agent.reviews.length}
+              />
             </CardContent>
           </Card>
         </TabsContent>

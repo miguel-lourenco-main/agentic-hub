@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Bot, Brain, Code, MessageSquare } from "lucide-react";
+import { StarRating } from "@/components/ui/star-rating";
 
 // Mock data for AI agents
 const featuredAgents = [
@@ -11,6 +12,8 @@ const featuredAgents = [
     category: "Development",
     icon: Code,
     pricing: "0.01 SOL/min",
+    rating: 4.5,
+    reviewCount: 128,
   },
   {
     id: "2",
@@ -19,6 +22,8 @@ const featuredAgents = [
     category: "Analytics",
     icon: Brain,
     pricing: "0.02 SOL/query",
+    rating: 4.8,
+    reviewCount: 89,
   },
   {
     id: "3",
@@ -27,6 +32,8 @@ const featuredAgents = [
     category: "Content",
     icon: MessageSquare,
     pricing: "0.005 SOL/1k words",
+    rating: 4.2,
+    reviewCount: 156,
   },
 ];
 
@@ -104,23 +111,36 @@ export default function Home() {
                 href={`/agent/${agent.id}`}
                 className="group relative rounded-lg border p-6 hover:border-foreground/50 transition-colors"
               >
-                <div className="flex items-center gap-4">
-                  <div className="rounded-full bg-primary/10 p-2">
-                    <agent.icon className="h-6 w-6" />
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="rounded-full bg-primary/10 p-2">
+                      <agent.icon className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold leading-none tracking-tight">
+                        {agent.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {agent.category}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold leading-none tracking-tight">
-                      {agent.name}
-                    </h3>
+                  <div className="text-right">
+                    <div className="flex items-center gap-2">
+                      <StarRating rating={agent.rating} readOnly size="sm" />
+                      <span className="text-sm font-medium">
+                        {agent.rating}
+                      </span>
+                    </div>
                     <p className="text-sm text-muted-foreground">
-                      {agent.category}
+                      {agent.reviewCount} reviews
                     </p>
                   </div>
                 </div>
-                <p className="mt-4 text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground mb-4">
                   {agent.description}
                 </p>
-                <div className="mt-4 flex items-center text-sm text-muted-foreground">
+                <div className="flex items-center text-sm text-muted-foreground">
                   <Bot className="mr-1 h-4 w-4" />
                   {agent.pricing}
                 </div>
