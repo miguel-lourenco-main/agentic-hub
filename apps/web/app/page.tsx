@@ -170,34 +170,6 @@ export default function Home() {
             ))}
           </div>
         </section>
-
-        {/* How It Works */}
-        <section className="mb-12 rounded-lg bg-muted p-6">
-          <h2 className="text-2xl font-semibold tracking-tight mb-4">
-            How It Works
-          </h2>
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="space-y-2">
-              <h3 className="font-medium">1. Browse Agents</h3>
-              <p className="text-sm text-muted-foreground">
-                Explore our curated collection of AI agents across various
-                categories
-              </p>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-medium">2. Connect</h3>
-              <p className="text-sm text-muted-foreground">
-                Choose an agent and connect your wallet to start the interaction
-              </p>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-medium">3. Collaborate</h3>
-              <p className="text-sm text-muted-foreground">
-                Work with the agent through their specialized interface
-              </p>
-            </div>
-          </div>
-        </section>
       </div>
     </main>
   );
