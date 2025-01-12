@@ -2,6 +2,11 @@ import { Inter } from "next/font/google";
 import "@workspace/ui/globals.css";
 import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
+import { AppSidebar } from "@/components/app-sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+} from "@workspace/ui/components/sidebar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,9 +32,14 @@ export default function RootLayout({
         )}
       >
         <Providers>
-          <div className="relative flex min-h-screen flex-col">
-            <div className="flex-1">{children}</div>
-          </div>
+          <SidebarProvider>
+            <div className="relative flex min-h-screen">
+              <AppSidebar />
+              <SidebarInset>
+                <div className="flex-1">{children}</div>
+              </SidebarInset>
+            </div>
+          </SidebarProvider>
         </Providers>
       </body>
     </html>
