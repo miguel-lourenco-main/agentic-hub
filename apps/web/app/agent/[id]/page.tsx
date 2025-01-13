@@ -21,6 +21,7 @@ import {
 import { ReviewsSection } from "@/components/reviews/reviews-section";
 import { StarRating } from "@/components/ui/star-rating";
 import { Button } from "@/components/ui/button";
+import { AgentMetrics } from "@/components/agent-metrics";
 
 interface Agent {
   id: string;
@@ -101,6 +102,26 @@ export function generateStaticParams() {
   }));
 }
 
+// Sample data - replace with real data from your API
+const metricsData = {
+  revenue: {
+    total: 12500,
+    change: 12.5,
+  },
+  requests: {
+    total: 45678,
+    change: 8.2,
+  },
+  activeUsers: {
+    total: 892,
+    change: 15.3,
+  },
+  avgResponseTime: {
+    total: 245,
+    change: -5.8,
+  },
+};
+
 export default function AgentPage({ params }: { params: { id: string } }) {
   const agent = agents[params.id];
 
@@ -176,6 +197,12 @@ export default function AgentPage({ params }: { params: { id: string } }) {
           </div>
         </CardContent>
       </Card>
+
+      {/* Metrics Section */}
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Performance Metrics</h2>
+        <AgentMetrics data={metricsData} />
+      </section>
 
       {/* Main Content Tabs */}
       <Tabs defaultValue="interface" className="space-y-4">
