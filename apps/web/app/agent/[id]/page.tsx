@@ -10,14 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { ReviewsSection } from "@/components/reviews/reviews-section";
 import { StarRating } from "@/components/ui/star-rating";
 import { Button } from "@/components/ui/button";
@@ -131,30 +123,6 @@ export default function AgentPage({ params }: { params: { id: string } }) {
 
   return (
     <main className="container mx-auto p-6">
-      {/* Breadcrumb Navigation */}
-      <Breadcrumb className="mb-6">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <Link href="/" className="hover:text-foreground transition-colors">
-              Home
-            </Link>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <Link
-              href="/agents"
-              className="hover:text-foreground transition-colors"
-            >
-              Agents
-            </Link>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>{agent.name}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
       {/* Agent Header */}
       <Card className="mb-6">
         <CardHeader>
