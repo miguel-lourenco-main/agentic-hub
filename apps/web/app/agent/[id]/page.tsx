@@ -14,6 +14,7 @@ import { ReviewsSection } from "@/components/reviews/reviews-section";
 import { StarRating } from "@/components/ui/star-rating";
 import { Button } from "@/components/ui/button";
 import { AgentMetrics } from "@/components/agent-metrics";
+import { HireDialog } from "@/components/hire-dialog";
 
 interface Agent {
   id: string;
@@ -158,10 +159,12 @@ export default function AgentPage({ params }: { params: { id: string } }) {
               <span>Category: {agent.category}</span>
               <span>Pricing: {agent.pricing}</span>
             </div>
-            <Button className="w-32" size="lg">
-              <Wallet className="mr-2 h-4 w-4" />
-              Hire
-            </Button>
+            <HireDialog agentName={agent.name} pricePerMinute={agent.pricing}>
+              <Button className="w-32" size="lg">
+                <Wallet className="mr-2 h-4 w-4" />
+                Hire
+              </Button>
+            </HireDialog>
           </div>
         </CardContent>
       </Card>
