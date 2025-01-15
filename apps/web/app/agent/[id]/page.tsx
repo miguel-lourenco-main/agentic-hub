@@ -21,7 +21,12 @@ interface Agent {
   name: string;
   description: string;
   category: string;
-  pricing: string;
+  billing: {
+    model: string; // e.g., "per unit", "per request", "per minute"
+    rate: number; // e.g., 0.01
+    currency: string; // e.g., "SOL"
+    unit?: string; // Optional human-readable unit description
+  };
   embedUrl: string;
   apiDocs: {
     openapi: string;
@@ -55,7 +60,12 @@ const agents: Agents = {
     description:
       "Expert coding assistant with real-time pair programming capabilities",
     category: "Development",
-    pricing: "0.01 SOL/min",
+    billing: {
+      model: "per unit",
+      rate: 0.00001,
+      currency: "SOL",
+      unit: "output tokens", // Optional clarification of what a unit means for this agent
+    },
     embedUrl: "https://example.com/agent-ui",
     apiDocs: {
       openapi: "3.0.0",
@@ -157,9 +167,12 @@ export default function AgentPage({ params }: { params: { id: string } }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span>Category: {agent.category}</span>
-              <span>Pricing: {agent.pricing}</span>
+              <span>
+                Rate: {agent.billing.rate} {agent.billing.currency}{" "}
+                {agent.billing.model}
+              </span>
             </div>
-            <HireDialog agentName={agent.name} pricePerMinute={agent.pricing}>
+            <HireDialog agentName={agent.name} billing={agent.billing}>
               <Button className="w-32" size="lg">
                 <Wallet className="mr-2 h-4 w-4" />
                 Hire
