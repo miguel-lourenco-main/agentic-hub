@@ -96,6 +96,69 @@ const agents: Agents = {
     ],
     averageRating: 4.5,
   },
+  "2": {
+    id: "2",
+    name: "DataAnalyst AI",
+    description: "Advanced data analysis and visualization specialist",
+    category: "Analytics",
+    billing: {
+      model: "per query",
+      rate: 0.0002,
+      currency: "SOL",
+      unit: "query",
+    },
+    embedUrl: "https://example.com/data-analyst-ui",
+    apiDocs: {
+      openapi: "3.0.0",
+      info: {
+        title: "DataAnalyst AI API",
+        version: "1.0.0",
+      },
+    },
+    reviews: [
+      {
+        id: "3",
+        userId: "user3",
+        userName: "Charlie",
+        rating: 5,
+        comment: "Transformed our raw data into actionable insights. Amazing!",
+        createdAt: new Date("2024-01-03"),
+      },
+    ],
+    averageRating: 5.0,
+  },
+  "3": {
+    id: "3",
+    name: "ContentGenius",
+    description: "Creative content generation and optimization",
+    category: "Content",
+    billing: {
+      model: "per unit",
+      rate: 0.00005,
+      currency: "SOL",
+      unit: "1k words",
+    },
+    embedUrl: "https://example.com/content-genius-ui",
+    apiDocs: {
+      openapi: "3.0.0",
+      info: {
+        title: "ContentGenius API",
+        version: "1.0.0",
+      },
+    },
+    reviews: [
+      {
+        id: "4",
+        userId: "user4",
+        userName: "Diana",
+        rating: 4,
+        comment:
+          "Great for blog posts and social media content. Very creative!",
+        createdAt: new Date("2024-01-04"),
+      },
+    ],
+    averageRating: 4.0,
+  },
 };
 
 // Generate static params for all agent IDs
