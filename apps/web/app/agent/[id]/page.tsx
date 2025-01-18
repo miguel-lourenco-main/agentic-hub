@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Bot, Wallet } from "lucide-react";
+import { Bot, Wallet, Sparkles } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -15,6 +15,7 @@ import { StarRating } from "@/components/ui/star-rating";
 import { Button } from "@/components/ui/button";
 import { AgentMetrics } from "@/components/agent-metrics";
 import { HireDialog } from "@/components/hire-dialog";
+import { InvestDialog } from "@/components/invest-dialog";
 
 interface Agent {
   id: string;
@@ -26,6 +27,11 @@ interface Agent {
     rate: number; // e.g., 0.01
     currency: string; // e.g., "SOL"
     unit?: string; // Optional human-readable unit description
+  };
+  investment: {
+    marketCap: number;
+    availableShares: number;
+    pricePerShare: number;
   };
   embedUrl: string;
   apiDocs: {
@@ -65,6 +71,11 @@ const agents: Agents = {
       rate: 0.00001,
       currency: "SOL",
       unit: "output tokens", // Optional clarification of what a unit means for this agent
+    },
+    investment: {
+      marketCap: 100000,
+      availableShares: 10000,
+      pricePerShare: 10,
     },
     embedUrl: "https://example.com/agent-ui",
     apiDocs: {
@@ -107,6 +118,11 @@ const agents: Agents = {
       currency: "SOL",
       unit: "query",
     },
+    investment: {
+      marketCap: 250000,
+      availableShares: 25000,
+      pricePerShare: 10,
+    },
     embedUrl: "https://example.com/data-analyst-ui",
     apiDocs: {
       openapi: "3.0.0",
@@ -137,6 +153,11 @@ const agents: Agents = {
       rate: 0.00005,
       currency: "SOL",
       unit: "1k words",
+    },
+    investment: {
+      marketCap: 150000,
+      availableShares: 15000,
+      pricePerShare: 10,
     },
     embedUrl: "https://example.com/content-genius-ui",
     apiDocs: {
@@ -235,12 +256,25 @@ export default function AgentPage({ params }: { params: { id: string } }) {
                 {agent.billing.model}
               </span>
             </div>
-            <HireDialog agentName={agent.name} billing={agent.billing}>
-              <Button className="w-32" size="lg">
-                <Wallet className="mr-2 h-4 w-4" />
-                Hire
-              </Button>
-            </HireDialog>
+            <div className="flex gap-2">
+              <HireDialog agentName={agent.name} billing={agent.billing}>
+                <Button size="lg">
+                  <Wallet className="mr-2 h-4 w-4" />
+                  Hire
+                </Button>
+              </HireDialog>
+              <InvestDialog
+                agentName={agent.name}
+                marketCap={agent.investment.marketCap}
+                availableShares={agent.investment.availableShares}
+                pricePerShare={agent.investment.pricePerShare}
+              >
+                <Button size="lg" variant="secondary">
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Invest
+                </Button>
+              </InvestDialog>
+            </div>
           </div>
         </CardContent>
       </Card>
