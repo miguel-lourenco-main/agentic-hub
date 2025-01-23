@@ -9,8 +9,8 @@
     "clean": "git clean -xdf .next .turbo node_modules",
     "start": "next start",
     "lint": "next lint",
-    "export": "next build && next export",
     "typecheck": "tsc --noEmit",
+    "export": "next build && next export",
     "cloudflare:build": "pnpm dlx @cloudflare/next-on-pages",
     "cloudflare:preview": "CLOUDFLARE_PROJECT_NAME=agentichub pnpm dlx wrangler pages dev",
     "cloudflare:deploy": "CLOUDFLARE_PROJECT_NAME=agentichub pnpm dlx wrangler pages deploy --branch main"

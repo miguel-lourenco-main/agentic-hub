@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "clean": "git clean -xdf .turbo node_modules",
-    "lint": "eslint . --max-warnings 0"
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.2",
