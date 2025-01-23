@@ -35,7 +35,7 @@ export default function RootLayout({
       >
         <Providers>
           <SidebarProvider>
-            <div className="relative flex min-h-screen">
+            <div className="relative flex min-h-screen w-full">
               <AppSidebar />
               <SidebarInset>
                 <header className="flex h-16 shrink-0 items-center gap-4 border-b px-6">

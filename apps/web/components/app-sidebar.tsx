@@ -52,10 +52,15 @@ const data = {
   ],
   navMain: [
     {
+      title: "Agents",
+      url: "/agents",
+      icon: Bot,
+      isActive: true,
+    },
+    {
       title: "Playground",
       url: "#",
       icon: SquareTerminal,
-      isActive: true,
       items: [
         {
           title: "History",
