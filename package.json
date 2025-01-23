@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "clean": "git clean -xdf node_modules dist .next",
+    "clean:workspaces": "turbo clean",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck --cache-dir=.turbo",
