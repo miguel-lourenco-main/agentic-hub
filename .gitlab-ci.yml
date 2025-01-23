@@ -41,18 +41,12 @@ build:
   script:
     - cd apps/web
     - pnpm cloudflare:build
-    - ls
-    - cd ../polydoc
-    - pnpm cloudflare:build
-    - cd ../sonora
-    - pnpm cloudflare:build
   artifacts:
     paths:
-      - apps/polydoc/.vercel/output/static/
-      - apps/sonora/.vercel/output/static/
+      - apps/web/.vercel/output/static/
     expire_in: 1 hour
 
-polydoc-deploy:
+web-deploy:
   stage: deploy
   tags:
     - cm3588
@@ -60,20 +54,7 @@ polydoc-deploy:
   dependencies:
     - build
   script:
-    - cd apps/polydoc
+    - cd apps/web
     - pnpm cloudflare:deploy
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
-
-sonora-deploy:
-  stage: deploy
-  tags:
-    - cm3588
-  image: "node:22.11"
-  dependencies:
-    - build
-  script:
-    - cd apps/sonora
-    - pnpm cloudflare:deploy
-  rules:
-    - if: $CI_COMMIT_BRANCH == "feat/ci"
