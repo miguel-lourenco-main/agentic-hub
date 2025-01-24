@@ -2,10 +2,9 @@
 
 import { motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 
-
-export default function AgentsLayout({
+function AgentsLayoutContent({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -16,7 +15,6 @@ export default function AgentsLayout({
 
   useEffect(() => {
     if (isFromHome) {
-      
       // Replace the current state with the clean URL
       window.history.replaceState(null, '', '/agents');
       
@@ -62,5 +60,17 @@ export default function AgentsLayout({
     >
       {children}
     </motion.div>
+  );
+}
+
+export default function AgentsLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <Suspense>
+      <AgentsLayoutContent>{children}</AgentsLayoutContent>
+    </Suspense>
   );
 } 

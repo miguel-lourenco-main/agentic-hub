@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { Suspense } from "react";
 
 // Mock data for popular agents
 const popularAgents = [
@@ -80,7 +81,7 @@ const searchSuggestions = [
   },
 ];
 
-export default function Home() {
+function HomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isFromAgents = searchParams.get('from') === 'agents';
@@ -239,5 +240,13 @@ export default function Home() {
         ))}
       </section>
     </motion.main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense>
+      <HomeContent />
+    </Suspense>
   );
 }
