@@ -3,13 +3,7 @@
 import { motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { AppSidebar } from "@/components/app-sidebar";
-import { Breadcrumbs } from "@/components/breadcrumbs";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@workspace/ui/components/sidebar";
+
 
 export default function AgentsLayout({
   children,
@@ -22,8 +16,6 @@ export default function AgentsLayout({
 
   useEffect(() => {
     if (isFromHome) {
-      // Store the current URL
-      const currentUrl = window.location.pathname + window.location.search;
       
       // Replace the current state with the clean URL
       window.history.replaceState(null, '', '/agents');

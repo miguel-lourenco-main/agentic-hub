@@ -7,14 +7,12 @@ import { StarRating } from "@/components/ui/star-rating";
 import { ReviewCard, type Review } from "./review-card";
 
 interface ReviewsSectionProps {
-  agentId: string;
   reviews: Review[];
   averageRating: number;
   totalReviews: number;
 }
 
 export function ReviewsSection({
-  agentId,
   reviews: initialReviews,
   averageRating: initialAvgRating,
   totalReviews: initialTotal,

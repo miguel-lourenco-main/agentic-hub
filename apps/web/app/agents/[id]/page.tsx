@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { Bot, Wallet, Sparkles } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -54,9 +53,7 @@ interface Agent {
   averageRating: number;
 }
 
-type Agents = {
-  [key: string]: Agent;
-};
+type Agents = Record<string, Agent>;
 
 // Mock data - in real app, this would come from your backend
 const agents: Agents = {
@@ -323,7 +320,7 @@ export default function AgentPage({ params }: { params: { id: string } }) {
             <CardHeader>
               <CardTitle>API Documentation</CardTitle>
               <CardDescription>
-                Explore the agent's API endpoints and integration options
+                Explore the agent&apos;s API endpoints and integration options
               </CardDescription>
             </CardHeader>
             <CardContent className="min-h-[500px]">
@@ -341,7 +338,7 @@ export default function AgentPage({ params }: { params: { id: string } }) {
             <CardHeader>
               <CardTitle>API Playground</CardTitle>
               <CardDescription>
-                Test the agent's API endpoints directly in your browser
+                Test the agent&apos;s API endpoints directly in your browser
               </CardDescription>
             </CardHeader>
             <CardContent className="min-h-[500px]">
@@ -390,7 +387,6 @@ export default function AgentPage({ params }: { params: { id: string } }) {
             </CardHeader>
             <CardContent>
               <ReviewsSection
-                agentId={agent.id}
                 reviews={agent.reviews}
                 averageRating={agent.averageRating}
                 totalReviews={agent.reviews.length}

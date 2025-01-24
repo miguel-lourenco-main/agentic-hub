@@ -7,9 +7,6 @@ import { useEffect } from "react";
 import {
   ArrowRight,
   Bot,
-  Brain,
-  Code,
-  MessageSquare,
   PenLine,
   Bug,
   BarChart3,
@@ -21,50 +18,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-
-// Mock data for AI agents
-const featuredAgents = [
-  {
-    id: "1",
-    name: "CodeAssist Pro",
-    description:
-      "Expert coding assistant with real-time pair programming capabilities",
-    category: "Development",
-    icon: Code,
-    pricing: "0.01 SOL/min",
-    rating: 4.5,
-    reviewCount: 128,
-  },
-  {
-    id: "2",
-    name: "DataAnalyst AI",
-    description: "Advanced data analysis and visualization specialist",
-    category: "Analytics",
-    icon: Brain,
-    pricing: "0.02 SOL/query",
-    rating: 4.8,
-    reviewCount: 89,
-  },
-  {
-    id: "3",
-    name: "ContentGenius",
-    description: "Creative content generation and optimization",
-    category: "Content",
-    icon: MessageSquare,
-    pricing: "0.005 SOL/1k words",
-    rating: 4.2,
-    reviewCount: 156,
-  },
-];
-
-const categories = [
-  { name: "All Agents", count: 150 },
-  { name: "Development", count: 45 },
-  { name: "Analytics", count: 32 },
-  { name: "Content", count: 28 },
-  { name: "Customer Support", count: 25 },
-  { name: "Research", count: 20 },
-];
 
 // Mock data for popular agents
 const popularAgents = [
@@ -134,10 +87,7 @@ export default function Home() {
   const isToAgents = searchParams.get('to') === 'agents';
 
   useEffect(() => {
-    if (isFromAgents) {
-      // Store the current URL
-      const currentUrl = window.location.pathname + window.location.search;
-      
+    if (isFromAgents) {      
       // Replace the current state with the clean URL
       window.history.replaceState(null, '', '/');
       
