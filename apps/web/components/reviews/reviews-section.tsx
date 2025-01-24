@@ -15,20 +15,43 @@ interface ReviewsSectionProps {
 
 export function ReviewsSection({
   agentId,
-  reviews,
-  averageRating,
-  totalReviews,
+  reviews: initialReviews,
+  averageRating: initialAvgRating,
+  totalReviews: initialTotal,
 }: ReviewsSectionProps) {
   const [newRating, setNewRating] = React.useState(0);
   const [newComment, setNewComment] = React.useState("");
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [reviews, setReviews] = React.useState(initialReviews);
+  const [averageRating, setAverageRating] = React.useState(initialAvgRating);
+  const [totalReviews, setTotalReviews] = React.useState(initialTotal);
 
-  const handleSubmitReview = () => {
-    // TODO: Implement review submission
-    console.log("Submitting review:", {
-      agentId,
+  const handleSubmitReview = async () => {
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    const newReview = {
+      id: Math.random().toString(36).substring(7),
+      userId: "current-user",
+      userName: "You",
       rating: newRating,
       comment: newComment,
-    });
+      createdAt: new Date(),
+    };
+
+    // Update local state
+    setReviews([newReview, ...reviews]);
+    const newTotal = totalReviews + 1;
+    const newAvg = (averageRating * totalReviews + newRating) / newTotal;
+    setTotalReviews(newTotal);
+    setAverageRating(newAvg);
+    
+    // Reset form
+    setNewRating(0);
+    setNewComment("");
+    setIsSubmitting(false);
   };
 
   return (
@@ -69,12 +92,20 @@ export function ReviewsSection({
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             className="min-h-[100px]"
+            disabled={isSubmitting}
           />
           <Button
             onClick={handleSubmitReview}
-            disabled={newRating === 0 || !newComment.trim()}
+            disabled={newRating === 0 || !newComment.trim() || isSubmitting}
           >
-            Submit Review
+            {isSubmitting ? (
+              <>
+                <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-r-transparent" />
+                Submitting...
+              </>
+            ) : (
+              "Submit Review"
+            )}
           </Button>
         </div>
       </div>

@@ -1,15 +1,24 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   Bot,
   Brain,
   Code,
   MessageSquare,
-  Wallet,
+  PenLine,
+  Bug,
+  BarChart3,
+  ShoppingBag,
+  Megaphone,
+  Languages,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 // Mock data for AI agents
 const featuredAgents = [
@@ -78,17 +87,57 @@ const popularAgents = [
 ];
 
 const searchSuggestions = [
-  "Write a blog post about AI",
-  "Help me debug my React code",
-  "Analyze my website traffic data",
-  "Generate product descriptions",
-  "Create a marketing strategy",
-  "Translate my document"
+  {
+    text: "Write a blog post about AI",
+    icon: PenLine,
+    color: "text-purple-500",
+    bgColor: "bg-purple-500/10 hover:bg-purple-500/20",
+  },
+  {
+    text: "Help me debug my React code",
+    icon: Bug,
+    color: "text-red-500",
+    bgColor: "bg-red-500/10 hover:bg-red-500/20",
+  },
+  {
+    text: "Analyze my website traffic data",
+    icon: BarChart3,
+    color: "text-blue-500",
+    bgColor: "bg-blue-500/10 hover:bg-blue-500/20",
+  },
+  {
+    text: "Generate product descriptions",
+    icon: ShoppingBag,
+    color: "text-green-500",
+    bgColor: "bg-green-500/10 hover:bg-green-500/20",
+  },
+  {
+    text: "Create a marketing strategy",
+    icon: Megaphone,
+    color: "text-orange-500",
+    bgColor: "bg-orange-500/10 hover:bg-orange-500/20",
+  },
+  {
+    text: "Translate my document",
+    icon: Languages,
+    color: "text-sky-500",
+    bgColor: "bg-sky-500/10 hover:bg-sky-500/20",
+  },
 ];
 
 export default function Home() {
   return (
-    <main className="container mx-auto max-w-5xl py-6">
+    <motion.main
+      className="container mx-auto max-w-5xl py-6"
+      initial={{ x: -100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: -100, opacity: 0 }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+      }}
+    >
       {/* Hero Section with Search */}
       <section className="flex flex-col items-center text-center space-y-8 py-12">
         <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
@@ -105,12 +154,19 @@ export default function Home() {
             </Button>
           </div>
           <div className="flex flex-wrap gap-2 justify-center">
-            {searchSuggestions.map((suggestion) => (
+            {searchSuggestions.map(({ text, icon: Icon, color, bgColor }) => (
               <button
-                key={suggestion}
-                className="inline-flex items-center rounded-md border border-transparent bg-muted/50 px-3 py-1 text-sm text-muted-foreground hover:text-foreground hover:bg-foreground/10 transition-all duration-300"
+                key={text}
+                className={cn(
+                  "inline-flex items-center rounded-md border border-transparent",
+                  "px-3 py-1 text-sm transition-all duration-300",
+                  "bg-muted/50 text-muted-foreground",
+                  "hover:bg-opacity-100 hover:text-foreground",
+                  bgColor
+                )}
               >
-                {suggestion}
+                <Icon className={cn("mr-2 h-4 w-4", color)} />
+                <span>{text}</span>
               </button>
             ))}
           </div>
@@ -177,6 +233,6 @@ export default function Home() {
           </Link>
         ))}
       </section>
-    </main>
+    </motion.main>
   );
 }
