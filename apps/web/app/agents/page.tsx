@@ -75,6 +75,7 @@ export default function AgentsPage() {
         {agents.map((agent) => (
           <Card
             key={agent.id}
+            hoverable
             className="group relative rounded-lg border p-6 hover:border-foreground/50 transition-colors"
           >
             <div className="flex items-center gap-4 mb-4">

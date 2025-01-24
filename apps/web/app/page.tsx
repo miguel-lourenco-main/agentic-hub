@@ -108,7 +108,7 @@ export default function Home() {
             {searchSuggestions.map((suggestion) => (
               <button
                 key={suggestion}
-                className="inline-flex items-center rounded-md border border-transparent bg-muted/50 px-3 py-1 text-sm text-muted-foreground hover:border-border hover:bg-foreground hover:text-background transition-all duration-200"
+                className="inline-flex items-center rounded-md border border-transparent bg-muted/50 px-3 py-1 text-sm text-muted-foreground hover:text-foreground hover:bg-foreground/10 transition-all duration-300"
               >
                 {suggestion}
               </button>
@@ -133,6 +133,7 @@ export default function Home() {
           {popularAgents.map((agent) => (
             <Card
               key={agent.id}
+              hoverable
               className="p-6 hover:border-foreground/50 transition-colors"
             >
               <div className="flex items-center gap-4 mb-4">
@@ -169,7 +170,7 @@ export default function Home() {
             key={category.name}
             href={category.href || `/agents/category/${category.name.toLowerCase()}`}
           >
-            <Card className="p-4 hover:border-foreground/50 transition-colors">
+            <Card className="p-4 hover:border-foreground/50 transition-colors" hoverable>
               <h3 className="font-semibold">{category.name}</h3>
               <p className="text-sm text-muted-foreground">{category.desc}</p>
             </Card>
