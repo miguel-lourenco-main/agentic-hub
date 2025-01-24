@@ -4,17 +4,22 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "clean": "git clean -xdf node_modules dist .next",
+    "clean:workspaces": "turbo clean",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "typecheck": "turbo typecheck --cache-dir=.turbo",
+    "format": "turbo format --cache-dir=.turbo --continue -- --cache --cache-location='node_modules/.cache/.prettiercache' --ignore-path='../../.gitignore'"
   },
-  "devDependencies": {
+  "dependencies": {
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
+    "@turbo/gen": "^2.3.0",
     "prettier": "^3.2.5",
     "turbo": "^2.3.0",
     "typescript": "5.5.4"
   },
+  "prettier": "@workspace/prettier-config",
   "packageManager": "pnpm@9.12.3",
   "engines": {
     "node": ">=20"

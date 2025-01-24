@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, TrendingUp, Users, Wallet } from "lucide-react";
+import { Sparkles, TrendingUp, Users } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -61,7 +61,7 @@ export function InvestDialog({
             Invest in {agentName}
           </DialogTitle>
           <DialogDescription>
-            Become a stakeholder in this AI agent's future success
+            Become a stakeholder in this AI agent&apos;s future success
           </DialogDescription>
         </DialogHeader>
 
