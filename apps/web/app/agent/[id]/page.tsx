@@ -243,6 +243,51 @@ export default function AgentPage({ params }: { params: { id: string } }) {
           </Card>
         </TabsContent>
 
+        {/* API Playground Tab */}
+        <TabsContent value="playground" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>API Playground</CardTitle>
+              <CardDescription>
+                Test the agent&apos;s API endpoints directly in your browser
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="min-h-[500px]">
+              <div className="grid grid-cols-2 gap-4 h-full">
+                {/* Request Panel */}
+                <div className="space-y-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Request</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <textarea
+                        className="w-full h-[200px] p-2 text-sm font-mono bg-muted rounded-md"
+                        placeholder="Enter your API request here..."
+                      />
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Response Panel */}
+                <div className="space-y-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Response</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="w-full h-[200px] p-2 text-sm font-mono bg-muted rounded-md overflow-auto">
+                        Response will appear here...
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Reviews Tab */}
         <TabsContent value="reviews" className="space-y-4">
           <Card>
             <CardHeader>
@@ -264,4 +309,4 @@ export default function AgentPage({ params }: { params: { id: string } }) {
       </Tabs>
     </motion.main>
   );
-} 
+}

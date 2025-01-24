@@ -1,32 +1,48 @@
-import js from "@eslint/js"
-import eslintConfigPrettier from "eslint-config-prettier"
-import onlyWarn from "eslint-plugin-only-warn"
-import turboPlugin from "eslint-plugin-turbo"
-import tseslint from "typescript-eslint"
+/** @type {import("eslint").Linter.Config} */
+const config = {
+  extends: [
+    'turbo',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended-type-checked',
+    'plugin:@typescript-eslint/stylistic-type-checked',
+  ],
+  env: {
+    es2022: true,
+    node: true,
+  },
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: true,
+  },
+  plugins: ['@typescript-eslint', 'import'],
+  rules: {
+    'turbo/no-undeclared-env-vars': 'off',
+    '@typescript-eslint/array-type': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
+    '@typescript-eslint/consistent-type-definitions': 'off',
+    '@typescript-eslint/no-unsafe-member-access': 'off',
+    '@typescript-eslint/non-nullable-type-assertion-style': 'off',
+    '@typescript-eslint/only-throw-error': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+    ],
+    '@typescript-eslint/no-misused-promises': [
+      2,
+      { checksVoidReturn: { attributes: false } },
+    ],
+  },
+  ignorePatterns: [
+    '**/.eslintrc.cjs',
+    '**/*.config.js',
+    '**/*.config.cjs',
+    '**/node_modules',
+    '.next',
+    'dist',
+    'pnpm-lock.yaml',
+  ],
+  reportUnusedDisableDirectives: true,
+};
 
-/**
- * A shared ESLint configuration for the repository.
- *
- * @type {import("eslint").Linter.Config}
- * */
-export const config = [
-  js.configs.recommended,
-  eslintConfigPrettier,
-  ...tseslint.configs.recommended,
-  {
-    plugins: {
-      turbo: turboPlugin,
-    },
-    rules: {
-      "turbo/no-undeclared-env-vars": "warn",
-    },
-  },
-  {
-    plugins: {
-      onlyWarn,
-    },
-  },
-  {
-    ignores: ["dist/**"],
-  },
-]
+module.exports = config;

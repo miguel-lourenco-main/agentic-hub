@@ -6,10 +6,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "clean": "git clean -xdf .next .turbo node_modules",
     "start": "next start",
     "lint": "next lint",
+    "format": "prettier --check \"**/*.{js,cjs,mjs,ts,tsx,md,json}\"",
+    "typecheck": "tsc --noEmit",
     "export": "next build && next export",
-    "type-check": "tsc --noEmit"
+    "cloudflare:build": "pnpm dlx @cloudflare/next-on-pages",
+    "cloudflare:preview": "CLOUDFLARE_PROJECT_NAME=agentichub pnpm dlx wrangler pages dev",
+    "cloudflare:deploy": "CLOUDFLARE_PROJECT_NAME=agentichub pnpm dlx wrangler pages deploy --branch main"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.2",
@@ -28,11 +33,22 @@
     "lucide-react": "0.456.0",
     "next": "^14.0.4",
     "next-themes": "^0.4.3",
+    "postcss-load-config": "^6.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwind-merge": "^2.5.5",
     "zustand": "^4.4.7"
   },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@workspace/eslint-config/base",
+      "@workspace/eslint-config/nextjs",
+      "@workspace/eslint-config/react",
+      "@workspace/eslint-config/apps"
+    ]
+  },
+  "prettier": "@workspace/prettier-config",
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18.2.0",
@@ -42,6 +58,7 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "prettier": "^3.3.3"
   }
 }
