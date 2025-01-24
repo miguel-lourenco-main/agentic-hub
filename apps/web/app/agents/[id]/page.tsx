@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Bot, Wallet, Sparkles } from "lucide-react";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
@@ -52,7 +53,7 @@ interface Agent {
   averageRating: number;
 }
 
-type Agents = Record<string, Agent>
+type Agents = Record<string, Agent>;
 
 // Mock data - in real app, this would come from your backend
 const agents: Agents = {
@@ -386,7 +387,6 @@ export default function AgentPage({ params }: { params: { id: string } }) {
             </CardHeader>
             <CardContent>
               <ReviewsSection
-                agentId={agent.id}
                 reviews={agent.reviews}
                 averageRating={agent.averageRating}
                 totalReviews={agent.reviews.length}

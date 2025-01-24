@@ -33,11 +33,15 @@ export function StarRating({
     const starNumber = index + 1;
     const isHalf = rating - index > 0 && rating - index < 1;
     const isFilled = (hoverRating ?? rating) >= starNumber;
+    const isInput = !readOnly && rating === 0;
+    const shouldShowYellowBorder = !isInput || (isInput && (hoverRating !== null && hoverRating >= starNumber));
+    
     const starClass = cn(
       sizeClasses[size],
       "transition-colors",
-      isFilled ? "text-yellow-400" : "text-muted stroke-muted-foreground",
-      !readOnly && "cursor-pointer hover:text-yellow-400"
+      shouldShowYellowBorder ? "stroke-yellow-400" : "stroke-muted-foreground",
+      isFilled ? "fill-yellow-400" : "fill-transparent",
+      !readOnly && "cursor-pointer hover:fill-yellow-400"
     );
 
     return (
@@ -51,7 +55,7 @@ export function StarRating({
         <Star className={starClass} />
         {isHalf && !isFilled && (
           <StarHalf
-            className={cn(starClass, "absolute top-0 left-0 text-yellow-400")}
+            className={cn(starClass, "absolute top-0 left-0 fill-yellow-400")}
           />
         )}
       </div>

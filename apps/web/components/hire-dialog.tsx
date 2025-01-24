@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Wallet, Loader2, Info } from "lucide-react";
+import { Wallet, Loader2, Info, Check } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -20,6 +20,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@workspace/ui/components/tooltip";
+import { SparkleBorder } from "@/components/ui/sparkle-border";
+import { cn } from "@/lib/utils";
 
 interface HireDialogProps {
   agentName: string;
@@ -34,18 +36,25 @@ interface HireDialogProps {
 
 export function HireDialog({ agentName, billing, children }: HireDialogProps) {
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isSuccess, setIsSuccess] = React.useState(false);
   const [amount, setAmount] = React.useState("1000");
+  const [open, setOpen] = React.useState(false);
 
   const handleHire = async () => {
     setIsLoading(true);
-    // TODO: Implement actual transaction logic
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate transaction
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    setIsSuccess(true);
     setIsLoading(false);
+    
+    // Show success state with sparkles for 1.5s before closing
+    setTimeout(() => {
+      setOpen(false);
+      setTimeout(() => setIsSuccess(false), 600);
+    }, 2500);
   };
 
   const totalPrice = billing.rate * parseInt(amount || "0");
 
-  // Helper function to get the appropriate unit label
   const getUnitLabel = () => {
     switch (billing.model) {
       case "per unit":
@@ -60,7 +69,7 @@ export function HireDialog({ agentName, billing, children }: HireDialogProps) {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {children ?? (
           <Button>
@@ -98,6 +107,7 @@ export function HireDialog({ agentName, billing, children }: HireDialogProps) {
               onChange={(e) => setAmount(e.target.value)}
               min="1"
               className="col-span-3"
+              disabled={isLoading || isSuccess}
             />
           </div>
           <div className="grid gap-2">
@@ -115,22 +125,43 @@ export function HireDialog({ agentName, billing, children }: HireDialogProps) {
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" type="button" disabled={isLoading}>
+          <Button 
+            variant="outline" 
+            type="button" 
+            disabled={isLoading || isSuccess}
+            onClick={() => setOpen(false)}
+          >
             Cancel
           </Button>
-          <Button onClick={handleHire} disabled={isLoading}>
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing...
-              </>
-            ) : (
-              <>
-                <Wallet className="mr-2 h-4 w-4" />
-                Pay {totalPrice.toFixed(6)} {billing.currency}
-              </>
-            )}
-          </Button>
+          <SparkleBorder isSelected={isSuccess} className="rounded-md">
+            <Button 
+              onClick={handleHire} 
+              disabled={isLoading}
+              variant={isSuccess ? "secondary" : "default"}
+              className={cn(
+                "flex items-center w-full",
+                isSuccess && "pointer-events-none"
+
+              )}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="h-6 w-6 animate-spin" />
+                  Processing payment...
+                </>
+              ) : isSuccess ? (
+                <>
+                  <Check className="mt-1 h-8 w-8 text-green-600" />
+                  Payment successful!
+                </>
+              ) : (
+                <>
+                  <Wallet className="mr-2 h-4 w-4" />
+                  Pay {totalPrice.toFixed(6)} {billing.currency}
+                </>
+              )}
+            </Button>
+          </SparkleBorder>
         </DialogFooter>
       </DialogContent>
     </Dialog>
