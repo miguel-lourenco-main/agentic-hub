@@ -9,6 +9,7 @@
     "clean": "git clean -xdf .next .turbo node_modules",
     "start": "next start",
     "lint": "next lint",
+    "format": "prettier --check \"**/*.{js,cjs,mjs,ts,tsx,md,json}\"",
     "typecheck": "tsc --noEmit",
     "export": "next build && next export",
     "cloudflare:build": "pnpm dlx @cloudflare/next-on-pages",
@@ -47,6 +48,7 @@
       "@workspace/eslint-config/apps"
     ]
   },
+  "prettier": "@workspace/prettier-config",
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18.2.0",
@@ -56,6 +58,7 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "prettier": "^3.3.3"
   }
 }

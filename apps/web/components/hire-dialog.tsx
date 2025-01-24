@@ -49,7 +49,7 @@ export function HireDialog({ agentName, billing, children }: HireDialogProps) {
   const getUnitLabel = () => {
     switch (billing.model) {
       case "per unit":
-        return billing.unit || "units";
+        return billing.unit ?? "units";
       case "per request":
         return "requests";
       case "per minute":
@@ -62,7 +62,7 @@ export function HireDialog({ agentName, billing, children }: HireDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        {children || (
+        {children ?? (
           <Button>
             <Wallet className="mr-2 h-4 w-4" />
             Hire
