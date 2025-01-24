@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import {
   ArrowRight,
   Bot,
@@ -126,12 +128,65 @@ const searchSuggestions = [
 ];
 
 export default function Home() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const isFromAgents = searchParams.get('from') === 'agents';
+  const isToAgents = searchParams.get('to') === 'agents';
+
+  useEffect(() => {
+    if (isFromAgents) {
+      // Store the current URL
+      const currentUrl = window.location.pathname + window.location.search;
+      
+      // Replace the current state with the clean URL
+      window.history.replaceState(null, '', '/');
+      
+      // Go back and modify the previous entry
+      window.history.back();
+      
+      // Wait for the back navigation to complete
+      const handlePop = () => {
+        window.history.replaceState(null, '', '/agents?from=home');
+        window.history.forward();
+        window.removeEventListener('popstate', handlePop);
+      };
+      
+      window.addEventListener('popstate', handlePop);
+    }
+
+    const handlePopState = () => {
+      const url = window.location.pathname + window.location.search;
+      if (url.includes('from=agents')) {
+        router.push('/');
+      } else if (url.includes('to=agents')) {
+        router.push('/agents');
+      } else {
+        router.push(url);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [isFromAgents, router]);
+
+  const isSlideFromLeft = isFromAgents || isToAgents;
+
   return (
     <motion.main
       className="container mx-auto max-w-5xl py-6"
-      initial={{ x: -100, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: -100, opacity: 0 }}
+      initial={{ 
+        [isSlideFromLeft ? 'x' : 'y']: isSlideFromLeft ? -100 : 100,
+        opacity: 0 
+      }}
+      animate={{ 
+        x: 0,
+        y: 0,
+        opacity: 1 
+      }}
+      exit={{ 
+        x: -100,
+        opacity: 0 
+      }}
       transition={{
         type: "spring",
         stiffness: 260,
@@ -178,7 +233,7 @@ export default function Home() {
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-semibold tracking-tight">Popular Tasks</h2>
           <Link
-            href="/agents"
+            href="/agents?from=home"
             className="inline-flex items-center text-sm font-medium hover:underline"
           >
             View all agents
@@ -224,7 +279,7 @@ export default function Home() {
         ].map((category) => (
           <Link 
             key={category.name}
-            href={category.href || `/agents/category/${category.name.toLowerCase()}`}
+            href={category.href ? `${category.href}?from=home` : `/agents/category/${category.name.toLowerCase()}?from=home`}
           >
             <Card className="p-4 hover:border-foreground/50 transition-colors" hoverable>
               <h3 className="font-semibold">{category.name}</h3>

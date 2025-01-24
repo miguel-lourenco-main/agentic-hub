@@ -30,12 +30,15 @@ export function Breadcrumbs() {
     );
   }
 
+  const isInAgentsSection = segments[0] === "agents";
+  const homeHref = isInAgentsSection ? "/?from=agents" : "/";
+
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem className="hidden md:inline-flex">
           <BreadcrumbLink
-            href="/"
+            href={homeHref}
             className="hover:text-foreground transition-colors"
           >
             Home

@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import {
@@ -14,6 +16,46 @@ export default function AgentsLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const isFromHome = searchParams.get('from') === 'home';
+
+  useEffect(() => {
+    if (isFromHome) {
+      // Store the current URL
+      const currentUrl = window.location.pathname + window.location.search;
+      
+      // Replace the current state with the clean URL
+      window.history.replaceState(null, '', '/agents');
+      
+      // Go back and modify the previous entry
+      window.history.back();
+      
+      // Wait for the back navigation to complete
+      const handlePop = () => {
+        window.history.replaceState(null, '', '/?to=agents');
+        window.history.forward();
+        window.removeEventListener('popstate', handlePop);
+      };
+      
+      window.addEventListener('popstate', handlePop);
+    }
+
+    const handlePopState = () => {
+      const url = window.location.pathname + window.location.search;
+      if (url.includes('to=agents')) {
+        router.push('/');
+      } else if (url.includes('from=home')) {
+        router.push('/agents');
+      } else {
+        router.push(url);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [isFromHome, router]);
+
   return (
     <motion.div
       className="flex-1"
