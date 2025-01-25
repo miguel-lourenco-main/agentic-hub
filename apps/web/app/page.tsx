@@ -146,16 +146,16 @@ function HomeContent() {
     >
       {/* Hero Section with Search */}
       <section className="flex flex-col items-center text-center space-y-8 py-12">
-        <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight lg:text-5xl px-4">
           What can I help you find?
         </h1>
-        <div className="w-full max-w-3xl space-y-4">
-          <div className="flex gap-2">
+        <div className="w-full max-w-3xl space-y-4 px-4">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Input 
               placeholder="Describe the task you need help with..."
               className="h-12"
             />
-            <Button size="lg">
+            <Button size="lg" className="sm:w-auto w-full">
               Search Agents
             </Button>
           </div>
@@ -180,9 +180,9 @@ function HomeContent() {
       </section>
 
       {/* Popular Agents */}
-      <section className="mb-12">
+      <section className="mb-12 px-4">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-semibold tracking-tight">Popular Tasks</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight">Popular Tasks</h2>
           <Link
             href="/agents?from=home"
             className="inline-flex items-center text-sm font-medium hover:underline"
@@ -191,16 +191,16 @@ function HomeContent() {
             <ArrowRight className="ml-1 h-4 w-4" />
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {popularAgents.map((agent) => (
             <Card
               key={agent.id}
               hoverable
-              className="p-6 hover:border-foreground/50 transition-colors"
+              className="flex justify-between items-center lg:flex-col p-4 sm:p-6 lg:space-x-0 lg:space-y-4 space-y-0 space-x-4 hover:border-foreground/50 transition-colors"
             >
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-4">
                 <div className="rounded-full bg-primary/10 p-2">
-                  <Bot className="h-6 w-6" />
+                  <Bot className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
                 <div>
                   <h3 className="font-semibold">{agent.name}</h3>
@@ -209,11 +209,14 @@ function HomeContent() {
                   </p>
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground mb-4">
+              <p className="flex-1 lg:flex-none text-sm text-center text-muted-foreground">
                 {agent.description}
               </p>
               <Link href={`/agents/${agent.id}`}>
-                <Button className="w-full">Try this agent</Button>
+                <Button className="w-full">
+                  <ArrowRight className="h-4 w-4 lg:hidden" />
+                  <span className="hidden lg:inline">Try this agent</span>
+                </Button>
               </Link>
             </Card>
           ))}
@@ -221,18 +224,18 @@ function HomeContent() {
       </section>
 
       {/* Categories */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4">
         {[
           { name: "Development", desc: "Find coding assistants" },
           { name: "Analytics", desc: "Data analysis experts" },
           { name: "Content", desc: "Content creation tools" },
           { name: "Browse All", desc: "Explore all agents", href: "/agents" }
         ].map((category) => (
-          <Link 
+          <Link
             key={category.name}
             href={category.href ? `${category.href}?from=home` : `/agents/category/${category.name.toLowerCase()}?from=home`}
           >
-            <Card className="p-4 hover:border-foreground/50 transition-colors" hoverable>
+            <Card className="h-full p-4 hover:border-foreground/50 transition-colors" hoverable>
               <h3 className="font-semibold">{category.name}</h3>
               <p className="text-sm text-muted-foreground">{category.desc}</p>
             </Card>
