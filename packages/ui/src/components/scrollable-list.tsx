@@ -160,7 +160,7 @@ export function ScrollableList({ children, className }: ScrollableListProps) {
   };
 
   return (
-    <div className="relative -mx-[3rem]">
+    <div className="relative">
       {/* Fade overlays */}
       <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-[4rem] bg-gradient-to-r from-background to-transparent z-10" />
       <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-[4rem] bg-gradient-to-l from-background to-transparent z-10" />
@@ -172,7 +172,7 @@ export function ScrollableList({ children, className }: ScrollableListProps) {
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseLeave}
         className={cn(
-          "relative overflow-x-scroll scrollbar-none cursor-grab active:cursor-grabbing pt-1 [&>div>*:first-child]:ml-[4rem]",
+          "relative overflow-x-scroll scrollbar-none cursor-grab active:cursor-grabbing pt-1 [&>div>*:first-child]:ml-[1.5rem]",
           className
         )}
       >
