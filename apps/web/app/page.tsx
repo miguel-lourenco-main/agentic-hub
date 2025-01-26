@@ -124,20 +124,10 @@ function HomeContent() {
 
   return (
     <motion.main
-      className="container mx-auto max-w-5xl py-6"
-      initial={{ 
-        [isSlideFromLeft ? 'x' : 'y']: isSlideFromLeft ? -100 : 100,
-        opacity: 0 
-      }}
-      animate={{ 
-        x: 0,
-        y: 0,
-        opacity: 1 
-      }}
-      exit={{ 
-        x: -100,
-        opacity: 0 
-      }}
+      className="container mx-auto max-w-5xl space-y-8 py-6"
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: -100, opacity: 0 }}
       transition={{
         type: "spring",
         stiffness: 260,
@@ -182,9 +172,9 @@ function HomeContent() {
       {/* Popular Agents */}
       <section className="mb-12 px-4">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight">Popular Tasks</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight">Popular Agents</h2>
           <Link
-            href="/agents?from=home"
+            href="/agents"
             className="inline-flex items-center text-sm font-medium hover:underline"
           >
             View all agents
@@ -192,33 +182,44 @@ function HomeContent() {
           </Link>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-          {popularAgents.map((agent) => (
-            <Card
+          {popularAgents.map((agent, index) => (
+            <motion.div
               key={agent.id}
-              hoverable
-              className="flex justify-between items-center lg:flex-col p-4 sm:p-6 lg:space-x-0 lg:space-y-4 space-y-0 space-x-4 hover:border-foreground/50 transition-colors"
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 100,
+                damping: 20,
+                delay: index * 0.1,
+              }}
             >
-              <div className="flex items-center gap-4">
-                <div className="rounded-full bg-primary/10 p-2">
-                  <Bot className="h-5 w-5 sm:h-6 sm:w-6" />
+              <Card
+                hoverable
+                className="flex justify-between items-center lg:flex-col p-4 sm:p-6 lg:space-x-0 lg:space-y-4 space-y-0 space-x-4 hover:border-foreground/50 transition-colors"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="rounded-full bg-primary/10 p-2">
+                    <Bot className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{agent.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {agent.uses.toLocaleString()} uses
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold">{agent.name}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {agent.uses.toLocaleString()} uses
-                  </p>
-                </div>
-              </div>
-              <p className="flex-1 lg:flex-none text-sm text-center text-muted-foreground">
-                {agent.description}
-              </p>
-              <Link href={`/agents/${agent.id}`}>
-                <Button className="w-full">
-                  <ArrowRight className="h-4 w-4 lg:hidden" />
-                  <span className="hidden lg:inline">Try this agent</span>
-                </Button>
-              </Link>
-            </Card>
+                <p className="flex-1 lg:flex-none text-sm text-center text-muted-foreground">
+                  {agent.description}
+                </p>
+                <Link href={`/agents/${agent.id}`}>
+                  <Button className="w-full">
+                    <ArrowRight className="h-4 w-4 lg:hidden" />
+                    <span className="hidden lg:inline">Try this agent</span>
+                  </Button>
+                </Link>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -246,7 +247,7 @@ function HomeContent() {
   );
 }
 
-export default function Home() {
+export default function HomePage() {
   return (
     <Suspense>
       <HomeContent />
