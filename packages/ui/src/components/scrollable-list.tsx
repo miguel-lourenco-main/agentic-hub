@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { cn } from "../lib/utils";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 
 interface ScrollableListProps {
   children: React.ReactNode;
@@ -17,6 +17,7 @@ export function ScrollableList({ children, className }: ScrollableListProps) {
   const [lastX, setLastX] = useState(0);
   const [velocity, setVelocity] = useState(0);
   const [showRightIndicator, setShowRightIndicator] = useState(false);
+  const [showLeftIndicator, setShowLeftIndicator] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const animationFrameRef = useRef<number>();
 
@@ -25,7 +26,10 @@ export function ScrollableList({ children, className }: ScrollableListProps) {
     
     const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
     const isAtEnd = Math.ceil(scrollLeft + clientWidth) >= scrollWidth;
+    const isAtStart = scrollLeft <= 0;
+    
     setShowRightIndicator(!isAtEnd);
+    setShowLeftIndicator(!isAtStart);
   };
 
   // Easing function that starts slow, accelerates, then decelerates
@@ -33,13 +37,12 @@ export function ScrollableList({ children, className }: ScrollableListProps) {
     return -(Math.cos(Math.PI * x) - 1) / 2;
   };
 
-  const scrollToEnd = () => {
+  const scrollTo = (targetPosition: number) => {
     if (!containerRef.current || isScrolling) return;
 
     setIsScrolling(true);
     const container = containerRef.current;
     const startPosition = container.scrollLeft;
-    const targetPosition = container.scrollWidth - container.clientWidth;
     const distance = targetPosition - startPosition;
     const duration = 800; // Animation duration in ms
     const startTime = performance.now();
@@ -66,6 +69,16 @@ export function ScrollableList({ children, className }: ScrollableListProps) {
     animationFrameRef.current = requestAnimationFrame(animate);
   };
 
+  const scrollToStart = () => {
+    scrollTo(0);
+  };
+
+  const scrollToEnd = () => {
+    if (!containerRef.current) return;
+    const targetPosition = containerRef.current.scrollWidth - containerRef.current.clientWidth;
+    scrollTo(targetPosition);
+  };
+
   useEffect(() => {
     checkScrollIndicators();
     
@@ -84,6 +97,12 @@ export function ScrollableList({ children, className }: ScrollableListProps) {
         window.removeEventListener('resize', checkScrollIndicators);
       }
     };
+  }, []);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft = 0;
+    }
   }, []);
 
   const onMouseDown = (e: React.MouseEvent) => {
@@ -141,7 +160,11 @@ export function ScrollableList({ children, className }: ScrollableListProps) {
   };
 
   return (
-    <div className="relative">
+    <div className="relative -mx-[3rem]">
+      {/* Fade overlays */}
+      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-[4rem] bg-gradient-to-r from-background to-transparent z-10" />
+      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-[4rem] bg-gradient-to-l from-background to-transparent z-10" />
+      
       <div 
         ref={containerRef}
         onMouseDown={onMouseDown}
@@ -149,20 +172,31 @@ export function ScrollableList({ children, className }: ScrollableListProps) {
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseLeave}
         className={cn(
-          "relative overflow-x-scroll scrollbar-none cursor-grab active:cursor-grabbing pt-1",
+          "relative overflow-x-scroll scrollbar-none cursor-grab active:cursor-grabbing pt-1 [&>div>*:first-child]:ml-[4rem]",
           className
         )}
       >
         <div className="flex gap-6">
           {children}
+          {/* Empty spacer element - assuming agent cards are 300px wide */}
+          <div className="w-[50px] shrink-0" aria-hidden="true" />
         </div>
       </div>
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-background to-transparent" />
+      
+      {showLeftIndicator && (
+        <button
+          onClick={scrollToStart}
+          disabled={isScrolling}
+          className="absolute -left-[2rem] top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-background/80 shadow-md hover:bg-background/90 transition-colors z-20"
+        >
+          <ChevronLeft className="w-5 h-5 text-foreground/60" />
+        </button>
+      )}
       {showRightIndicator && (
         <button
           onClick={scrollToEnd}
           disabled={isScrolling}
-          className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-background/80 shadow-md hover:bg-background/90 transition-colors"
+          className="absolute -right-[2rem] top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-background/80 shadow-md hover:bg-background/90 transition-colors z-20"
         >
           <ChevronRight className="w-5 h-5 text-foreground/60" />
         </button>

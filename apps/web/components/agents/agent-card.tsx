@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DynamicIcon } from "@/components/ui/dynamic-icon";
 import type { Agent } from "@/data/agents";
+import { cn } from "@/lib/utils";
 
 interface AgentCardProps {
   agent: Agent;
@@ -20,7 +21,7 @@ export function AgentCard({ agent, index, categoryIndex = 0, variant = "grid" }:
   
   return (
     <motion.div
-      className={isRow ? "min-w-[300px] max-w-[300px]" : "w-full"}
+      className={cn(isRow ? "min-w-[300px] max-w-[300px]" : "w-full", "")}
       initial={{ opacity: 0, [isRow ? "x" : "y"]: isRow ? 100 : 20 }}
       animate={{ opacity: 1, [isRow ? "x" : "y"]: 0 }}
       transition={{
