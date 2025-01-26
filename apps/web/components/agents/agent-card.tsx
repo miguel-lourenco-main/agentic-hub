@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Bot } from "lucide-react";
+import { Bot, CircleDollarSign, Currency, CurrencyIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DynamicIcon } from "@/components/ui/dynamic-icon";
@@ -21,7 +21,7 @@ export function AgentCard({ agent, index, categoryIndex = 0, variant = "grid" }:
   
   return (
     <motion.div
-      className={cn(isRow ? "min-w-[300px] max-w-[300px]" : "w-full", "")}
+      className={cn(isRow ? "min-w-[400px] max-w-[400px]" : "w-full", "")}
       initial={{ opacity: 0, [isRow ? "x" : "y"]: isRow ? 100 : 20 }}
       animate={{ opacity: 1, [isRow ? "x" : "y"]: 0 }}
       transition={{
@@ -33,27 +33,29 @@ export function AgentCard({ agent, index, categoryIndex = 0, variant = "grid" }:
     >
       <Card
         hoverable
-        className="h-full group relative rounded-lg border p-6 hover:border-foreground/50 transition-colors"
+        className="flex flex-col justify-between h-[12rem] group relative rounded-lg border p-6 hover:border-foreground/50 transition-colors"
       >
-        <div className="flex items-center gap-4 mb-4">
-          <div className="rounded-full bg-primary/10 p-2">
-            <DynamicIcon name={agent.iconName} className="h-6 w-6" />
+        <div className="flex flex-col">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="rounded-full bg-primary/10 p-2">
+              <DynamicIcon name={agent.iconName} className="h-6 w-6" />
+            </div>
+            <div>
+              <h3 className="font-semibold leading-none tracking-tight">
+                {agent.name}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {agent.category}
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-semibold leading-none tracking-tight">
-              {agent.name}
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              {agent.category}
-            </p>
-          </div>
+          <p className="text-sm text-muted-foreground mb-4">
+            {agent.description}
+          </p>
         </div>
-        <p className="text-sm text-muted-foreground mb-4">
-          {agent.description}
-        </p>
         <div className="flex items-center justify-between">
           <div className="flex items-center text-sm text-muted-foreground">
-            <Bot className="mr-1 h-4 w-4" />
+            <CircleDollarSign className="mr-1 size-5" />
             {agent.pricing}
           </div>
           <div className="flex gap-2">

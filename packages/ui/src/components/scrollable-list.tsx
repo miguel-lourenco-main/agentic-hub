@@ -172,7 +172,7 @@ export function ScrollableList({ children, className }: ScrollableListProps) {
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseLeave}
         className={cn(
-          "relative overflow-x-scroll scrollbar-none cursor-grab active:cursor-grabbing pt-1 [&>div>*:first-child]:ml-[1.5rem]",
+          "relative overflow-x-scroll scrollbar-none cursor-grab active:cursor-grabbing pt-1 [&>div>*:first-child]:ml-[1rem]",
           className
         )}
       >
