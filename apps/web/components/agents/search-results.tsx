@@ -49,9 +49,29 @@ export function SearchResults({ query }: { query: string }) {
   useEffect(() => {
     setIsLoading(true);
     const timer = setTimeout(() => {
-      const results = agents.filter(agent => 
-        agent.description.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 3);
+      // Break down search query into words and clean them
+      const searchWords = query.toLowerCase()
+        .split(/\s+/)
+        .filter(word => word.length > 2); // Ignore very short words
+
+      const results = agents.filter(agent => {
+        // Break down description into words
+        const descriptionWords = agent.description.toLowerCase()
+          .split(/\s+/)
+          .filter(word => word.length > 2);
+        
+        // Also include agent name in the search
+        const nameWords = agent.name.toLowerCase()
+          .split(/\s+/)
+          .filter(word => word.length > 2);
+        
+        // Check if any search word matches any word in description or name
+        return searchWords.some(searchWord => 
+          descriptionWords.some(word => word.includes(searchWord) || searchWord.includes(word)) ||
+          nameWords.some(word => word.includes(searchWord) || searchWord.includes(word))
+        );
+      }).slice(0, 3);
+
       setSearchResults(results);
       setIsLoading(false);
     }, 1500); // Simulate search delay
@@ -70,7 +90,7 @@ export function SearchResults({ query }: { query: string }) {
           Search Results
         </h2>
         <p className="text-sm text-muted-foreground mb-6">
-          No results found for "{query}"
+          No results found for &quot;{query}&quot;
         </p>
       </div>
     );
@@ -82,7 +102,7 @@ export function SearchResults({ query }: { query: string }) {
         Search Results
       </h2>
       <p className="text-sm text-muted-foreground mb-6">
-        Found {searchResults.length} results for "{query}"
+        Found {searchResults.length} results for &quot;{query}&quot;
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ml-[2rem]">
         {searchResults.map((agent, index) => (

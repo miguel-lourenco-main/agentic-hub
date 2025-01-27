@@ -12,6 +12,7 @@ export function DynamicIcon({ name, ...props }: DynamicIconProps) {
     part.charAt(0).toUpperCase() + part.slice(1)
   ).join("");
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Icon = (Icons as any)[iconName];
 
   if (!Icon) {

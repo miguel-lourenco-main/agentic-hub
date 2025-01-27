@@ -44,37 +44,37 @@ const popularAgents = [
 
 const searchSuggestions = [
   {
-    text: "Write a blog post about AI",
+    text: "Help me with pair programming",
     icon: PenLine,
     color: "text-purple-500",
     bgColor: "bg-purple-500/10 hover:bg-purple-500/20",
   },
   {
-    text: "Help me debug my React code",
+    text: "Cybersecurity monitoring and threat detection",
     icon: Bug,
     color: "text-red-500",
     bgColor: "bg-red-500/10 hover:bg-red-500/20",
   },
   {
-    text: "Analyze my website traffic data",
+    text: "Optimize code performance",
     icon: BarChart3,
     color: "text-blue-500",
     bgColor: "bg-blue-500/10 hover:bg-blue-500/20",
   },
   {
-    text: "Generate product descriptions",
+    text: "Train machine learning models",
     icon: ShoppingBag,
     color: "text-green-500",
     bgColor: "bg-green-500/10 hover:bg-green-500/20",
   },
   {
-    text: "Create a marketing strategy",
+    text: "Help with version control",
     icon: Megaphone,
     color: "text-orange-500",
     bgColor: "bg-orange-500/10 hover:bg-orange-500/20",
   },
   {
-    text: "Translate my document",
+    text: "Run automated testing",
     icon: Languages,
     color: "text-sky-500",
     bgColor: "bg-sky-500/10 hover:bg-sky-500/20",
@@ -133,7 +133,7 @@ function HomeContent() {
     router.push(`/agents?query=${encodeURIComponent(suggestion)}`);
   };
 
-  const isSlideFromLeft = isFromAgents || isToAgents;
+  const _isSlideFromLeft = isFromAgents || isToAgents;
 
   return (
     <motion.main

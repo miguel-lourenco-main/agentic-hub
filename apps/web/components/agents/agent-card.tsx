@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Bot, CircleDollarSign, Currency, CurrencyIcon } from "lucide-react";
+import { CircleDollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DynamicIcon } from "@/components/ui/dynamic-icon";
