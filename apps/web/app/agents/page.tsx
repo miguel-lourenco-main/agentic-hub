@@ -4,18 +4,27 @@ import { categories } from "@/data/categories";
 import { AgentCard } from "@/components/agents/agent-card";
 import { CategoryTag } from "@/components/agents/category-tag";
 import { ScrollableList } from "@workspace/ui/components/scrollable-list";
+import { SearchResults } from "@/components/agents/search-results";
 
-export default function AgentsPage() {
+export const dynamic = 'force-dynamic';
+
+export default function AgentsPage({
+  searchParams,
+}: {
+  searchParams?: { query?: string };
+}) {
   // Get featured agents for each category
   const getFeaturedAgentsForCategory = (categoryName: string) => {
-    return agents
-      .filter(agent => agent.category === categoryName)
+    return agents.filter(agent => agent.category === categoryName);
   };
 
   return (
     <main className="container mx-auto py-6 px-4 pb-24">
+      {/* Search Results */}
+      {searchParams?.query && <SearchResults query={searchParams.query} />}
+
       {/* Categories */}
-      <div className="mb-12">
+      <div className="mb-16">
         <h2 className="text-2xl font-semibold tracking-tight mb-4">
           Categories
         </h2>

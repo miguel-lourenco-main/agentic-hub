@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   Bot,
@@ -86,6 +86,7 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const isFromAgents = searchParams.get('from') === 'agents';
   const isToAgents = searchParams.get('to') === 'agents';
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     if (isFromAgents) {      
@@ -120,6 +121,18 @@ function HomeContent() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [isFromAgents, router]);
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/agents?query=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setSearchQuery(suggestion);
+    router.push(`/agents?query=${encodeURIComponent(suggestion)}`);
+  };
+
   const isSlideFromLeft = isFromAgents || isToAgents;
 
   return (
@@ -140,19 +153,22 @@ function HomeContent() {
           What can I help you find?
         </h1>
         <div className="w-full max-w-3xl space-y-4 px-4">
-          <div className="flex flex-col sm:flex-row gap-2">
+          <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2">
             <Input 
               placeholder="Describe the task you need help with..."
               className="h-12"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Button size="lg" className="sm:w-auto w-full">
+            <Button type="submit" size="lg" className="sm:w-auto w-full">
               Search Agents
             </Button>
-          </div>
+          </form>
           <div className="flex flex-wrap gap-2 justify-center">
             {searchSuggestions.map(({ text, icon: Icon, color, bgColor }) => (
               <button
                 key={text}
+                onClick={() => handleSuggestionClick(text)}
                 className={cn(
                   "inline-flex items-center rounded-md border border-transparent",
                   "px-3 py-1 text-sm transition-all duration-300",

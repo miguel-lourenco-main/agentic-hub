@@ -160,7 +160,7 @@ export function ScrollableList({ children, className }: ScrollableListProps) {
   };
 
   return (
-    <div className="relative">
+    <div className="relative -mr-[1.5rem]">
       {/* Fade overlays */}
       <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-[4rem] bg-gradient-to-r from-background to-transparent z-10" />
       <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-[4rem] bg-gradient-to-l from-background to-transparent z-10" />
