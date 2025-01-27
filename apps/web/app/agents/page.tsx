@@ -6,6 +6,7 @@ import { CategoryTag } from "@/components/agents/category-tag";
 import { ScrollableList } from "@workspace/ui/components/scrollable-list";
 import { SearchResults } from "@/components/agents/search-results";
 
+export const runtime = 'edge'
 export const dynamic = 'force-dynamic';
 
 export default function AgentsPage({
