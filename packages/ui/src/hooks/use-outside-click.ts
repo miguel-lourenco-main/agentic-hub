@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-
-type MouseOrTouchEvent = MouseEvent | TouchEvent;
-
+import { MouseOrTouchEvent } from "../lib/types";
 export const useOutsideClick = (
   ref: React.RefObject<HTMLDivElement>,
   callback: (event: MouseOrTouchEvent) => void

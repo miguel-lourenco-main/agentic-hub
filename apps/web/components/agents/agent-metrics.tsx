@@ -7,25 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
-
-interface MetricsData {
-  revenue: {
-    total: number;
-    change: number;
-  };
-  requests: {
-    total: number;
-    change: number;
-  };
-  activeUsers: {
-    total: number;
-    change: number;
-  };
-  avgResponseTime: {
-    total: number;
-    change: number;
-  };
-}
+import { MetricsData } from "@/lib/interfaces";
 
 export function AgentMetrics({ data }: { data: MetricsData }) {
   return (

@@ -1,38 +1,4 @@
-import { Bot, Brain, Code, MessageSquare, PenLine, Headphones, Microscope, ShieldCheck, Zap, Cpu, Database, LineChart } from "lucide-react";
-
-export interface Agent {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  iconName: string;
-  pricing: string;
-  rating: number;
-  reviewCount: number;
-  billing: {
-    rate: number;
-    currency: string;
-    model: string;
-  };
-  investment: {
-    marketCap: number;
-    availableShares: number;
-    pricePerShare: number;
-  };
-  embedUrl: string;
-  apiDocs: Record<string, any>;
-  reviews: Array<{
-    id: string;
-    userId: string;
-    userName: string;
-    userImage?: string;
-    rating: number;
-    comment: string;
-    createdAt: Date;
-    updatedAt?: Date;
-  }>;
-  averageRating: number;
-}
+import { Agent } from "../lib/interfaces";
 
 export const agents: Agent[] = [
   // Development Category

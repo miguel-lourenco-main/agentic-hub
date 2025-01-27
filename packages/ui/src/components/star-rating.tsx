@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Star, StarHalf } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 
 interface StarRatingProps extends React.HTMLAttributes<HTMLDivElement> {
   rating: number;

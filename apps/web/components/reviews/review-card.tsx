@@ -1,20 +1,11 @@
 import { formatDistanceToNow } from "date-fns";
 import { User } from "lucide-react";
 
-import { StarRating } from "@/components/ui/star-rating";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { StarRating } from "@workspace/ui/components/star-rating";
+import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar";
+import { Review } from "@/lib/interfaces";
 
-export interface Review {
-  id: string;
-  userId: string;
-  userName: string;
-  userImage?: string;
-  rating: number;
-  comment: string;
-  createdAt: Date;
-  updatedAt?: Date;
-}
 
 interface ReviewCardProps {
   review: Review;

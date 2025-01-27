@@ -3,11 +3,8 @@
 import { useRef, useState, useEffect } from "react";
 import { cn } from "../lib/utils";
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import { ScrollableListProps } from "../lib/interfaces";
 
-interface ScrollableListProps {
-  children: React.ReactNode;
-  className?: string;
-}
 
 export function ScrollableList({ children, className }: ScrollableListProps) {
   const containerRef = useRef<HTMLDivElement>(null);

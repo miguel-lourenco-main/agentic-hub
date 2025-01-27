@@ -20,7 +20,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@workspace/ui/components/tooltip";
-import { SparkleBorder } from "@/components/ui/sparkle-border";
+import { SparkleBorder } from "@workspace/ui/components/sparkle-border";
 import { cn } from "@/lib/utils";
 
 interface HireDialogProps {

@@ -1,8 +1,11 @@
+"use client";
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { ChevronRight, MoreHorizontal } from "lucide-react"
+import { usePathname } from "next/navigation"
 
-import { cn } from "@workspace/ui/lib/utils"
+import { cn } from "../lib/utils"
 
 const Breadcrumb = React.forwardRef<
   HTMLElement,
@@ -102,7 +105,85 @@ const BreadcrumbEllipsis = ({
     <span className="sr-only">More</span>
   </span>
 )
-BreadcrumbEllipsis.displayName = "BreadcrumbElipssis"
+BreadcrumbEllipsis.displayName = "BreadcrumbEllipsis"
+
+function Breadcrumbs() {
+  const pathname = usePathname();
+  const segments = pathname.split("/").filter(Boolean);
+
+  if (segments.length === 0) {
+    return (
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbPage>Home</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+  }
+
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem className="hidden md:inline-flex">
+          <BreadcrumbLink
+            href="/"
+            className="hover:text-foreground transition-colors"
+          >
+            Home
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        {segments.map((segment, index) => {
+          const isLast = index === segments.length - 1;
+          const path = `/${segments.slice(0, index + 1).join("/")}`;
+          const shouldShow = isLast || index >= segments.length - 2;
+
+          const formattedSegment = segment
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+
+          if (!shouldShow && index === 0) {
+            return (
+              <React.Fragment key={path}>
+                <BreadcrumbSeparator className="hidden md:inline-flex" />
+                <BreadcrumbItem className="md:hidden">
+                  <BreadcrumbLink
+                    href="/"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    ...
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+              </React.Fragment>
+            );
+          }
+
+          if (!shouldShow) return null;
+
+          return (
+            <React.Fragment key={path}>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                {isLast ? (
+                  <BreadcrumbPage>{formattedSegment}</BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink
+                    href={path}
+                    className="hover:text-foreground transition-colors"
+                  >
+                    {formattedSegment}
+                  </BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
+            </React.Fragment>
+          );
+        })}
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+}
 
 export {
   Breadcrumb,
@@ -112,4 +193,5 @@ export {
   BreadcrumbPage,
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
+  Breadcrumbs,
 }

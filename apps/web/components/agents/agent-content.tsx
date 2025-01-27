@@ -3,21 +3,21 @@
 import { motion } from "framer-motion";
 import { Bot, Wallet, Sparkles } from "lucide-react";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@workspace/ui/components/card";
 import { ReviewsSection } from "@/components/reviews/reviews-section";
-import { StarRating } from "@/components/ui/star-rating";
-import { Button } from "@/components/ui/button";
-import { AgentMetrics } from "@/components/agent-metrics";
-import { HireDialog } from "@/components/hire-dialog";
-import { InvestDialog } from "@/components/invest-dialog";
-import type { Agent } from "@/data/agents";
+import { StarRating } from "@workspace/ui/components/star-rating";
+import { Button } from "@workspace/ui/components/button";
+import { AgentMetrics } from "@/components/agents/agent-metrics";
+import { HireDialog } from "@/components/agents/hire-dialog";
+import { InvestDialog } from "@/components/agents/invest-dialog";
+import type { Agent } from "@/lib/interfaces";
 
 interface AgentContentProps {
   agent: Agent;
@@ -31,7 +31,7 @@ interface AgentContentProps {
 
 export function AgentContent({ agent, metricsData }: AgentContentProps) {
   return (
-    <main className="container mx-auto p-6">
+    <main className="container mx-auto p-6 mb-48">
       {/* Agent Header */}
       <motion.div
         initial={{ opacity: 0, x: 100 }}

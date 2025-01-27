@@ -1,10 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { StarRating } from "@/components/ui/star-rating";
-import { ReviewCard, type Review } from "./review-card";
+import { Button } from "@workspace/ui/components/button";
+import { Textarea } from "@workspace/ui/components/textarea";
+import { StarRating } from "@workspace/ui/components/star-rating";
+import { ReviewCard } from "./review-card";
+import { Review } from "@/lib/interfaces";
 
 interface ReviewsSectionProps {
   reviews: Review[];

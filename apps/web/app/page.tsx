@@ -14,10 +14,10 @@ import {
   Megaphone,
   Languages,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { Button } from "@workspace/ui/components/button";
+import { Input } from "@workspace/ui/components/input";
+import { Card } from "@workspace/ui/components/card";
+import { cn } from "@workspace/ui/lib/utils";
 import { Suspense } from "react";
 
 // Mock data for popular agents

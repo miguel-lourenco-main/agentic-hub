@@ -1,10 +1,5 @@
 import { agents } from "./agents";
-
-export type Category = {
-  name: string;
-  count: number;
-  description: string;
-};
+import { Category } from "../lib/types";
 
 // Calculate counts from actual agents data
 const getCategoryCount = (categoryName: string) => {

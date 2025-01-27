@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import type { Category } from "@/data/categories";
+import type { Category } from "@/lib/types";
 
 interface CategoryTagProps {
   category: Category;
