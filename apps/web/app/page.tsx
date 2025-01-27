@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   Bot,
@@ -44,37 +44,37 @@ const popularAgents = [
 
 const searchSuggestions = [
   {
-    text: "Write a blog post about AI",
+    text: "Help me with pair programming",
     icon: PenLine,
     color: "text-purple-500",
     bgColor: "bg-purple-500/10 hover:bg-purple-500/20",
   },
   {
-    text: "Help me debug my React code",
+    text: "Cybersecurity monitoring and threat detection",
     icon: Bug,
     color: "text-red-500",
     bgColor: "bg-red-500/10 hover:bg-red-500/20",
   },
   {
-    text: "Analyze my website traffic data",
+    text: "Optimize code performance",
     icon: BarChart3,
     color: "text-blue-500",
     bgColor: "bg-blue-500/10 hover:bg-blue-500/20",
   },
   {
-    text: "Generate product descriptions",
+    text: "Train machine learning models",
     icon: ShoppingBag,
     color: "text-green-500",
     bgColor: "bg-green-500/10 hover:bg-green-500/20",
   },
   {
-    text: "Create a marketing strategy",
+    text: "Help with version control",
     icon: Megaphone,
     color: "text-orange-500",
     bgColor: "bg-orange-500/10 hover:bg-orange-500/20",
   },
   {
-    text: "Translate my document",
+    text: "Run automated testing",
     icon: Languages,
     color: "text-sky-500",
     bgColor: "bg-sky-500/10 hover:bg-sky-500/20",
@@ -86,6 +86,7 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const isFromAgents = searchParams.get('from') === 'agents';
   const isToAgents = searchParams.get('to') === 'agents';
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     if (isFromAgents) {      
@@ -120,24 +121,26 @@ function HomeContent() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [isFromAgents, router]);
 
-  const isSlideFromLeft = isFromAgents || isToAgents;
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/agents?query=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setSearchQuery(suggestion);
+    router.push(`/agents?query=${encodeURIComponent(suggestion)}`);
+  };
+
+  const _isSlideFromLeft = isFromAgents || isToAgents;
 
   return (
     <motion.main
-      className="container mx-auto max-w-5xl py-6"
-      initial={{ 
-        [isSlideFromLeft ? 'x' : 'y']: isSlideFromLeft ? -100 : 100,
-        opacity: 0 
-      }}
-      animate={{ 
-        x: 0,
-        y: 0,
-        opacity: 1 
-      }}
-      exit={{ 
-        x: -100,
-        opacity: 0 
-      }}
+      className="container mx-auto max-w-5xl space-y-8 py-6"
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: -100, opacity: 0 }}
       transition={{
         type: "spring",
         stiffness: 260,
@@ -146,23 +149,26 @@ function HomeContent() {
     >
       {/* Hero Section with Search */}
       <section className="flex flex-col items-center text-center space-y-8 py-12">
-        <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight lg:text-5xl px-4">
           What can I help you find?
         </h1>
-        <div className="w-full max-w-3xl space-y-4">
-          <div className="flex gap-2">
+        <div className="w-full max-w-3xl space-y-4 px-4">
+          <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2">
             <Input 
               placeholder="Describe the task you need help with..."
               className="h-12"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Button size="lg">
+            <Button type="submit" size="lg" className="sm:w-auto w-full">
               Search Agents
             </Button>
-          </div>
+          </form>
           <div className="flex flex-wrap gap-2 justify-center">
             {searchSuggestions.map(({ text, icon: Icon, color, bgColor }) => (
               <button
                 key={text}
+                onClick={() => handleSuggestionClick(text)}
                 className={cn(
                   "inline-flex items-center rounded-md border border-transparent",
                   "px-3 py-1 text-sm transition-all duration-300",
@@ -180,59 +186,73 @@ function HomeContent() {
       </section>
 
       {/* Popular Agents */}
-      <section className="mb-12">
+      <section className="mb-12 px-4">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-semibold tracking-tight">Popular Tasks</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight">Popular Agents</h2>
           <Link
-            href="/agents?from=home"
+            href="/agents"
             className="inline-flex items-center text-sm font-medium hover:underline"
           >
             View all agents
             <ArrowRight className="ml-1 h-4 w-4" />
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {popularAgents.map((agent) => (
-            <Card
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+          {popularAgents.map((agent, index) => (
+            <motion.div
               key={agent.id}
-              hoverable
-              className="p-6 hover:border-foreground/50 transition-colors"
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 100,
+                damping: 20,
+                delay: index * 0.1,
+              }}
             >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="rounded-full bg-primary/10 p-2">
-                  <Bot className="h-6 w-6" />
+              <Card
+                hoverable
+                className="flex justify-between items-center lg:flex-col p-4 sm:p-6 lg:space-x-0 lg:space-y-4 space-y-0 space-x-4 hover:border-foreground/50 transition-colors"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="rounded-full bg-primary/10 p-2">
+                    <Bot className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{agent.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {agent.uses.toLocaleString()} uses
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold">{agent.name}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {agent.uses.toLocaleString()} uses
-                  </p>
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                {agent.description}
-              </p>
-              <Link href={`/agents/${agent.id}`}>
-                <Button className="w-full">Try this agent</Button>
-              </Link>
-            </Card>
+                <p className="flex-1 lg:flex-none text-sm text-center text-muted-foreground">
+                  {agent.description}
+                </p>
+                <Link href={`/agents/${agent.id}`}>
+                  <Button className="w-full">
+                    <ArrowRight className="h-4 w-4 lg:hidden" />
+                    <span className="hidden lg:inline">Try this agent</span>
+                  </Button>
+                </Link>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </section>
 
       {/* Categories */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4">
         {[
           { name: "Development", desc: "Find coding assistants" },
           { name: "Analytics", desc: "Data analysis experts" },
           { name: "Content", desc: "Content creation tools" },
           { name: "Browse All", desc: "Explore all agents", href: "/agents" }
         ].map((category) => (
-          <Link 
+          <Link
             key={category.name}
             href={category.href ? `${category.href}?from=home` : `/agents/category/${category.name.toLowerCase()}?from=home`}
           >
-            <Card className="p-4 hover:border-foreground/50 transition-colors" hoverable>
+            <Card className="h-full p-4 hover:border-foreground/50 transition-colors" hoverable>
               <h3 className="font-semibold">{category.name}</h3>
               <p className="text-sm text-muted-foreground">{category.desc}</p>
             </Card>
@@ -243,7 +263,7 @@ function HomeContent() {
   );
 }
 
-export default function Home() {
+export default function HomePage() {
   return (
     <Suspense>
       <HomeContent />
