@@ -34,11 +34,11 @@ export default function RootLayout({
           "flex flex-col h-screen bg-background font-sans antialiased overflow-hidden"
         )}
       >
-        <div className="w-full bg-foreground text-background py-3 shrink-0">
+        <div className="w-full bg-foreground text-background text-sm py-3 shrink-0">
           <div className="container flex items-center justify-center gap-2 mx-auto">
             <Megaphone className="stroke-yellow-400 h-5 w-5" />
             <a 
-              href="mailto:hiring@company.com"
+              href="https://www.linkedin.com/in/francisco-de-melo/"
               className="cursor-pointer"
             >
               We&apos;re fundraising and looking for a CMO guru.
