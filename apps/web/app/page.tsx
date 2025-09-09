@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { SearchInput } from "@/components/search-input";
+import { useSearchUI } from "@/components/search/search-context";
 import {
   ArrowRight,
   Bot,
@@ -87,6 +89,11 @@ function HomeContent() {
   const isFromAgents = searchParams.get('from') === 'agents';
   const isToAgents = searchParams.get('to') === 'agents';
   const [searchQuery, setSearchQuery] = useState('');
+  const [isAnimatingSearch, setIsAnimatingSearch] = useState(false);
+  const searchBarRef = useRef<HTMLDivElement | null>(null);
+  const barControls = useAnimation();
+  const contentControls = useAnimation();
+  const { setQuery: setGlobalQuery } = useSearchUI();
 
   useEffect(() => {
     if (isFromAgents) {      
@@ -121,11 +128,40 @@ function HomeContent() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [isFromAgents, router]);
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/agents?query=${encodeURIComponent(searchQuery.trim())}`);
-    }
+    const query = searchQuery.trim();
+    if (!query) return;
+
+    // Show global bar and sync its query so it's visible during navigation
+    setGlobalQuery(query);
+
+    // Start coordinated animation: fade other content and move the bar to the top and widen
+    setIsAnimatingSearch(true);
+    const rect = searchBarRef.current?.getBoundingClientRect();
+    const desiredTop = 12; // px offset from the top of the viewport
+    const deltaY = rect ? -(rect.top - desiredTop) : -80;
+
+    await Promise.all([
+      contentControls.start({ opacity: 0, transition: { duration: 0.2, ease: 'easeInOut' } }),
+      barControls.start({ y: deltaY, width: "100%", transition: { duration: 1, ease: [0.30, 1, 0.45, 1] } }),
+    ]);
+
+    router.push(`/agents?query=${encodeURIComponent(query)}`);
+  };
+
+  const handleAnimateOnly = async () => {
+    if (isAnimatingSearch) return;
+    // Do the same animation as submit but do not navigate
+    setIsAnimatingSearch(true);
+    const rect = searchBarRef.current?.getBoundingClientRect();
+    const desiredTop = 16;
+    const deltaY = rect ? -(rect.top - desiredTop) : -80;
+
+    await Promise.all([
+      contentControls.start({ opacity: 0, transition: { duration: 0.2, ease: 'easeInOut' } }),
+      barControls.start({ y: deltaY, width: "100%", transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } }),
+    ]);
   };
 
   const handleSuggestionClick = (suggestion: string) => {
@@ -149,22 +185,32 @@ function HomeContent() {
     >
       {/* Hero Section with Search */}
       <section className="flex flex-col items-center text-center space-y-8 py-12">
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight lg:text-5xl px-4">
+        <motion.h1
+          animate={contentControls}
+          initial={{ opacity: 1 }}
+          className="text-3xl sm:text-4xl font-bold tracking-tight lg:text-5xl px-4"
+        >
           What can I help you find?
-        </h1>
-        <div className="w-full max-w-3xl space-y-4 px-4">
-          <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2">
-            <Input 
-              placeholder="Describe the task you need help with..."
-              className="h-12"
+        </motion.h1>
+        <div className="w-full container max-w-3xl space-y-4 px-4 py-3">
+          <motion.div
+            ref={searchBarRef}
+            animate={barControls}
+            initial={{ width: "90%" }}
+            style={{ zIndex: 40, marginLeft: "auto", marginRight: "auto" }}
+          >
+            <SearchInput
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={setSearchQuery}
+              onSubmit={() => handleSearch(new Event("submit") as unknown as React.FormEvent)}
+              disabled={isAnimatingSearch}
             />
-            <Button type="submit" size="lg" className="sm:w-auto w-full">
-              Search Agents
-            </Button>
-          </form>
-          <div className="flex flex-wrap gap-2 justify-center">
+          </motion.div>
+          <motion.div
+            animate={contentControls}
+            initial={{ opacity: 1 }}
+            className="flex flex-wrap gap-2 justify-center"
+          >
             {searchSuggestions.map(({ text, icon: Icon, color, bgColor }) => (
               <button
                 key={text}
@@ -181,12 +227,17 @@ function HomeContent() {
                 <span>{text}</span>
               </button>
             ))}
-          </div>
+          </motion.div>
+          <motion.div animate={contentControls} initial={{ opacity: 1 }} className="flex justify-center pt-2">
+            <Button variant="outline" size="sm" onClick={handleAnimateOnly} disabled={isAnimatingSearch}>
+              Test animation (no nav)
+            </Button>
+          </motion.div>
         </div>
       </section>
 
       {/* Popular Agents */}
-      <section className="mb-12 px-4">
+      <motion.section className="mb-12 px-4" animate={contentControls} initial={{ opacity: 1 }}>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl sm:text-2xl font-semibold tracking-tight">Popular Agents</h2>
           <Link
@@ -238,19 +289,19 @@ function HomeContent() {
             </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* Categories */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+      <motion.section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4" animate={contentControls} initial={{ opacity: 1 }}>
         {[
           { name: "Development", desc: "Find coding assistants" },
           { name: "Analytics", desc: "Data analysis experts" },
           { name: "Content", desc: "Content creation tools" },
-          { name: "Browse All", desc: "Explore all agents", href: "/agents" }
+          { name: "Browse All", desc: "Explore all agents" }
         ].map((category) => (
           <Link
             key={category.name}
-            href={category.href ? `${category.href}?from=home` : `/agents/category/${category.name.toLowerCase()}?from=home`}
+            href={category.name === "Browse All" ? "/agents" : "/agents/?query=" + category.name}
           >
             <Card className="h-full p-4 hover:border-foreground/50 transition-colors" hoverable>
               <h3 className="font-semibold">{category.name}</h3>
@@ -258,7 +309,7 @@ function HomeContent() {
             </Card>
           </Link>
         ))}
-      </section>
+      </motion.section>
     </motion.main>
   );
 }
