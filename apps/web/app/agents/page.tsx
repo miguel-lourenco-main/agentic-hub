@@ -4,7 +4,8 @@ import { categories } from "@/data/categories";
 import { AgentCard } from "@/components/agents/agent-card";
 import { CategoryTag } from "@/components/agents/category-tag";
 import { ScrollableList } from "@workspace/ui/components/scrollable-list";
-import { SearchResults } from "@/components/agents/search-results";
+import { AnimatedResults } from "@/components/agents/animated-results";
+import { AnimatedSection } from "@/components/agents/animated-section";
 
 export const runtime = 'edge'
 export const dynamic = 'force-dynamic';
@@ -19,13 +20,14 @@ export default function AgentsPage({
     return agents.filter(agent => agent.category === categoryName);
   };
 
+  const query = (searchParams?.query || "").trim();
   return (
     <main className="container mx-auto py-6 px-4 pb-24">
-      {/* Search Results */}
-      {searchParams?.query && <SearchResults query={searchParams.query} />}
+      {/* Search Results (animated) */}
+      <AnimatedResults query={query} />
 
       {/* Categories */}
-      <div className="mb-16">
+      <AnimatedSection className="mb-16">
         <h2 className="text-2xl font-semibold tracking-tight mb-4">
           Categories
         </h2>
@@ -34,7 +36,7 @@ export default function AgentsPage({
             <CategoryTag key={category.name} category={category} index={index} />
           ))}
         </div>
-      </div>
+      </AnimatedSection>
 
       {/* Featured Agents by Category */}
       {categories.slice(1).map((category, categoryIndex) => {
@@ -42,7 +44,7 @@ export default function AgentsPage({
         if (featuredAgents.length === 0) return null;
 
         return (
-          <section key={category.name} className="mb-16">
+          <AnimatedSection as="section" key={category.name} className="mb-16">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-2xl font-semibold tracking-tight">
@@ -70,12 +72,12 @@ export default function AgentsPage({
                 />
               ))}
             </ScrollableList>
-          </section>
+          </AnimatedSection>
         );
       })}
 
       {/* All Agents Grid */}
-      <section className="mb-16">
+      <AnimatedSection as="section" className="mb-16">
         <h2 className="text-2xl font-semibold tracking-tight mb-6">
           All Agents
         </h2>
@@ -89,7 +91,7 @@ export default function AgentsPage({
             />
           ))}
         </div>
-      </section>
+      </AnimatedSection>
     </main>
   );
 } 

@@ -5,13 +5,15 @@ import { agents } from "@/data/agents";
 import { AgentCard } from "@/components/agents/agent-card";
 import { Skeleton } from "@workspace/ui/components/skeleton";
 
-function SearchResultsSkeleton() {
+function SearchResultsSkeleton({query}: {query: string}) {
   return (
     <div className="mb-16">
-      <div className="mb-6">
-        <Skeleton className="h-8 w-64 mb-2" />
-        <Skeleton className="h-4 w-96" />
-      </div>
+      <h2 className="text-2xl font-semibold tracking-tight mb-2">
+        Search Results
+      </h2>
+      <p className="text-sm text-muted-foreground mb-6">
+        Searching for &quot;{query}&quot;...
+      </p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ml-[2rem]">
         {[...Array(3)].map((_, i) => (
           <div key={i} className="h-[12rem] rounded-lg border">
@@ -80,7 +82,7 @@ export function SearchResults({ query }: { query: string }) {
   }, [query]);
 
   if (isLoading) {
-    return <SearchResultsSkeleton />;
+    return <SearchResultsSkeleton query={query} />;
   }
 
   if (searchResults.length === 0) {
