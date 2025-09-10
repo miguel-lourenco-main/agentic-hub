@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { motion, useMotionValue, useMotionValueEvent } from "framer-motion";
-import { cn } from "@workspace/ui/lib/utils";
+import { cn, log } from "@/lib/utils";
 import { SearchInput } from "@/components/search-input";
 import { useSearchUI } from "@/components/search/search-context";
 
@@ -15,7 +15,7 @@ export function GlobalSearchBar() {
   const shouldBeVisible = pathname?.startsWith("/agents") ?? false;
 
   // Scroll-hide configuration: hide after X px down, show after X/4 px up
-  const HIDE_THRESHOLD = 700;
+  const HIDE_THRESHOLD = 800;
   const SHOW_THRESHOLD = HIDE_THRESHOLD / 4;
 
   const [isHidden, setIsHidden] = useState(false);
@@ -25,6 +25,9 @@ export function GlobalSearchBar() {
   const containerElRef = useRef<HTMLElement | null>(null);
   const containerScrollY = useMotionValue(0);
 
+  useEffect(() => {
+    log("mount", { shouldBeVisible, pathname, HIDE_THRESHOLD, SHOW_THRESHOLD });
+  }, []);
 
   useEffect(() => {
     if (pathname?.startsWith("/agents")) {
@@ -47,8 +50,19 @@ export function GlobalSearchBar() {
     downAccumRef.current = 0;
     upAccumRef.current = 0;
     setIsHidden(false);
+    log("reset state", {
+      el,
+      startY,
+      lastScrollY: lastScrollYRef.current,
+      downAccum: downAccumRef.current,
+      upAccum: upAccumRef.current,
+      isHidden: false,
+    });
   }, [shouldBeVisible]);
 
+  useEffect(() => {
+    log("isHidden changed", { isHidden });
+  }, [isHidden]);
 
   // Scroll listener using framer-motion MotionValue changes
   // Bridge container scrollTop to a MotionValue so we can use useMotionValueEvent
@@ -57,54 +71,158 @@ export function GlobalSearchBar() {
     if (!shouldBeVisible || !el) return;
     const onScroll = () => {
       const newScrollTop = el.scrollTop;
+      log("container scroll event", { scrollTop: newScrollTop, current: containerScrollY.get() });
       containerScrollY.set(newScrollTop);
     };
     // Prime with current value
     const initialScrollTop = el.scrollTop;
     containerScrollY.set(initialScrollTop);
+    log("container scroll listener setup", { el, initialScrollTop });
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => el.removeEventListener("scroll", onScroll);
   }, [shouldBeVisible, containerScrollY]);
 
   useMotionValueEvent(containerScrollY, "change", (current) => {
+    log("containerScrollY", containerScrollY);
+    log("current", current);
+
     if (!shouldBeVisible) return;
     if (typeof current !== "number") return;
 
     const prev = lastScrollYRef.current;
     const delta = current - prev;
     lastScrollYRef.current = current;
+    log("scrollY change", {
+      current,
+      prev,
+      delta,
+      isHidden,
+      downAccum: downAccumRef.current,
+      upAccum: upAccumRef.current,
+    });
 
     if (delta > 0) {
       // Scrolling down
       if (!isHidden) {
         downAccumRef.current += delta;
+        log("down accumulate", { downAccum: downAccumRef.current });
         if (downAccumRef.current >= HIDE_THRESHOLD) {
           setIsHidden(true);
           downAccumRef.current = 0;
           upAccumRef.current = 0;
+          log("HIDE triggered");
         }
       } else {
         // When hidden and still going down, discard any prior upward progress
         upAccumRef.current = 0;
+        log("still hidden, scrolling down -> reset upAccum");
       }
     } else if (delta < 0) {
       // Scrolling up
       const upDelta = -delta;
       if (isHidden) {
         upAccumRef.current += upDelta;
+        log("up accumulate", { upAccum: upAccumRef.current });
         if (upAccumRef.current >= SHOW_THRESHOLD) {
           setIsHidden(false);
           downAccumRef.current = 0;
           upAccumRef.current = 0;
+          log("SHOW triggered");
         }
       } else {
         // Reduce downward accumulation while visible
         downAccumRef.current = Math.max(0, downAccumRef.current - upDelta);
+        log("reduce downAccum while visible", { downAccum: downAccumRef.current });
       }
     }
   });
 
+  // Fallback: direct scroll event listener if MotionValue approach fails
+  useEffect(() => {
+    const el = containerElRef.current;
+    if (!shouldBeVisible || !el) return;
+    
+    const onScrollDirect = () => {
+      const current = el.scrollTop;
+      const prev = lastScrollYRef.current;
+      const delta = current - prev;
+      lastScrollYRef.current = current;
+      
+      log("DIRECT scroll event", {
+        current,
+        prev,
+        delta,
+        isHidden,
+        downAccum: downAccumRef.current,
+        upAccum: upAccumRef.current,
+      });
 
+      if (delta > 0) {
+        // Scrolling down
+        if (!isHidden) {
+          downAccumRef.current += delta;
+          log("DIRECT down accumulate", { downAccum: downAccumRef.current });
+          if (downAccumRef.current >= HIDE_THRESHOLD) {
+            setIsHidden(true);
+            downAccumRef.current = 0;
+            upAccumRef.current = 0;
+            log("DIRECT HIDE triggered");
+          }
+        } else {
+          upAccumRef.current = 0;
+          log("DIRECT still hidden, scrolling down -> reset upAccum");
+        }
+      } else if (delta < 0) {
+        // Scrolling up
+        const upDelta = -delta;
+        if (isHidden) {
+          upAccumRef.current += upDelta;
+          log("DIRECT up accumulate", { upAccum: upAccumRef.current });
+          if (upAccumRef.current >= SHOW_THRESHOLD) {
+            setIsHidden(false);
+            downAccumRef.current = 0;
+            upAccumRef.current = 0;
+            log("DIRECT SHOW triggered");
+          }
+        } else {
+          downAccumRef.current = Math.max(0, downAccumRef.current - upDelta);
+          log("DIRECT reduce downAccum while visible", { downAccum: downAccumRef.current });
+        }
+      }
+    };
+
+    el.addEventListener("scroll", onScrollDirect, { passive: true });
+    return () => el.removeEventListener("scroll", onScrollDirect);
+  }, [shouldBeVisible, isHidden]);
+
+  // Debug: log all scroll containers and their properties
+  useEffect(() => {
+    if (!shouldBeVisible) return;
+    const containers = document.querySelectorAll('[data-scroll-container], .overflow-auto, .overflow-y-auto');
+    log("found scroll containers", Array.from(containers).map(el => ({
+      tagName: el.tagName,
+      className: el.className,
+      scrollHeight: el.scrollHeight,
+      clientHeight: el.clientHeight,
+      scrollTop: el.scrollTop,
+      hasOverflow: el.scrollHeight > el.clientHeight
+    })));
+  }, [shouldBeVisible]);
+
+  // Fallback: also listen to window scroll
+  useEffect(() => {
+    if (!shouldBeVisible) return;
+    const onWindowScroll = () => {
+      log("window scroll", { 
+        y: window.scrollY,
+        documentHeight: document.documentElement.scrollHeight,
+        windowHeight: window.innerHeight,
+        hasOverflow: document.documentElement.scrollHeight > window.innerHeight
+      });
+    };
+    window.addEventListener("scroll", onWindowScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onWindowScroll);
+  }, [shouldBeVisible]);
 
   const handleSubmit = () => {
     const q = query.trim();

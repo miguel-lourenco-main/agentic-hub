@@ -27,7 +27,7 @@ export default function RootLayout({
         )}
       >
         <Providers>
-          <div className="flex-1 overflow-auto" data-scroll-container>{children}</div>
+          <div className="flex-1">{children}</div>
         </Providers>
       </body>
     </html>
