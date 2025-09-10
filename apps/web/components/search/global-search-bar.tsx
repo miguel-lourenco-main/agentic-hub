@@ -233,22 +233,10 @@ export function GlobalSearchBar() {
   if (!shouldBeVisible) return null;
 
   return (
-    <motion.div
-      className="sticky top-0 z-50 w-full bg-transparent"
-      initial={false}
-      animate={{ y: isHidden ? "-100%" : "0%", opacity: isHidden ? 0 : 1 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-    >
-      <div className={cn("max-w-3xl mx-auto px-4 py-3")}>        
-        <motion.div layoutId="global-search">
-          <SearchInput
-            value={query}
-            onChange={setQuery}
-            onSubmit={handleSubmit}
-            className="w-full"
-          />
-        </motion.div>
-      </div>
+    <motion.div className="w-full" initial={false} animate={{ opacity: isHidden ? 0 : 1 }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+      <motion.div layoutId="global-search">
+        <SearchInput value={query} onChange={setQuery} onSubmit={handleSubmit} className="w-full max-w-7xl" />
+      </motion.div>
     </motion.div>
   );
 }

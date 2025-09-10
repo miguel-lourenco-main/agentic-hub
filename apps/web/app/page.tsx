@@ -21,6 +21,7 @@ import { Input } from "@workspace/ui/components/input";
 import { Card } from "@workspace/ui/components/card";
 import { cn } from "@workspace/ui/lib/utils";
 import { Suspense } from "react";
+import { TypingAnimation } from "@/components/typing-text";
 
 // Mock data for popular agents
 const popularAgents = [
@@ -93,7 +94,7 @@ function HomeContent() {
   const searchBarRef = useRef<HTMLDivElement | null>(null);
   const barControls = useAnimation();
   const contentControls = useAnimation();
-  const { setQuery: setGlobalQuery } = useSearchUI();
+  const { setQuery: setGlobalQuery, setIsTransitioning } = useSearchUI();
   const titleControls = useAnimation();
 
   useEffect(() => {
@@ -134,25 +135,64 @@ function HomeContent() {
     const query = searchQuery.trim();
     if (!query) return;
 
-    // Show global bar and sync its query so it's visible during navigation
+    // Prepare header placeholder and sync query so morph has target
     setGlobalQuery(query);
-
-    // Start coordinated animation: fade other content and move the bar to the top and widen
+    setIsTransitioning(true);
     setIsAnimatingSearch(true);
     const rect = searchBarRef.current?.getBoundingClientRect();
-    const desiredTop = 12; // px offset from the top of the viewport
+    const desiredTop = 24; // px offset from the top of the viewport
     const deltaY = rect ? -(rect.top - desiredTop) : -80;
 
     void contentControls.start({ opacity: 0, transition: { duration: 0.2, ease: 'easeInOut' } });
     await titleControls.start({ opacity: 0, transition: { duration: 0.1, ease: 'easeInOut' } });
-    await barControls.start({ y: deltaY, width: "100%", transition: { duration: 1, ease: [0.30, 1, 0.45, 1] } });
-
+    await barControls.start({
+      y: deltaY,
+      scale: 1.03,
+      opacity: 0.18,
+      transition: {
+        y: { duration: 0.6, ease: [0.30, 1, 0.45, 1] },
+        scale: { duration: 0.6, ease: [0.30, 1, 0.45, 1] },
+        opacity: { duration: 0.25, ease: 'easeOut' },
+      },
+    });
     router.push(`/agents?query=${encodeURIComponent(query)}`);
   };
 
   const handleSuggestionClick = (suggestion: string) => {
     setSearchQuery(suggestion);
     router.push(`/agents?query=${encodeURIComponent(suggestion)}`);
+  };
+
+  // DEBUG: Preview the header transition without navigating
+  const handlePreviewTransition = async () => {
+    const rect = searchBarRef.current?.getBoundingClientRect();
+    const desiredTop = 24;
+    const deltaY = rect ? -(rect.top - desiredTop) : -80;
+
+    setIsTransitioning(true);
+    setIsAnimatingSearch(true);
+    void contentControls.start({ opacity: 0.1, transition: { duration: 0.15, ease: 'easeOut' } });
+    await titleControls.start({ opacity: 0.1, transition: { duration: 0.1, ease: 'easeOut' } });
+    await barControls.start({
+      y: deltaY,
+      scale: 1.03,
+      opacity: 0.18,
+      transition: {
+        y: { duration: 0.6, ease: [0.30, 1, 0.45, 1] },
+        scale: { duration: 0.6, ease: [0.30, 1, 0.45, 1] },
+        opacity: { duration: 0.25, ease: 'easeOut' },
+      },
+    });
+
+    // Hold briefly so you can inspect the end state
+    await new Promise((r) => setTimeout(r, 500));
+
+    // Reverse back to original
+    await barControls.start({ y: 0, scale: 1, opacity: 1, transition: { duration: 0.45, ease: [0.30, 1, 0.45, 1] } });
+    void contentControls.start({ opacity: 1, transition: { duration: 0.2, ease: 'easeInOut' } });
+    await titleControls.start({ opacity: 1, transition: { duration: 0.2, ease: 'easeInOut' } });
+    setIsTransitioning(false);
+    setIsAnimatingSearch(false);
   };
 
   const _isSlideFromLeft = isFromAgents || isToAgents;
@@ -176,21 +216,25 @@ function HomeContent() {
           initial={{ opacity: 1 }}
           className="text-3xl sm:text-4xl font-bold tracking-tight lg:text-5xl px-4"
         >
-          What can I help you find?
+          <TypingAnimation startOnView={true}>
+            What can I help you find?
+          </TypingAnimation>
         </motion.h1>
-        <div className="w-full container max-w-3xl space-y-4 px-4 py-3">
+        <div className="w-full container space-y-4 px-4 py-3">
           <motion.div
             ref={searchBarRef}
             animate={barControls}
-            initial={{ width: "90%" }}
+            initial={{ width: "60%" }}
             style={{ zIndex: 40, marginLeft: "auto", marginRight: "auto" }}
           >
-            <SearchInput
+            <motion.div layoutId="global-search">
+              <SearchInput
               value={searchQuery}
               onChange={setSearchQuery}
               onSubmit={() => handleSearch(new Event("submit") as unknown as React.FormEvent)}
               disabled={isAnimatingSearch}
             />
+            </motion.div>
           </motion.div>
           <motion.div
             animate={contentControls}
@@ -216,8 +260,6 @@ function HomeContent() {
           </motion.div>
         </div>
       </section>
-
-      {/* Popular Agents */}
       <motion.section className="mb-12 px-4" animate={contentControls} initial={{ opacity: 1 }}>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl sm:text-2xl font-semibold tracking-tight">Popular Agents</h2>
