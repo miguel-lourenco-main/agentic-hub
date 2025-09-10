@@ -94,6 +94,7 @@ function HomeContent() {
   const barControls = useAnimation();
   const contentControls = useAnimation();
   const { setQuery: setGlobalQuery } = useSearchUI();
+  const titleControls = useAnimation();
 
   useEffect(() => {
     if (isFromAgents) {      
@@ -142,26 +143,11 @@ function HomeContent() {
     const desiredTop = 12; // px offset from the top of the viewport
     const deltaY = rect ? -(rect.top - desiredTop) : -80;
 
-    await Promise.all([
-      contentControls.start({ opacity: 0, transition: { duration: 0.2, ease: 'easeInOut' } }),
-      barControls.start({ y: deltaY, width: "100%", transition: { duration: 1, ease: [0.30, 1, 0.45, 1] } }),
-    ]);
+    void contentControls.start({ opacity: 0, transition: { duration: 0.2, ease: 'easeInOut' } });
+    await titleControls.start({ opacity: 0, transition: { duration: 0.1, ease: 'easeInOut' } });
+    await barControls.start({ y: deltaY, width: "100%", transition: { duration: 1, ease: [0.30, 1, 0.45, 1] } });
 
     router.push(`/agents?query=${encodeURIComponent(query)}`);
-  };
-
-  const handleAnimateOnly = async () => {
-    if (isAnimatingSearch) return;
-    // Do the same animation as submit but do not navigate
-    setIsAnimatingSearch(true);
-    const rect = searchBarRef.current?.getBoundingClientRect();
-    const desiredTop = 16;
-    const deltaY = rect ? -(rect.top - desiredTop) : -80;
-
-    await Promise.all([
-      contentControls.start({ opacity: 0, transition: { duration: 0.2, ease: 'easeInOut' } }),
-      barControls.start({ y: deltaY, width: "100%", transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } }),
-    ]);
   };
 
   const handleSuggestionClick = (suggestion: string) => {
@@ -173,7 +159,7 @@ function HomeContent() {
 
   return (
     <motion.main
-      className="container mx-auto max-w-5xl space-y-8 py-6"
+      className="flex h-full flex-col justify-center container mx-auto max-w-5xl space-y-8 py-6"
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: -100, opacity: 0 }}
@@ -227,11 +213,6 @@ function HomeContent() {
                 <span>{text}</span>
               </button>
             ))}
-          </motion.div>
-          <motion.div animate={contentControls} initial={{ opacity: 1 }} className="flex justify-center pt-2">
-            <Button variant="outline" size="sm" onClick={handleAnimateOnly} disabled={isAnimatingSearch}>
-              Test animation (no nav)
-            </Button>
           </motion.div>
         </div>
       </section>

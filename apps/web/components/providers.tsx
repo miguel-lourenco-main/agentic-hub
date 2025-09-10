@@ -15,8 +15,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
       enableColorScheme
     >
       <SearchUIProvider>
-        <GlobalSearchBar />
-        {children}
+        <div className=" flex flex-col relative h-full overflow-y-auto">
+          <GlobalSearchBar />
+          {children}
+        </div>
       </SearchUIProvider>
     </NextThemesProvider>
   )
