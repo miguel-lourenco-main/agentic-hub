@@ -76,7 +76,7 @@ export function SearchResults({ query }: { query: string }) {
 
       setSearchResults(results);
       setIsLoading(false);
-    }, 1500); // Simulate search delay
+    }, 150); // Tiny delay to allow header animation to complete smoothly
 
     return () => clearTimeout(timer);
   }, [query]);

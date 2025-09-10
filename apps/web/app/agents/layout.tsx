@@ -43,8 +43,6 @@ export default function AgentsLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Suspense>
-      <AgentsLayoutContent>{children}</AgentsLayoutContent>
-    </Suspense>
+    <AgentsLayoutContent>{children}</AgentsLayoutContent>
   );
 } 

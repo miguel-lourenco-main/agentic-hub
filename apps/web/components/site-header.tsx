@@ -12,19 +12,20 @@ import { useEffect } from "react";
 export function SiteHeader() {
   const pathname = usePathname();
   const showSearch = /^\/agents\/?$/.test(pathname ?? "");
-  const { isTransitioning } = useSearchUI();
+  const { isTransitioning, setIsTransitioning } = useSearchUI();
   const hasSearchSlot = showSearch || isTransitioning;
 
   // When we arrive on /agents, keep the slot pinned until first paint, then clear transition
   useEffect(() => {
-    if (!showSearch) return;
-    const id = requestAnimationFrame(() => {
-      // Clear the transition flag only after /agents header is mounted
-      // Note: we cannot access setter here, so the flag remains true; header being stable avoids width flicker
-      // If needed later, we can expose a reset via context.
-    });
+    if (!showSearch) {
+      // If we're not on /agents, ensure header returns to normal
+      setIsTransitioning(false);
+      return;
+    }
+    // On /agents, clear transition flag on the first paint to return to normal header layout
+    const id = requestAnimationFrame(() => setIsTransitioning(false));
     return () => cancelAnimationFrame(id);
-  }, [showSearch]);
+  }, [showSearch, setIsTransitioning]);
 
   return (
     <motion.header

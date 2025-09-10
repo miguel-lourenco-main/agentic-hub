@@ -1,97 +1,32 @@
-import Link from "next/link";
-import { agents } from "@/data/agents";
-import { categories } from "@/data/categories";
-import { AgentCard } from "@/components/agents/agent-card";
-import { CategoryTag } from "@/components/agents/category-tag";
-import { ScrollableList } from "@workspace/ui/components/scrollable-list";
-import { AnimatedResults } from "@/components/agents/animated-results";
-import { AnimatedSection } from "@/components/agents/animated-section";
+import nextDynamic from "next/dynamic";
 
 export const runtime = 'edge'
 export const dynamic = 'force-dynamic';
+
+const AnimatedResults = nextDynamic(() => import("@/components/agents/animated-results").then(m => m.AnimatedResults), { ssr: false, loading: () => null });
+const CategoriesSection = nextDynamic(() => import("@/components/agents/categories-section").then(m => m.CategoriesSection), { ssr: false, loading: () => null });
+const FeaturedByCategorySection = nextDynamic(() => import("@/components/agents/featured-by-category-section").then(m => m.FeaturedByCategorySection), { ssr: false, loading: () => null });
+const AllAgentsGridSection = nextDynamic(() => import("@/components/agents/all-agents-grid-section").then(m => m.AllAgentsGridSection), { ssr: false, loading: () => null });
 
 export default function AgentsPage({
   searchParams,
 }: {
   searchParams?: { query?: string };
 }) {
-  // Get featured agents for each category
-  const getFeaturedAgentsForCategory = (categoryName: string) => {
-    return agents.filter(agent => agent.category === categoryName);
-  };
-
   const query = (searchParams?.query || "").trim();
   return (
     <main className="container mx-auto py-6 px-4 pb-24">
-      {/* Search Results (animated) */}
+      {/* Search Results (animated, code-split) */}
       <AnimatedResults query={query} />
 
-      {/* Categories */}
-      <AnimatedSection className="mb-16">
-        <h2 className="text-2xl font-semibold tracking-tight mb-4">
-          Categories
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          {categories.map((category, index) => (
-            <CategoryTag key={category.name} category={category} index={index} />
-          ))}
-        </div>
-      </AnimatedSection>
+      {/* Categories (code-split) */}
+      <CategoriesSection />
 
-      {/* Featured Agents by Category */}
-      {categories.slice(1).map((category, categoryIndex) => {
-        const featuredAgents = getFeaturedAgentsForCategory(category.name);
-        if (featuredAgents.length === 0) return null;
+      {/* Featured by Category (code-split) */}
+      <FeaturedByCategorySection />
 
-        return (
-          <AnimatedSection as="section" key={category.name} className="mb-16">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-2xl font-semibold tracking-tight">
-                  {category.name}
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                  {category.description}
-                </p>
-              </div>
-              <Link
-                href={`/agents/category/${category.name.toLowerCase().replace(" ", "-")}`}
-                className="text-sm text-muted-foreground hover:text-foreground"
-              >
-                View all →
-              </Link>
-            </div>
-            <ScrollableList className="mx-4">
-              {featuredAgents.map((agent, index) => (
-                <AgentCard
-                  key={agent.id}
-                  agent={agent}
-                  index={index}
-                  categoryIndex={categoryIndex}
-                  variant="row"
-                />
-              ))}
-            </ScrollableList>
-          </AnimatedSection>
-        );
-      })}
-
-      {/* All Agents Grid */}
-      <AnimatedSection as="section" className="mb-16">
-        <h2 className="text-2xl font-semibold tracking-tight mb-6">
-          All Agents
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ml-[2rem]">
-          {agents.map((agent, index) => (
-            <AgentCard
-              key={agent.id}
-              agent={agent}
-              index={index}
-              variant="grid"
-            />
-          ))}
-        </div>
-      </AnimatedSection>
+      {/* All Agents grid (code-split) */}
+      <AllAgentsGridSection />
     </main>
   );
 } 
