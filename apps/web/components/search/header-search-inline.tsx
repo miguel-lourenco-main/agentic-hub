@@ -1,13 +1,26 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { SearchInput } from "@/components/search-input";
 import { useSearchUI } from "@/components/search/search-context";
 
 export function HeaderSearchInline() {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { query, setQuery, isTransitioning } = useSearchUI();
+
+  // Keep input value in sync with /agents?query=...
+  useEffect(() => {
+    // Only care on the agents route
+    if (!pathname || !/^\/agents\/?$/.test(pathname)) return;
+    const currentQuery = searchParams?.get("query") || "";
+    if (currentQuery && currentQuery !== query) {
+      setQuery(currentQuery);
+    }
+  }, [pathname, searchParams, setQuery]);
 
   const handleSubmit = () => {
     const q = query.trim();

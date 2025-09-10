@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { CircleDollarSign } from "lucide-react";
-import { Button } from "@workspace/ui/components/button";
-import { Card } from "@workspace/ui/components/card";
-import { DynamicIcon } from "@workspace/ui/components/dynamic-icon";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { DynamicIcon } from "@/components/ui/dynamic-icon";
 import type { Agent } from "@/lib/interfaces";
 import { cn } from "@/lib/utils";
 

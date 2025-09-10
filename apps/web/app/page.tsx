@@ -16,10 +16,10 @@ import {
   Megaphone,
   Languages,
 } from "lucide-react";
-import { Button } from "@workspace/ui/components/button";
-import { Input } from "@workspace/ui/components/input";
-import { Card } from "@workspace/ui/components/card";
-import { cn } from "@workspace/ui/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import { TypingAnimation } from "@/components/typing-text";
 
@@ -248,7 +248,7 @@ function HomeContent() {
                 className={cn(
                   "inline-flex items-center rounded-md border border-transparent",
                   "px-3 py-1 text-sm transition-all duration-300",
-                  "bg-muted/50 text-muted-foreground",
+                  "bg-muted/50 text-foreground/85",
                   "hover:bg-opacity-100 hover:text-foreground",
                   bgColor
                 )}

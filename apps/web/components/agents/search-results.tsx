@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { agents } from "@/data/agents";
 import { AgentCard } from "@/components/agents/agent-card";
-import { Skeleton } from "@workspace/ui/components/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function SearchResultsSkeleton({query}: {query: string}) {
   return (

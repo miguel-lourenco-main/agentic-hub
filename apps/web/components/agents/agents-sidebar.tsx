@@ -11,7 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-} from "@workspace/ui/components/sidebar";
+} from "@/components/ui/sidebar";
 import { Agent } from "@/lib/interfaces";
 import { agents as availableAgents } from "@/data/agents";
 

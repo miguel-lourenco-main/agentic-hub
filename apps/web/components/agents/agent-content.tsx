@@ -1,23 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Bot, Wallet, Sparkles } from "lucide-react";
+import { Bot, Wallet, Sparkles, ArrowLeft } from "lucide-react";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@workspace/ui/components/card";
+} from "@/components/ui/card";
 import { ReviewsSection } from "@/components/reviews/reviews-section";
-import { StarRating } from "@workspace/ui/components/star-rating";
-import { Button } from "@workspace/ui/components/button";
+import { StarRating } from "@/components/ui/star-rating";
+import { Button } from "@/components/ui/button";
 import { AgentMetrics } from "@/components/agents/agent-metrics";
 import { HireDialog } from "@/components/agents/hire-dialog";
 import { InvestDialog } from "@/components/agents/invest-dialog";
 import type { Agent } from "@/lib/interfaces";
+import { useRouter } from "next/navigation";
 
 interface AgentContentProps {
   agent: Agent;
@@ -30,8 +31,13 @@ interface AgentContentProps {
 }
 
 export function AgentContent({ agent, metricsData }: AgentContentProps) {
+  const router = useRouter();
   return (
-    <main className="container mx-auto p-6 mb-48">
+    <main className="container max-w-6xl mx-auto p-6 mb-48">
+      <div className="flex items-center gap-2 mb-6 cursor-pointer" onClick={() => router.back()}>
+        <ArrowLeft className="h-8 w-8" />
+        <span className="text-sm font-medium">Back</span>
+      </div>
       {/* Agent Header */}
       <motion.div
         initial={{ opacity: 0, x: 100 }}

@@ -10,7 +10,7 @@ import {
   SidebarMenuButton,
   SidebarRail,
   SidebarFooter,
-} from "@workspace/ui/components/sidebar"
+} from "@/components/ui/sidebar"
 import { Logo } from "@/components/logo"
 import { AgentsSidebar } from "./agents/agents-sidebar"
 import { NavUser } from "./nav-user"

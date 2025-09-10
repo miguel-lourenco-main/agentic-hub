@@ -45,7 +45,7 @@ export function SiteHeader() {
             </motion.div>
           </div>
         ) : (
-          <div className={cn("flex w-full items-center justify-between", !pathname.startsWith("/agents") && "max-w-5xl mx-auto")}>
+          <div className={cn("flex w-full items-center justify-between", pathname !== "/agents" && "max-w-7xl mx-auto")}>
             <AppLogo size={42} />
             <motion.div layout>
               <ThemeToggle />

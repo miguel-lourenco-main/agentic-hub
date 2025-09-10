@@ -30,7 +30,8 @@ export function GlobalSearchBar() {
   }, []);
 
   useEffect(() => {
-    if (pathname?.startsWith("/agents")) {
+    log("pathname changed", { pathname, shouldBeVisible });
+    if (shouldBeVisible) {
       const currentQuery = searchParams?.get("query") || "";
       if (currentQuery && currentQuery !== query) {
         setQuery(currentQuery);

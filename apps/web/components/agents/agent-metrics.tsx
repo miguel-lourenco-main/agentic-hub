@@ -6,7 +6,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@workspace/ui/components/card";
+} from "@/components/ui/card";
 import { MetricsData } from "@/lib/interfaces";
 
 export function AgentMetrics({ data }: { data: MetricsData }) {

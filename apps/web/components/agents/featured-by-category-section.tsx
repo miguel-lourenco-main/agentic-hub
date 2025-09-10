@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { AnimatedSection } from "@/components/agents/animated-section";
-import { ScrollableList } from "@workspace/ui/components/scrollable-list";
+import { ScrollableList } from "@/components/ui/scrollable-list";
 import { AgentCard } from "@/components/agents/agent-card";
 import { categories } from "@/data/categories";
 import { agents } from "@/data/agents";
