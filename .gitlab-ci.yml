@@ -29,6 +29,7 @@ build:pages:
     - cd ../..
     - rm -rf public && mkdir -p public
     - cp -r apps/web/out/* public
+    - touch public/.nojekyll
   artifacts:
     paths:
       - public
