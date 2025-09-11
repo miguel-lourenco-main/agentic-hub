@@ -10,11 +10,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --check \"**/*.{js,cjs,mjs,ts,tsx,md,json}\"",
-    "typecheck": "tsc --noEmit",
-    "export": "next build && next export",
-    "cloudflare:build": "pnpm dlx @cloudflare/next-on-pages",
-    "cloudflare:preview": "CLOUDFLARE_PROJECT_NAME=agentichub pnpm dlx wrangler pages dev",
-    "cloudflare:deploy": "CLOUDFLARE_PROJECT_NAME=agentichub pnpm dlx wrangler pages deploy --branch main"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.2",
