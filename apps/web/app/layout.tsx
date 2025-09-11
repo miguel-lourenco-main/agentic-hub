@@ -11,6 +11,32 @@ const inter = Inter({
 export const metadata = {
   title: "AI Agent Marketplace",
   description: "A decentralized marketplace for AI agents",
+  manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/icon-64x64.png', type: 'image/png', sizes: '64x64' },
+      { url: '/icon-128x128.png', type: 'image/png', sizes: '128x128' },
+    ],
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '192x192',
+        url: '/icon-192x192.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '512x512',
+        url: '/icon-512x512.png',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

@@ -17,7 +17,6 @@ import {
   Languages,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
@@ -163,39 +162,8 @@ function HomeContent() {
     router.push(`/agents?query=${encodeURIComponent(suggestion)}`);
   };
 
-  // DEBUG: Preview the header transition without navigating
-  const handlePreviewTransition = async () => {
-    const rect = searchBarRef.current?.getBoundingClientRect();
-    const desiredTop = 24;
-    const deltaY = rect ? -(rect.top - desiredTop) : -80;
-
-    setIsTransitioning(true);
-    setIsAnimatingSearch(true);
-    void contentControls.start({ opacity: 0.1, transition: { duration: 0.15, ease: 'easeOut' } });
-    await titleControls.start({ opacity: 0.1, transition: { duration: 0.1, ease: 'easeOut' } });
-    await barControls.start({
-      y: deltaY,
-      scale: 1.03,
-      opacity: 0.18,
-      transition: {
-        y: { duration: 0.6, ease: [0.30, 1, 0.45, 1] },
-        scale: { duration: 0.6, ease: [0.30, 1, 0.45, 1] },
-        opacity: { duration: 0.25, ease: 'easeOut' },
-      },
-    });
-
-    // Hold briefly so you can inspect the end state
-    await new Promise((r) => setTimeout(r, 500));
-
-    // Reverse back to original
-    await barControls.start({ y: 0, scale: 1, opacity: 1, transition: { duration: 0.45, ease: [0.30, 1, 0.45, 1] } });
-    void contentControls.start({ opacity: 1, transition: { duration: 0.2, ease: 'easeInOut' } });
-    await titleControls.start({ opacity: 1, transition: { duration: 0.2, ease: 'easeInOut' } });
-    setIsTransitioning(false);
-    setIsAnimatingSearch(false);
-  };
-
-  const _isSlideFromLeft = isFromAgents || isToAgents;
+  // no-op referencing to avoid unused warnings during future toggles
+  void isToAgents;
 
   return (
     <motion.main

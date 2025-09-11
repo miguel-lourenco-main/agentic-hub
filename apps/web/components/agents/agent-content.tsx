@@ -33,7 +33,7 @@ interface AgentContentProps {
 export function AgentContent({ agent, metricsData }: AgentContentProps) {
   const router = useRouter();
   return (
-    <main className="container max-w-6xl mx-auto p-6 mb-48">
+    <main className="container max-w-6xl mx-auto p-6">
       <div className="flex items-center gap-2 mb-6 cursor-pointer" onClick={() => router.back()}>
         <ArrowLeft className="h-8 w-8" />
         <span className="text-sm font-medium">Back</span>

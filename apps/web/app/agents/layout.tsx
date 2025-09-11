@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Suspense, useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 
 function AgentsLayoutContent({
   children,

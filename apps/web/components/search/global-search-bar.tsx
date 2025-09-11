@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { motion, useMotionValue, useMotionValueEvent } from "framer-motion";
-import { cn, log } from "@/lib/utils";
+import { log } from "@/lib/utils";
 import { SearchInput } from "@/components/search-input";
 import { useSearchUI } from "@/components/search/search-context";
 
