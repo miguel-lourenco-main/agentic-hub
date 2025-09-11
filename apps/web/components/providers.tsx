@@ -3,7 +3,8 @@
 import * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
 import { SearchUIProvider } from "@/components/search/search-context"
-import { SiteHeader } from "@/components/site-header"
+import dynamic from "next/dynamic"
+const SiteHeader = dynamic(() => import("@/components/site-header").then(m => m.SiteHeader), { ssr: false })
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (

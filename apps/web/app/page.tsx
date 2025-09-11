@@ -87,8 +87,8 @@ const searchSuggestions = [
 function HomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const isFromAgents = searchParams.get('from') === 'agents';
-  const isToAgents = searchParams.get('to') === 'agents';
+  const isFromAgents = searchParams?.get('from') === 'agents';
+  const isToAgents = searchParams?.get('to') === 'agents';
   const [searchQuery, setSearchQuery] = useState('');
   const [isAnimatingSearch, setIsAnimatingSearch] = useState(false);
   const searchBarRef = useRef<HTMLDivElement | null>(null);

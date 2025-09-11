@@ -14,7 +14,7 @@ import { withBasePath } from "@/lib/base-path";
 
 export function Breadcrumbs() {
   const pathname = usePathname();
-  const segments = pathname.split("/").filter(Boolean);
+  const segments = (pathname ?? "").split("/").filter(Boolean);
 
   // If we're on the homepage, show a single breadcrumb
   if (segments.length === 0) {

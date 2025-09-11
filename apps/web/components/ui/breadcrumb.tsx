@@ -110,7 +110,7 @@ BreadcrumbEllipsis.displayName = "BreadcrumbEllipsis"
 
 function Breadcrumbs() {
   const pathname = usePathname();
-  const segments = pathname.split("/").filter(Boolean);
+  const segments = (pathname ?? "").split("/").filter(Boolean);
 
   if (segments.length === 0) {
     return (

@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { SearchInput } from "@/components/search-input";
 import { useSearchUI } from "@/components/search/search-context";
+import { stripBasePath, withBasePath } from "@/lib/base-path";
 
 export function HeaderSearchInline() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export function HeaderSearchInline() {
   // Keep input value in sync with /agents?query=...
   useEffect(() => {
     // Only care on the agents route
-    if (!pathname || !/^\/agents\/?$/.test(pathname)) return;
+    if (!pathname || !/^\/agents\/?$/.test(stripBasePath(pathname))) return;
     const currentQuery = searchParams?.get("query") || "";
     if (currentQuery && currentQuery !== query) {
       setQuery(currentQuery);
@@ -25,7 +26,7 @@ export function HeaderSearchInline() {
   const handleSubmit = () => {
     const q = query.trim();
     if (!q) return;
-    router.push(`/agents?query=${encodeURIComponent(q)}`);
+    router.push(withBasePath(`/agents?query=${encodeURIComponent(q)}`));
   };
 
   return (

@@ -13,7 +13,7 @@ export function GlobalSearchBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { query, setQuery } = useSearchUI();
-  const shouldBeVisible = pathname?.startsWith(withBasePath("/agents")) ?? false;
+  const shouldBeVisible = (pathname ?? "").startsWith(withBasePath("/agents"));
 
   // Scroll-hide configuration: hide after X px down, show after X/4 px up
   const HIDE_THRESHOLD = 800;

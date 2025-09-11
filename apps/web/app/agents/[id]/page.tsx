@@ -1,4 +1,4 @@
-"use server";
+// Static export compatible page
 
 import { notFound } from "next/navigation";
 import { AgentContent } from "@/components/agents/agent-content";
@@ -12,14 +12,12 @@ const metricsData = {
   avgResponseTime: { total: 0.8, change: -5.1 },
 };
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function generateStaticParams() {
   return agents.map((agent) => ({
     id: agent.id,
   }));
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export default async function AgentPage({ params }: { params: { id: string } }) {
   const agent = agents.find(a => a.id === params.id);
 
