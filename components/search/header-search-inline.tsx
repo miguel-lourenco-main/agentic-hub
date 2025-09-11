@@ -23,9 +23,29 @@ export function HeaderSearchInline() {
     }
   }, [pathname, searchParams, setQuery]);
 
+  // Hydrate from cookie if no URL query present (static export refresh cases)
+  useEffect(() => {
+    if (!pathname || !/^\/agents\/?$/.test(stripBasePath(pathname))) return;
+    const hasUrl = !!(searchParams?.get("query") || "").trim();
+    if (hasUrl || query.trim()) return;
+    if (typeof document === "undefined") return;
+    const m = document.cookie.match(/(?:^|; )search_query=([^;]*)/);
+    if (m && m[1]) {
+      try {
+        setQuery(decodeURIComponent(m[1]));
+      } catch {
+        setQuery(m[1]);
+      }
+    }
+  }, [pathname, searchParams, query, setQuery]);
+
   const handleSubmit = () => {
     const q = query.trim();
     if (!q) return;
+    // Persist to cookie for static export navigation/refresh
+    try {
+      document.cookie = `search_query=${encodeURIComponent(q)}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
+    } catch {}
     router.push(withBasePath(`/agents?query=${encodeURIComponent(q)}`));
   };
 

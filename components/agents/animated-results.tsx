@@ -2,9 +2,28 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { SearchResults } from "@/components/agents/search-results";
+import { useSearchParams } from "next/navigation";
+import { useSearchUI } from "@/components/search/search-context";
 
 export function AnimatedResults({ query }: { query?: string }) {
-  const q = (query || "").trim();
+  const searchParams = useSearchParams();
+  const { query: ctxQuery } = useSearchUI();
+  const urlQuery = (searchParams?.get("query") || "").trim();
+  let q = (query || ctxQuery || urlQuery || "").trim();
+
+  // Optional cookie fallback if URL/context are empty (e.g., static export refresh)
+  if (!q && typeof document !== "undefined") {
+    const m = document.cookie.match(/(?:^|; )search_query=([^;]*)/);
+    if (m && m[1]) {
+      try {
+        q = decodeURIComponent(m[1]);
+      } catch {
+        q = m[1];
+      }
+      q = (q || "").trim();
+    }
+  }
+
   const hasQuery = q.length > 0;
 
   return (

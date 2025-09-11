@@ -6,14 +6,14 @@ import { motion, useMotionValue, useMotionValueEvent } from "framer-motion";
 import { log } from "@/lib/utils";
 import { SearchInput } from "@/components/search-input";
 import { useSearchUI } from "@/components/search/search-context";
-import { withBasePath } from "@/lib/base-path";
+import { stripBasePath, withBasePath } from "@/lib/base-path";
 
 export function GlobalSearchBar() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { query, setQuery } = useSearchUI();
-  const shouldBeVisible = (pathname ?? "").startsWith(withBasePath("/agents"));
+  const shouldBeVisible = /^\/agents\/?$/.test(stripBasePath(pathname ?? ""));
 
   // Scroll-hide configuration: hide after X px down, show after X/4 px up
   const HIDE_THRESHOLD = 800;
@@ -36,9 +36,21 @@ export function GlobalSearchBar() {
       const currentQuery = searchParams?.get("query") || "";
       if (currentQuery && currentQuery !== query) {
         setQuery(currentQuery);
+        return;
+      }
+      // Hydrate from cookie if URL lacks query
+      if (!currentQuery && typeof document !== "undefined") {
+        const m = document.cookie.match(/(?:^|; )search_query=([^;]*)/);
+        if (m && m[1]) {
+          try {
+            setQuery(decodeURIComponent(m[1]));
+          } catch {
+            setQuery(m[1]);
+          }
+        }
       }
     }
-  }, [pathname, searchParams, setQuery]);
+  }, [pathname, searchParams, setQuery, shouldBeVisible, query]);
 
   // Find scroll container and reset state on route change to agents (or mount)
   useEffect(() => {
