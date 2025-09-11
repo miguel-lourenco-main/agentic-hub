@@ -24,7 +24,7 @@ build:pages:
   stage: build
   script:
     - cd apps/web
-    - pnpm install --frozen-lockfile
+    - pnpm install --no-frozen-lockfile
     - pnpm export
     - cd ../..
     - rm -rf public && mkdir -p public
