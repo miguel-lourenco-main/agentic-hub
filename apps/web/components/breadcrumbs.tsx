@@ -10,6 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { withBasePath } from "@/lib/base-path";
 
 export function Breadcrumbs() {
   const pathname = usePathname();
@@ -33,7 +34,7 @@ export function Breadcrumbs() {
       <BreadcrumbList>
         <BreadcrumbItem className="hidden md:inline-flex">
           <BreadcrumbLink
-            href="/"
+            href={withBasePath("/")}
             className="hover:text-foreground transition-colors"
           >
             Home
@@ -56,7 +57,7 @@ export function Breadcrumbs() {
                 <BreadcrumbSeparator className="hidden md:inline-flex" />
                 <BreadcrumbItem className="md:hidden">
                   <BreadcrumbLink
-                    href="/"
+                    href={withBasePath("/")}
                     className="hover:text-foreground transition-colors"
                   >
                     ...

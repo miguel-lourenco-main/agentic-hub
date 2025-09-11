@@ -8,10 +8,11 @@ import { HeaderSearchInline } from "@/components/search/header-search-inline";
 import { cn } from "@/lib/utils";
 import { useSearchUI } from "@/components/search/search-context";
 import { useEffect } from "react";
+import { stripBasePath } from "@/lib/base-path";
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const showSearch = /^\/agents\/?$/.test(pathname ?? "");
+  const showSearch = /^\/agents\/?$/.test(stripBasePath(pathname ?? ""));
   const { isTransitioning, setIsTransitioning } = useSearchUI();
   const hasSearchSlot = showSearch || isTransitioning;
 
@@ -45,7 +46,7 @@ export function SiteHeader() {
             </motion.div>
           </div>
         ) : (
-          <div className={cn("flex w-full items-center justify-between", pathname !== "/agents" && "max-w-7xl mx-auto")}>
+          <div className={cn("flex w-full items-center justify-between", stripBasePath(pathname ?? "") !== "/agents" && "max-w-7xl mx-auto")}>
             <AppLogo size={42} />
             <motion.div layout>
               <ThemeToggle />

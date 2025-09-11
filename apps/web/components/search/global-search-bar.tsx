@@ -6,13 +6,14 @@ import { motion, useMotionValue, useMotionValueEvent } from "framer-motion";
 import { log } from "@/lib/utils";
 import { SearchInput } from "@/components/search-input";
 import { useSearchUI } from "@/components/search/search-context";
+import { withBasePath } from "@/lib/base-path";
 
 export function GlobalSearchBar() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { query, setQuery } = useSearchUI();
-  const shouldBeVisible = pathname?.startsWith("/agents") ?? false;
+  const shouldBeVisible = pathname?.startsWith(withBasePath("/agents")) ?? false;
 
   // Scroll-hide configuration: hide after X px down, show after X/4 px up
   const HIDE_THRESHOLD = 800;
@@ -228,7 +229,7 @@ export function GlobalSearchBar() {
   const handleSubmit = () => {
     const q = query.trim();
     if (!q) return;
-    router.push(`/agents?query=${encodeURIComponent(q)}`);
+    router.push(withBasePath(`/agents?query=${encodeURIComponent(q)}`));
   };
 
   if (!shouldBeVisible) return null;

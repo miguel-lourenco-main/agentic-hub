@@ -1,0 +1,50 @@
+image: node:20-alpine
+
+variables:
+  PNPM_HOME: "/root/.local/share/pnpm"
+  NEXT_PUBLIC_BASE_PATH: "/$CI_PROJECT_NAME"
+  # GitLab Pages requires the artifacts to be placed in ./public
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .pnpm-store
+
+before_script:
+  - corepack enable
+  - corepack prepare pnpm@9.12.3 --activate
+  - pnpm config set store-dir .pnpm-store
+  - pnpm -v
+
+stages:
+  - build
+  - deploy
+
+build:pages:
+  stage: build
+  script:
+    - pnpm install --frozen-lockfile
+    - cd apps/web
+    - pnpm export
+    - cd ..
+    - mkdir -p ../public
+    - cp -r web/out/* ../public
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 week
+  only:
+    - branches
+
+pages:
+  stage: deploy
+  dependencies:
+    - build:pages
+  script:
+    - echo "Deploying GitLab Pages"
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
+

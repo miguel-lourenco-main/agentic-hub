@@ -21,6 +21,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import { TypingAnimation } from "@/components/typing-text";
+import { withBasePath } from "@/lib/base-path";
 
 // Mock data for popular agents
 const popularAgents = [
@@ -99,14 +100,14 @@ function HomeContent() {
   useEffect(() => {
     if (isFromAgents) {      
       // Replace the current state with the clean URL
-      window.history.replaceState(null, '', '/');
+      window.history.replaceState(null, '', withBasePath('/'));
       
       // Go back and modify the previous entry
       window.history.back();
       
       // Wait for the back navigation to complete
       const handlePop = () => {
-        window.history.replaceState(null, '', '/agents?from=home');
+        window.history.replaceState(null, '', withBasePath('/agents?from=home'));
         window.history.forward();
         window.removeEventListener('popstate', handlePop);
       };
@@ -117,9 +118,9 @@ function HomeContent() {
     const handlePopState = () => {
       const url = window.location.pathname + window.location.search;
       if (url.includes('from=agents')) {
-        router.push('/');
+        router.push(withBasePath('/'));
       } else if (url.includes('to=agents')) {
-        router.push('/agents');
+        router.push(withBasePath('/agents'));
       } else {
         router.push(url);
       }
@@ -154,12 +155,12 @@ function HomeContent() {
         opacity: { duration: 0.25, ease: 'easeOut' },
       },
     });
-    router.push(`/agents?query=${encodeURIComponent(query)}`);
+    router.push(withBasePath(`/agents?query=${encodeURIComponent(query)}`));
   };
 
   const handleSuggestionClick = (suggestion: string) => {
     setSearchQuery(suggestion);
-    router.push(`/agents?query=${encodeURIComponent(suggestion)}`);
+    router.push(withBasePath(`/agents?query=${encodeURIComponent(suggestion)}`));
   };
 
   // no-op referencing to avoid unused warnings during future toggles
@@ -232,7 +233,7 @@ function HomeContent() {
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl sm:text-2xl font-semibold tracking-tight">Popular Agents</h2>
           <Link
-            href="/agents"
+            href={withBasePath('/agents')}
             className="inline-flex items-center text-sm font-medium hover:underline"
           >
             View all agents
@@ -270,7 +271,7 @@ function HomeContent() {
                 <p className="flex-1 lg:flex-none text-sm text-center text-muted-foreground">
                   {agent.description}
                 </p>
-                <Link href={`/agents/${agent.id}`}>
+                <Link href={withBasePath(`/agents/${agent.id}`)}>
                   <Button className="w-full">
                     <ArrowRight className="h-4 w-4 lg:hidden" />
                     <span className="hidden lg:inline">Try this agent</span>
@@ -292,7 +293,7 @@ function HomeContent() {
         ].map((category) => (
           <Link
             key={category.name}
-            href={category.name === "Browse All" ? "/agents" : "/agents/?query=" + category.name}
+            href={category.name === "Browse All" ? withBasePath('/agents') : withBasePath(`/agents/?query=${category.name}`)}
           >
             <Card className="h-full p-4 hover:border-foreground/50 transition-colors" hoverable>
               <h3 className="font-semibold">{category.name}</h3>

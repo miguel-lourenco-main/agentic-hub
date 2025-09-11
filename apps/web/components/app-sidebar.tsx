@@ -14,6 +14,7 @@ import {
 import { Logo } from "@/components/logo"
 import { AgentsSidebar } from "./agents/agents-sidebar"
 import { NavUser } from "./nav-user"
+import { withBasePath } from "@/lib/base-path"
 
 const user = {
   name: "User",
@@ -31,7 +32,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <a href="/agents">
+              <a href={withBasePath("/agents")}>
                 <Bot className="h-4 w-4" />
                 <span>Agents</span>
               </a>

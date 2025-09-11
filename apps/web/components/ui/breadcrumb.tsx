@@ -6,6 +6,7 @@ import { ChevronRight, MoreHorizontal } from "lucide-react"
 import { usePathname } from "next/navigation"
 
 import { cn } from "@/lib/utils"
+import { withBasePath } from "@/lib/base-path"
 
 const Breadcrumb = React.forwardRef<
   HTMLElement,
@@ -128,7 +129,7 @@ function Breadcrumbs() {
       <BreadcrumbList>
         <BreadcrumbItem className="hidden md:inline-flex">
           <BreadcrumbLink
-            href="/"
+            href={withBasePath("/")}
             className="hover:text-foreground transition-colors"
           >
             Home
@@ -150,7 +151,7 @@ function Breadcrumbs() {
                 <BreadcrumbSeparator className="hidden md:inline-flex" />
                 <BreadcrumbItem className="md:hidden">
                   <BreadcrumbLink
-                    href="/"
+                    href={withBasePath("/")}
                     className="hover:text-foreground transition-colors"
                   >
                     ...

@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
+import { withBasePath } from "@/lib/base-path";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -11,29 +12,28 @@ const inter = Inter({
 export const metadata = {
   title: "AI Agent Marketplace",
   description: "A decentralized marketplace for AI agents",
-  manifest: "/manifest.json",
+  manifest: withBasePath("/site.webmanifest"),
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
-      { url: '/icon-64x64.png', type: 'image/png', sizes: '64x64' },
-      { url: '/icon-128x128.png', type: 'image/png', sizes: '128x128' },
+      { url: withBasePath('/favicon.ico'), sizes: 'any' },
+      { url: withBasePath('/favicon-32x32.png'), type: 'image/png', sizes: '32x32' },
+      { url: withBasePath('/favicon-16x16.png'), type: 'image/png', sizes: '16x16' },
     ],
     apple: [
-      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+      { url: withBasePath('/apple-touch-icon.png'), sizes: '180x180', type: 'image/png' },
     ],
     other: [
       {
         rel: 'icon',
         type: 'image/png',
         sizes: '192x192',
-        url: '/icon-192x192.png',
+        url: withBasePath('/android-chrome-192x192.png'),
       },
       {
         rel: 'icon',
         type: 'image/png',
         sizes: '512x512',
-        url: '/icon-512x512.png',
+        url: withBasePath('/android-chrome-512x512.png'),
       },
     ],
   },
