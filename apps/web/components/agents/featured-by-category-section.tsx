@@ -22,7 +22,12 @@ export function FeaturedByCategorySection() {
           <AnimatedSection as="section" key={category.name} className="mb-16">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-2xl font-semibold tracking-tight">{category.name}</h2>
+                <h2 
+                  id={category.name.toLowerCase().replace(/\s+/g, "-")}
+                  className="text-2xl font-semibold tracking-tight scroll-mt-20"
+                >
+                  {category.name}
+                </h2>
                 <p className="text-sm text-muted-foreground">{category.description}</p>
               </div>
               <Link

@@ -21,7 +21,12 @@ export function AllAgentsGridSection() {
 
   return (
     <AnimatedSection as="section" layout={false} className="mb-16">
-      <h2 className="text-2xl font-semibold tracking-tight mb-6">All Agents</h2>
+      <h2 
+        id="all-agents"
+        className="text-2xl font-semibold tracking-tight mb-6 scroll-mt-20"
+      >
+        All Agents
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ml-[2rem]">
         {visibleAgents.map((agent, index) => (
           <AgentCard key={agent.id} agent={agent} index={index} variant="grid" />

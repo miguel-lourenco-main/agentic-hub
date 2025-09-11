@@ -94,7 +94,7 @@ export function InvestDialog({
                   </div>
                 </div>
               </div>
-              <Button className="w-full" onClick={() => setStep(2)}>
+              <Button className="w-full" onClick={() => setStep(2)} disabled={isLoading}>
                 Continue to Investment
               </Button>
             </motion.div>
@@ -141,6 +141,7 @@ export function InvestDialog({
                   variant="outline"
                   className="flex-1"
                   onClick={() => setStep(1)}
+                  disabled={isLoading}
                 >
                   Back
                 </Button>
