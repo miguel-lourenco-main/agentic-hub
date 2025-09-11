@@ -23,12 +23,12 @@ stages:
 build:pages:
   stage: build
   script:
-    - pnpm install --frozen-lockfile
     - cd apps/web
+    - pnpm install --frozen-lockfile
     - pnpm export
-    - cd ..
-    - mkdir -p ../public
-    - cp -r web/out/* ../public
+    - cd ../..
+    - rm -rf public && mkdir -p public
+    - cp -r apps/web/out/* public
   artifacts:
     paths:
       - public
