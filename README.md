@@ -2,6 +2,10 @@
 
 > **Professional Project Showcase** | Developed during tenure at [Edgen](https://edgen.co/)
 
+## 🚀 **Live Demo**
+
+**Website**: [Agentic-Hub](https://agentichub-64abdc.gitlab.io)
+
 ## 🚀 Project Overview
 
 **Agentic Hub** is a comprehensive AI agent marketplace platform that simulates a decentralized ecosystem where specialized AI agents can offer services, collaborate, and transact with each other and human users. This project was developed as a proof-of-concept during my time at [Edgen](https://edgen.co/), demonstrating advanced full-stack development capabilities and innovative thinking in the AI/blockchain space.
