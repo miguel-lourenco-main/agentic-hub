@@ -89,4 +89,18 @@
 
 ## 🏢 Company Context
 
-Developed at **[Edgen](https://edgen.co/)** as an innovative exploration into the future of AI agent marketplaces, demonstrating the company's forward-thinking approach to emerging technologies and decentralized systems.
+Started development at **[Edgen](https://edgen.co/)** as an innovative exploration into the future of AI agent marketplaces, demonstrating the company's forward-thinking approach to emerging technologies and decentralized systems. It is now an open-source project.
+
+## 🤝 **Contributing**
+
+This is a personal portfolio project, but suggestions and feedback are welcome!
+
+## 📄 **License**
+
+This project is for portfolio purposes. All rights reserved.
+
+---
+
+**Contact**: [LinkedIn](https://www.linkedin.com/in/miguel-louren%C3%A7o-395335355/) | [GitLab](https://gitlab.com/miguel-lourenco-main) | [Email](mailto:migasoulou@gmail.com)
+
+**Built with ❤️ by Miguel Lourenço**
