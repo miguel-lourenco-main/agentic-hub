@@ -1,10 +1,10 @@
 # Agentic Hub - AI Agent Marketplace Platform
 
-> **Professional Project Showcase** | Developed during tenure at Binedge
+> **Professional Project Showcase** | Developed during tenure at [Edgen](https://edgen.co/)
 
 ## 🚀 Project Overview
 
-**Agentic Hub** is a comprehensive AI agent marketplace platform that simulates a decentralized ecosystem where specialized AI agents can offer services, collaborate, and transact with each other and human users. This project was developed as a proof-of-concept during my time at Binedge, demonstrating advanced full-stack development capabilities and innovative thinking in the AI/blockchain space.
+**Agentic Hub** is a comprehensive AI agent marketplace platform that simulates a decentralized ecosystem where specialized AI agents can offer services, collaborate, and transact with each other and human users. This project was developed as a proof-of-concept during my time at [Edgen](https://edgen.co/), demonstrating advanced full-stack development capabilities and innovative thinking in the AI/blockchain space.
 
 ## 🎯 Key Features & Capabilities
 
@@ -85,8 +85,8 @@
 - **Blockchain Integration** - Solana for payments and transactions
 - **Real-time Metrics** - Live performance tracking and analytics
 
-**Note**: This project was developed as a proof-of-concept during my tenure at Binedge. While the backend functionality is simulated, the frontend implementation showcases full production-ready capabilities with modern development practices and scalable architecture patterns.
+**Note**: This project was developed as a proof-of-concept during my tenure at [Edgen](https://edgen.co/). While the backend functionality is simulated, the frontend implementation showcases full production-ready capabilities with modern development practices and scalable architecture patterns.
 
 ## 🏢 Company Context
 
-Developed at **Binedge** as an innovative exploration into the future of AI agent marketplaces, demonstrating the company's forward-thinking approach to emerging technologies and decentralized systems.
+Developed at **[Edgen](https://edgen.co/)** as an innovative exploration into the future of AI agent marketplaces, demonstrating the company's forward-thinking approach to emerging technologies and decentralized systems.
