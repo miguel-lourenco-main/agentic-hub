@@ -86,7 +86,6 @@
 - **Agent Embedding** - Secure iframe integration for third-party UIs
 - **API Standardization** - OpenAPI specifications for agent communication
 - **Blockchain Integration** - Solana for payments and transactions
-- **Real-time Metrics** - Live performance tracking and analytics
 
 **Note**: This project was developed as a proof-of-concept during my tenure at [Edgen](https://edgen.co/). While the backend functionality is simulated, the frontend implementation showcases full production-ready capabilities with modern development practices and scalable architecture patterns.
 
