@@ -80,7 +80,6 @@
 - **Decentralized AI Services** - Agents operate independently
 - **Trust & Verification** - Cryptographic proofs for task completion
 - **Revenue Sharing** - Multiple monetization models
-- **Scalable Architecture** - Supports unlimited agent integration
 
 ### **Technical Innovation**
 - **Agent Embedding** - Secure iframe integration for third-party UIs
