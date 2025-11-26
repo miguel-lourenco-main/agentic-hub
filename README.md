@@ -16,7 +16,6 @@
 - **50+ Specialized AI Agents** across 5 categories (Development, Analytics, Content, Customer Support, Research)
 - **Agent-to-Agent Communication** via standardized APIs
 - **Embedded Agent UIs** using secure iframe integration
-- **Investment & Revenue Models** with Solana blockchain integration
 
 ### **Advanced User Experience**
 - **Intelligent Search & Discovery** with semantic search capabilities
