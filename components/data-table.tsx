@@ -2,24 +2,22 @@
 
 import React, { useState, useMemo } from 'react';
 
+/** Defines the structure of a column in the data table, including key, label, and optional properties for sorting and rendering. */
 export interface TableColumn<T> {
   key: keyof T;
   label: string;
   sortable?: boolean;
   render?: (value: any, row: T) => React.ReactNode;
 }
+/** Defines the properties for the DataTable component, including data, columns, page size, and search options. */
 
 export interface DataTableProps<T> {
   data: T[];
-  /**
- * Renders a data table with sorting, searching, and pagination features.
- *
- * @returns {JSX.Element} The rendered data table component.
- */
   columns: TableColumn<T>[];
   pageSize?: number;
   searchable?: boolean;
   searchFields?: (keyof T)[];
+/** Renders a data table with pagination, sorting, and optional search functionality. Accepts data and configuration through props. */
 }
 
 export function DataTable<T extends Record<string, any>>({
@@ -69,13 +67,6 @@ export function DataTable<T extends Record<string, any>>({
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
   const handleSort = (column: keyof T) => {
-    /**
- * Handles the sorting logic for table columns.
- *
- * @param {string} columnKey - The key of the column to sort by.
- * @param {boolean} ascending - Indicates if the sort should be ascending.
- * @returns {void}
- */
     if (sortColumn === column) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
@@ -84,12 +75,6 @@ export function DataTable<T extends Record<string, any>>({
     }
   };
 
-  /**
- * Handles pagination logic by updating the current page.
- *
- * @param {number} newPage - The new page number to be set.
- * @returns {void}
- */
   const handlePageChange = (page: number) => {
     setCurrentPage(Math.max(1, Math.min(page, totalPages)));
   };
