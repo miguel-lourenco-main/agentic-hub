@@ -11,6 +11,11 @@ export interface TableColumn<T> {
 
 export interface DataTableProps<T> {
   data: T[];
+  /**
+ * Renders a data table with sorting, searching, and pagination features.
+ *
+ * @returns {JSX.Element} The rendered data table component.
+ */
   columns: TableColumn<T>[];
   pageSize?: number;
   searchable?: boolean;
@@ -64,6 +69,13 @@ export function DataTable<T extends Record<string, any>>({
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
   const handleSort = (column: keyof T) => {
+    /**
+ * Handles the sorting logic for table columns.
+ *
+ * @param {string} columnKey - The key of the column to sort by.
+ * @param {boolean} ascending - Indicates if the sort should be ascending.
+ * @returns {void}
+ */
     if (sortColumn === column) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
@@ -72,6 +84,12 @@ export function DataTable<T extends Record<string, any>>({
     }
   };
 
+  /**
+ * Handles pagination logic by updating the current page.
+ *
+ * @param {number} newPage - The new page number to be set.
+ * @returns {void}
+ */
   const handlePageChange = (page: number) => {
     setCurrentPage(Math.max(1, Math.min(page, totalPages)));
   };
