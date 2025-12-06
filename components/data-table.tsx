@@ -1,43 +1,48 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-/**
- * Defines the structure for a table column, including key, label, sortable flag, and render function.
- */
 
+/** Defines the structure of a column in the data table, including key, label, and optional properties for sorting and rendering. */
 export interface TableColumn<T> {
   key: keyof T;
   label: string;
   sortable?: boolean;
   render?: (value: any, row: T) => React.ReactNode;
 }
-@interface DataTableProps
-@description Interface for the props that the DataTable component will receive.
+/** @interface DataTableProps
+ * Defines the properties for the DataTable component, including data, columns, page size, and search options.
+ */
+/** Defines the properties for the DataTable component, including data, columns, page size, and search options. */
 
 export interface DataTableProps<T> {
   data: T[];
-  /**
- * Renders a data table with sorting, searching, and pagination features.
- *
- * @returns {JSX.Element} The rendered data table component.
- /**
- * Main component that renders the data table with options for sorting, searching, and pagination.
- * It uses state to manage current page, sorting, and search query.
- *
- * @returns {JSX.Element} The rendered data table component.
- */
- */
   columns: TableColumn<T>[];
   pageSize?: number;
   searchable?: boolean;
   searchFields?: (keyof T)[];
+/** Renders a data table with pagination, sorting, and optional search functionality. Accepts data and configuration through props. */
 }
 
+/** @constant currentPage
+ * Tracks the current page in the paginated data table.
+ */
 export function DataTable<T extends Record<string, any>>({
+  /** @constant sortColumn
+ * Stores the column key for the current sorting criteria.
+ */
   data,
+  /** @constant sortDirection
+ * Indicates the sorting direction ('asc' for ascending, 'desc' for descending).
+ */
   columns,
+  /** @constant searchQuery
+ * Contains the query string for searching the data table.
+ */
   pageSize = 10,
   searchable = false,
+  /** @constant filteredData
+ * Memoized value of data filtered based on search query and sort criteria.
+ */
   searchFields
 }: DataTableProps<T>) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,12 +65,21 @@ export function DataTable<T extends Record<string, any>>({
 
     if (sortColumn) {
       result.sort((a, b) => {
+        /** @constant paginatedData
+ * Memoized value of data divided into pages for pagination.
+ */
         const aVal = a[sortColumn];
         const bVal = b[sortColumn];
         
         if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+        /** @constant totalPages
+ * Calculates the total number of pages based on the filtered data length and page size.
+ */
         if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
         return 0;
+      /** @function handleSort
+ * Handles sorting when a sortable column header is clicked.
+ */
       });
     }
 
@@ -76,17 +90,13 @@ export function DataTable<T extends Record<string, any>>({
     const startIndex = (currentPage - 1) * pageSize;
     return filteredData.slice(startIndex, startIndex + pageSize);
   }, [filteredData, currentPage, pageSize]);
+/** @function handlePageChange
+ * Handles pagination by changing the current page within bounds.
+ */
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
   const handleSort = (column: keyof T) => {
-    /**
- * Handles the sorting logic for table columns.
- *
- * @param {string} columnKey - The key of the column to sort by.
- * @param {boolean} ascending - Indicates if the sort should be ascending.
- * @returns {void}
- */
     if (sortColumn === column) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
@@ -95,12 +105,6 @@ export function DataTable<T extends Record<string, any>>({
     }
   };
 
-  /**
- * Handles pagination logic by updating the current page.
- *
- * @param {number} newPage - The new page number to be set.
- * @returns {void}
- */
   const handlePageChange = (page: number) => {
     setCurrentPage(Math.max(1, Math.min(page, totalPages)));
   };
