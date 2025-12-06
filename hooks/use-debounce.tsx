@@ -32,6 +32,12 @@ export function useDebounce<T>(value: T, delay: number): T {
  
   }, [value, delay]);
 
+  
+ * Custom hook that returns a debounced version of a callback function.
+ *
+ * @param callback The function to debounce.
+ * @param delay The debounce delay in milliseconds.
+ * @returns A debounced version of the provided callback.
   return debouncedValue;
 }
 
