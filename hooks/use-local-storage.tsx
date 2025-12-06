@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 
+
+ * Custom React hook for managing localStorage with a state-like API.
+ * @returns {[any, function]} Current value and a function to update it.
 export function useLocalStorage<T>(
   key: string,
   initialValue: T
@@ -16,6 +19,9 @@ export function useLocalStorage<T>(
       console.error(`Error reading localStorage key "${key}":`, error);
       return initialValue;
     }
+  
+ * Function to update the stored value in localStorage and state.
+ * @param {any} value The new value to store.
   });
 
   const setValue = (value: T | ((val: T) => T)) => {
@@ -27,6 +33,9 @@ export function useLocalStorage<T>(
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
     } catch (error) {
+      
+ * Handles the 'storage' event to sync state with localStorage changes from other tabs.
+ * @param {StorageEvent} event The storage event triggered.
       console.error(`Error setting localStorage key "${key}":`, error);
     }
   };
