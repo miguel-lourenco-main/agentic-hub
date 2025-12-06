@@ -4,6 +4,9 @@ import React, { useState, useMemo } from 'react';
 /**
  * Defines the structure for a table column, including key, label, sortable flag, and render function.
  */
+/**
+ * Defines the structure for a table column, including key, label, sortable flag, and render function.
+ */
 @interface TableColumn<T> - Defines the structure for a table column, including key, label, sortable flag, and render function.
 
 /**
@@ -12,6 +15,9 @@ import React, { useState, useMemo } from 'react';
 export interface TableColumn<T> {
   key: keyof T;
   label: string;
+  /**
+ * Interface representing the properties for the DataTable component.
+ */
   sortable?: boolean;
   @interface DataTableProps - Interface representing the properties for the DataTable component.
   render?: (value: any, row: T) => React.ReactNode;
@@ -20,6 +26,12 @@ export interface TableColumn<T> {
  * Represents the properties for the DataTable component.
  */
 @interface DataTableProps
+/**
+ * Main component that renders the data table with options for sorting, searching, and pagination.
+ *
+ * @param {DataTableProps} props - Properties to configure the DataTable.
+ * @returns {JSX.Element} Rendered DataTable component.
+ */
 @description Interface for the props that the DataTable component will receive.
 
 export interface DataTableProps<T> {
