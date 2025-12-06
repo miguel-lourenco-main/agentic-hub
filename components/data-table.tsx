@@ -16,6 +16,10 @@ export interface TableColumn<T> {
 
 export interface DataTableProps<T> {
   data: T[];
+  /**
+ * Renders a data table with pagination, sorting, and optional search functionality.
+ * Accepts data and configuration through props.
+ */
   columns: TableColumn<T>[];
   pageSize?: number;
   searchable?: boolean;
