@@ -34,6 +34,15 @@ export function useDebounce<T>(value: T, delay: number): T {
 
   
  * Custom hook that returns a debounced version of a callback function.
+ 
+ * Creates a debounced version of a callback function with a specified delay.
+ *
+ * @param callback - The function to debounce.
+ * @param delay - The amount of time to delay in milliseconds.
+ * @returns A function that, when invoked, will call the debounced callback after the specified delay.
+ * @example
+ * const debouncedLog = useDebouncedCallback(() => console.log('Hello!'), 300);
+  
  *
  * @param callback The function to debounce.
  * @param delay The debounce delay in milliseconds.
