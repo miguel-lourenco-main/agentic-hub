@@ -11,6 +11,8 @@ export interface TableColumn<T> {
   sortable?: boolean;
   render?: (value: any, row: T) => React.ReactNode;
 }
+@interface DataTableProps
+@description Interface for the props that the DataTable component will receive.
 
 export interface DataTableProps<T> {
   data: T[];
