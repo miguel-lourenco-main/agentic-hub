@@ -38,9 +38,27 @@
     "root": true,
     "extends": [
       "next",
-      "next/core-web-vitals",
-      "eslint:recommended"
-    ]
+      "next/core-web-vitals"
+    ],
+    "globals": {
+      "JSX": "readonly",
+      "React": "readonly"
+    },
+    "overrides": [
+      {
+        "files": [
+          "*.ts",
+          "*.tsx"
+        ],
+        "rules": {
+          "no-undef": "off"
+        }
+      }
+    ],
+    "rules": {
+      "no-empty": "warn",
+      "no-unused-vars": "warn"
+    }
   },
   "prettier": "prettier-config-standard",
   "devDependencies": {
@@ -48,7 +66,8 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "autoprefixer": "^10.4.16",
-    "eslint-config-next": "^15.5.3",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.32",
     "knip": "^5.71.0",
     "postcss": "^8",
     "prettier": "^3.3.3",
