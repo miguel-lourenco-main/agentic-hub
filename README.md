@@ -48,13 +48,32 @@
 
 **Note**: This project was developed as a proof-of-concept during my tenure at [Edgen](https://edgen.co/). While the backend functionality is simulated, the frontend implementation showcases full production-ready capabilities with modern development practices and scalable architecture patterns.
 
-## 🤝 **Contributing**
+## 🤝 Contributing
 
-This is a personal portfolio project, but suggestions and feedback are welcome!
+This is a personal portfolio project, but I welcome issues and ideas suggestions.
 
-## 📄 **License**
+## 🛠️ Run Locally
 
-This repository was created for portfolio storage and showcase purposes. All rights reserved.
+Prerequisites: Node.js 18+ and pnpm (preferred).
+
+1. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+2. Start the dev server:
+   ```bash
+   pnpm dev
+   ```
+3. Open `http://localhost:3000` in your browser.
+
+Optional checks:
+- Lint: `pnpm lint`
+- Typecheck: `pnpm typecheck`
+- Production build: `pnpm build && pnpm start`
+
+## 📄 License
+
+This repository is shared for portfolio showcase purposes only. All rights reserved by the author; please request permission before reusing or distributing the code.
 
 ---
 
