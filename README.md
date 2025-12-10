@@ -4,7 +4,11 @@
 
 ## 🚀 **Live Demo**
 
-**Website**: [Agentic-Hub](https://agentichub-64abdc.gitlab.io)
+[Agentic-Hub](https://agentichub-64abdc.gitlab.io)
+
+[![Next.js](https://img.shields.io/badge/Next.js-14.0.4-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-%5E5-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-%5E3.4.1-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 
 ## 🚀 Project Overview
 

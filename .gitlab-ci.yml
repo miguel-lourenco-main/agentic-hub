@@ -8,6 +8,7 @@ cache:
     - .pnpm-store
 
 stages:
+  - quality
   - build
   - deploy
 
@@ -20,6 +21,22 @@ before_script:
   - corepack prepare pnpm@latest --activate
   - pnpm config set store-dir .pnpm-store
   - pnpm install --frozen-lockfile
+
+lint:
+  stage: quality
+  script:
+    - pnpm run lint
+  only:
+    - main
+    - merge_requests
+
+typecheck:
+  stage: quality
+  script:
+    - pnpm run typecheck
+  only:
+    - main
+    - merge_requests
 
 build:
   stage: build
