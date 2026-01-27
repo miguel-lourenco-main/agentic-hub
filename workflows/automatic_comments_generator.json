@@ -1,0 +1,423 @@
+{
+  "name": "GitLab Code Comment Auto-Generation on Commit",
+  "nodes": [
+    {
+      "parameters": {
+        "owner": "public-work4",
+        "repository": "agentichub",
+        "events": [
+          "push"
+        ]
+      },
+      "id": "e228cf6a-0eae-41cd-9f0b-28067a510a55",
+      "name": "GitLab Push Event",
+      "type": "n8n-nodes-base.gitlabTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "d5cd6b12-5a33-4636-b27c-6c2981a1c124",
+      "credentials": {
+        "gitlabApi": {
+          "id": "QpTL99c1tKf6Qz0m",
+          "name": "GitLab account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "project_id",
+              "value": "={{ $json.body.project_id }}",
+              "type": "number"
+            },
+            {
+              "id": "id-2",
+              "name": "commitSha",
+              "value": "={{ $json.body.commits[0].id }}",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "pathWithNamespace",
+              "value": "={{ $json.body.project.path_with_namespace }}",
+              "type": "string"
+            },
+            {
+              "id": "id-4",
+              "name": "branch",
+              "value": "={{ $json.body.ref.split('/').slice(-1)[0] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "3ee61c4d-c7b3-4bac-8e90-37ed9b0287e6",
+      "name": "Workflow Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract modified and added files from the webhook payload\nconst webhookData = $input.first().json;\nconst commits = webhookData.body.commits || [];\n\n// Get the first commit (most recent)\nconst firstCommit = commits[0] || {};\n\n// Get modified and added files\nconst modifiedFiles = firstCommit.modified || [];\nconst addedFiles = firstCommit.added || [];\n\n// Combine both arrays\nconst allChangedFiles = [...modifiedFiles, ...addedFiles];\n\n// Map each file path to a new item with file_path field\nconst items = allChangedFiles.map(filePath => ({\n  json: {\n    file_path: filePath\n  }\n}));\n\n// Return the array of items\nreturn items;"
+      },
+      "id": "77271c9f-9c8f-4ff6-aaee-38d2337cef4b",
+      "name": "Extract File List from Webhook",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": "={{ $('Workflow Configuration').first().json.pathWithNamespace.split('/')[0] }}",
+        "repository": "={{ $('Workflow Configuration').first().json.pathWithNamespace.split('/')[1] }}",
+        "filePath": "={{ $json.file_path }}",
+        "asBinaryProperty": false,
+        "additionalParameters": {
+          "reference": "={{ $('Workflow Configuration').first().json.commitSha }}"
+        }
+      },
+      "id": "c1d6286b-e567-41c5-8856-431937a45fc2",
+      "name": "Get File Content",
+      "type": "n8n-nodes-base.gitlab",
+      "typeVersion": 1,
+      "position": [
+        672,
+        0
+      ],
+      "credentials": {
+        "gitlabApi": {
+          "id": "QpTL99c1tKf6Qz0m",
+          "name": "GitLab account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=File: {{ $json.file_path }}\n\nCode:\n{{ $json.decodedContent }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a code structure analyzer. Analyze the provided code and identify ALL code elements that are missing documentation comments.\n\nYour task:\n1. Scan through the ENTIRE code file\n2. Identify functions, methods, classes, interfaces, types, and exported constants that lack comments\n3. For EACH element, extract: the element name, type (function/class/interface/etc), line number where it appears, and a brief description of what it does\n4. Return a structured list of ALL elements needing comments\n\nIMPORTANT:\n- Be thorough - scan the entire file\n- Only identify elements that genuinely lack documentation\n- Do NOT generate comments - only analyze and list what needs them\n- Include line numbers for precise insertion"
+        }
+      },
+      "id": "8646d3de-b127-4f1f-a93a-1fe38861ff1f",
+      "name": "Analyze Code Structure",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "gpt-4o"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "f71fb2e1-baf0-49ea-a3c3-ec55bc59a538",
+      "name": "OpenAI Model - Analyzer",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1136,
+        224
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "oMXSddSJShNCeqYx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"elements\": [\n\t\t{\n\t\t\t\"name\": \"string - element name\",\n\t\t\t\"type\": \"string - function/class/interface/type/const\",\n\t\t\t\"lineNumber\": \"number - line where element starts\",\n\t\t\t\"description\": \"string - what this element does\"\n\t\t}\n\t]\n}"
+      },
+      "id": "62f72739-0f07-4e91-a30f-4c624c728e08",
+      "name": "Structure Parser - Analyzer",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1264,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=File: {{ $('Get File Content').first().json.file_path }}\n\nElements needing comments:\n{{ JSON.stringify($json.output.elements, null, 2) }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a documentation comment generator. Generate ONLY the comment text for each code element provided.\n\nYour task:\n1. For each element in the list, generate an appropriate documentation comment\n2. Use JSDoc/TSDoc format for TypeScript/JavaScript (with @param, @returns, @description)\n3. Keep comments concise but informative\n4. Return ONLY the comment text for each element - no code, no explanations\n\nIMPORTANT:\n- Generate ONLY comment text\n- Do NOT include the actual code\n- Do NOT modify or regenerate code\n- Comments should be ready to insert as-is"
+        }
+      },
+      "id": "d8ec0c96-73b7-47e4-9419-2ddb4ecbcc77",
+      "name": "Generate Comments",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1472,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "8593e5ce-7159-46b2-a843-5b007eb37fd8",
+      "name": "OpenAI Model - Generator",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1488,
+        224
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "oMXSddSJShNCeqYx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"comments\": [\n\t\t{\n\t\t\t\"elementName\": \"string - matches name from analysis\",\n\t\t\t\"lineNumber\": \"number - where to insert\",\n\t\t\t\"commentText\": \"string - the complete comment to insert\"\n\t\t}\n\t]\n}"
+      },
+      "id": "0c136718-2fbc-4750-9aa7-b57d1a1b16ac",
+      "name": "Structure Parser - Generator",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1616,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Surgically insert comments into the original code at specified line numbers\nconst item = $input.item.json;\n\n// Get the original decoded code\nconst originalCode = $('Decode Base64 Content').item.json.decodedContent;\n\n// Get the generated comments from the AI agent\nconst generatedComments = item.output.comments || [];\n\n// Split the original code into lines\nconst codeLines = originalCode.split('\\n');\n\n// Sort comments by line number in descending order to insert from bottom to top\n// This prevents line number shifts as we insert\nconst sortedComments = generatedComments.sort((a, b) => b.lineNumber - a.lineNumber);\n\n// Insert each comment at the specified line number\nfor (const comment of sortedComments) {\n  const lineNumber = comment.lineNumber;\n  const commentText = comment.commentText;\n  \n  // Validate line number\n  if (lineNumber > 0 && lineNumber <= codeLines.length) {\n    // Get the indentation of the target line\n    const targetLine = codeLines[lineNumber - 1];\n    const indentation = targetLine.match(/^\\s*/)[0];\n    \n    // Format the comment with proper indentation\n    const formattedComment = `${indentation}${commentText}`;\n    \n    // Insert the comment before the target line\n    codeLines.splice(lineNumber - 1, 0, formattedComment);\n  }\n}\n\n// Join the lines back together\nconst updatedCode = codeLines.join('\\n');\n\n// Return the updated code along with metadata\nreturn {\n  json: {\n    updatedContent: updatedCode,\n    commentsAdded: sortedComments.length,\n    filePath: $('Get File Content').item.json.file_path\n  }\n};"
+      },
+      "id": "a7bf446a-09c5-4936-a4c9-9847c8c5f09f",
+      "name": "Insert Comments Surgically",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1824,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": "={{ $('Workflow Configuration').first().json.pathWithNamespace.split('/')[0] }}",
+        "repository": "={{ $('Workflow Configuration').first().json.pathWithNamespace.split('/')[1] }}",
+        "filePath": "={{ $json.filePath }}",
+        "fileContent": "={{ $json.updatedContent }}",
+        "commitMessage": "docs: Add missing code comments (automated by n8n)",
+        "branch": "={{ $('Workflow Configuration').first().json.branch }}"
+      },
+      "id": "76fa112a-bcc0-4960-8dc9-7fea5aea66a0",
+      "name": "Update File with Comments",
+      "type": "n8n-nodes-base.gitlab",
+      "typeVersion": 1,
+      "position": [
+        2048,
+        0
+      ],
+      "credentials": {
+        "gitlabApi": {
+          "id": "QpTL99c1tKf6Qz0m",
+          "name": "GitLab account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const item = $input.item.json;\n\n// Decode base64 content if encoding is base64\nlet decodedContent = item.content;\nif (item.encoding === 'base64') {\n  decodedContent = Buffer.from(item.content, 'base64').toString('utf-8');\n}\n\n// Return all original fields plus decoded content\nreturn {\n  json: {\n    ...item,\n    decodedContent: decodedContent\n  }\n};"
+      },
+      "id": "a486abdb-20c1-4c1d-9f0b-332b58280a5e",
+      "name": "Decode Base64 Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "GitLab Push Event": {
+      "main": [
+        [
+          {
+            "node": "Workflow Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Configuration": {
+      "main": [
+        [
+          {
+            "node": "Extract File List from Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract File List from Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get File Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Model - Analyzer": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Analyze Code Structure",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structure Parser - Analyzer": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Analyze Code Structure",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Code Structure": {
+      "main": [
+        [
+          {
+            "node": "Generate Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Model - Generator": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Comments",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structure Parser - Generator": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Generate Comments",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Comments": {
+      "main": [
+        [
+          {
+            "node": "Insert Comments Surgically",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert Comments Surgically": {
+      "main": [
+        [
+          {
+            "node": "Update File with Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get File Content": {
+      "main": [
+        [
+          {
+            "node": "Decode Base64 Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Decode Base64 Content": {
+      "main": [
+        [
+          {
+            "node": "Analyze Code Structure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2f733726-24f5-44a5-8004-0ade9646e26a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6d3458d0268d0cf8488ccaa096904037af6643aef08441e6cde91732ebf80860"
+  },
+  "id": "IifMdV27esyYsdDO",
+  "tags": []
+}
