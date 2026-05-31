@@ -8,5 +8,6 @@ include:
       - ci/templates/jobs-quality.gitlab-ci.yml
       - ci/templates/deploy-gitlab-pages.gitlab-ci.yml
 
+# CI uses `include: project` above; skip submodule fetch (job token cannot clone infra by default).
 variables:
-  GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_STRATEGY: none
