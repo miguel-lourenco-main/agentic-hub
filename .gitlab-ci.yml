@@ -7,3 +7,6 @@ include:
       - ci/templates/base.gitlab-ci.yml
       - ci/templates/jobs-quality.gitlab-ci.yml
       - ci/templates/deploy-gitlab-pages.gitlab-ci.yml
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
