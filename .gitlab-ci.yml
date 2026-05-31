@@ -2,12 +2,8 @@
 # Pin `ref` to match: `git ls-tree HEAD infra` (update both when bumping the submodule).
 include:
   - project: public-work4/infra
-    ref: c6b5606
+    ref: 36e00e0f9c2f8fc26a4e32e5eacb89ea20c360b8
     file:
       - ci/templates/base.gitlab-ci.yml
       - ci/templates/jobs-quality.gitlab-ci.yml
       - ci/templates/deploy-gitlab-pages.gitlab-ci.yml
-
-# base.gitlab-ci.yml stages omit `deploy` (pages template uses stage: deploy).
-stages:
-  - deploy
