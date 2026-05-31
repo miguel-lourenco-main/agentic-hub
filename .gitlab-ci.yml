@@ -7,3 +7,7 @@ include:
       - ci/templates/base.gitlab-ci.yml
       - ci/templates/jobs-quality.gitlab-ci.yml
       - ci/templates/deploy-gitlab-pages.gitlab-ci.yml
+
+# base.gitlab-ci.yml stages omit `deploy` (pages template uses stage: deploy).
+stages:
+  - deploy
