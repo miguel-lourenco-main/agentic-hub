@@ -1,81 +1,13 @@
-image: node:18
+# Submodule `infra` is not part of the parent tree; `include:local` cannot see those paths on GitLab.
+# Pin `ref` to match: `git ls-tree HEAD infra` (update both when bumping the submodule).
+include:
+  - project: public-work4/infra
+    ref: 36e00e0f9c2f8fc26a4e32e5eacb89ea20c360b8
+    file:
+      - ci/templates/base.gitlab-ci.yml
+      - ci/templates/jobs-quality.gitlab-ci.yml
+      - ci/templates/deploy-gitlab-pages.gitlab-ci.yml
 
-cache:
-  key:
-    files:
-      - pnpm-lock.yaml
-  paths:
-    - .pnpm-store
-
-stages:
-  - quality
-  - build
-  - deploy
-
+# CI uses `include: project` above; skip submodule fetch (job token cannot clone infra by default).
 variables:
-  NODE_ENV: production
-  PNPM_CACHE_FOLDER: .pnpm-store
-
-before_script:
-  - corepack enable
-  - corepack prepare pnpm@latest --activate
-  - pnpm config set store-dir .pnpm-store
-  - pnpm install --frozen-lockfile
-
-lint:
-  stage: quality
-  script:
-    - pnpm run lint
-  only:
-    - main
-    - merge_requests
-
-typecheck:
-  stage: quality
-  script:
-    - pnpm run typecheck
-  only:
-    - main
-    - merge_requests
-
-build:
-  stage: build
-  script:
-    - pnpm run build
-  artifacts:
-    paths:
-      - out/
-    expire_in: 1 hour
-  only:
-    - main
-    - merge_requests
-
-pages:
-  stage: deploy
-  script:
-    - cp -r out/* public/
-  artifacts:
-    paths:
-      - public
-    expire_in: never
-  only:
-    - main
-  # Ensure public access
-  environment:
-    name: production
-    url: $CI_PAGES_URL
-    
-
-# Optional: Deploy to staging for merge requests
-pages:staging:
-  stage: deploy
-  script:
-    - cp -r out/* public/
-  artifacts:
-    paths:
-      - public
-  environment:
-    name: staging
-    url: https://$CI_PROJECT_NAME-staging.gitlab.io
-  only:
-    - merge_requests 
+  GIT_SUBMODULE_STRATEGY: none
