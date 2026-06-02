@@ -16,6 +16,10 @@ variables:
 # comment_mirror runs `node infra/ci/scripts/...`, so it needs the infra submodule
 # checked out. Fetch it only for this job (infra is allowlisted for this project's
 # CI_JOB_TOKEN); other jobs keep the lightweight no-submodule checkout.
+# This app is single-package with source at the repo root, so the allowed prefixes
+# are set to the real source dirs (NOT the default apps/,packages/,...; never infra/,
+# which is the submodule and must not be edited).
 comment_mirror:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
+    COMMENT_MIRROR_ALLOWED_PATH_PREFIXES: "app/,components/,lib/,pages/"
