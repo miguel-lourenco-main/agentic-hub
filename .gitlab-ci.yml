@@ -7,7 +7,21 @@ include:
       - ci/templates/base.gitlab-ci.yml
       - ci/templates/jobs-quality.gitlab-ci.yml
       - ci/templates/deploy-gitlab-pages.gitlab-ci.yml
+      - ci/templates/jobs-comment-mirror.gitlab-ci.yml
 
-# CI uses `include: project` above; skip submodule fetch (job token cannot clone infra by default).
+# CI uses `include: project` above; skip submodule fetch for most jobs.
 variables:
   GIT_SUBMODULE_STRATEGY: none
+
+# comment_mirror runs `node infra/ci/scripts/...`, so it needs the infra submodule
+# checked out. Fetch it only for this job (infra is allowlisted for this project's
+# CI_JOB_TOKEN); other jobs keep the lightweight no-submodule checkout.
+comment_mirror:
+  # Do not pull build/pages artifacts (e.g. public/) into the working tree; those
+  # untracked files would otherwise be enumerated by the runner's git inspection.
+  dependencies: []
+  # Single-package app with source at the repo root; scope the comment mirror to the
+  # real source dirs (NOT the default apps/,packages/,... and never infra/, the submodule).
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    COMMENT_MIRROR_ALLOWED_PATH_PREFIXES: "app/,components/,lib/,pages/"
