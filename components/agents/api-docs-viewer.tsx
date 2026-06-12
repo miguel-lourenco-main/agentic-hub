@@ -33,6 +33,7 @@ function CodeBlock({ title, code }: { title: string; code: string }) {
 }
 
 export function ApiDocsViewer({ endpoints }: { endpoints: ApiEndpoint[] }) {
+  // Accordion: only one endpoint expanded at a time; first open by default.
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   return (

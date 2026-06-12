@@ -14,6 +14,7 @@ export function TokenPanel({ agent }: { agent: Agent }) {
   const history = getPriceHistory(agent)
   const first = history[0]?.v ?? agent.investment.pricePerShare
   const changePct = ((agent.investment.pricePerShare - first) / first) * 100
+  // Demo metric: approximate holder count from market cap (not on-chain data).
   const holders = Math.round(agent.investment.marketCap / 1850)
 
   const rows = [

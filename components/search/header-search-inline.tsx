@@ -50,6 +50,7 @@ export function HeaderSearchInline() {
   };
 
   return (
+    // layoutId pairs with the home hero search for Framer's shared-element transition.
     <motion.div layoutId="global-search" animate={{ scale: isTransitioning ? 1 : 1 }}>
       <SearchInput value={query} onChange={setQuery} onSubmit={handleSubmit} className="w-full max-w-5xl" />
     </motion.div>

@@ -2,6 +2,7 @@
 // exported, so build-time HTML must match client hydration — never use
 // Math.random() or Date.now() when generating demo data.
 
+// FNV-style string hash — stable seed from any lookup key.
 function hashString(input: string): number {
   let h = 1779033703 ^ input.length;
   for (let i = 0; i < input.length; i++) {
@@ -11,6 +12,7 @@ function hashString(input: string): number {
   return h >>> 0;
 }
 
+// Small, fast PRNG; same seed always yields the same sequence.
 function mulberry32(seed: number): () => number {
   let a = seed;
   return () => {

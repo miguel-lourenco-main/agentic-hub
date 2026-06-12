@@ -6,6 +6,7 @@ import { agents } from "@/data/agents";
 import { getAgentMetrics } from "@/data/mock-series";
 
 export async function generateStaticParams() {
+  // Pre-render every agent detail page at build time for static export.
   return agents.map((agent) => ({
     id: agent.id,
   }));

@@ -14,6 +14,7 @@ export function FeaturedByCategorySection() {
 
   return (
     <>
+      {/* Skip index 0 ("All Agents") — that section is the grid below. */}
       {categories.slice(1).map((category, categoryIndex) => {
         const featuredAgents = getFeaturedAgentsForCategory(category.name);
         if (featuredAgents.length === 0) return null;

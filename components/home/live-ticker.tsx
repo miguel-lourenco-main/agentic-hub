@@ -40,6 +40,7 @@ export function LiveTicker() {
           className="flex min-w-0 gap-[var(--gap)] overflow-hidden"
           style={{ "--gap": "3rem", "--duration": "60s" } as React.CSSProperties}
         >
+          {/* Two identical tracks let the CSS marquee loop without a visible seam. */}
           {[0, 1].map(copy => (
             <div
               key={copy}

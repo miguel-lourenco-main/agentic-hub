@@ -7,6 +7,7 @@ import { getActivityFeed } from "@/data/activity"
 import { cn } from "@/lib/utils"
 
 export function ActivityFeed({ agentId }: { agentId: string }) {
+  // Recent hire/invest events scoped to this agent.
   const events = getActivityFeed(agentId, 8)
   if (events.length === 0) return null
 

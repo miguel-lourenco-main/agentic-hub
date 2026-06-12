@@ -17,6 +17,7 @@ interface AgentCardProps {
 }
 
 export function AgentCard({ agent, index, categoryIndex = 0, variant = "grid" }: AgentCardProps) {
+  // "row" = horizontal carousel card; "grid" = vertical marketplace tile.
   const isRow = variant === "row";
   
   return (

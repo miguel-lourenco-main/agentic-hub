@@ -4,6 +4,7 @@ import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
 import { withBasePath } from "@/lib/base-path";
 
+// Google fonts exposed as CSS variables for the design system.
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -55,6 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // suppressHydrationWarning: dark class is static; avoids SSR/client mismatch noise.
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={cn(

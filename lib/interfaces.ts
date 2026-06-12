@@ -1,3 +1,4 @@
+// Marketplace listing: billing, investment token, reviews, and embed metadata.
 export interface Agent {
   id: string;
   name: string;
@@ -32,6 +33,7 @@ export interface Agent {
   averageRating: number;
 }
 
+// Agent performance snapshot with month-over-month percent change per metric.
 export interface MetricsData {
   revenue: {
     total: number;
@@ -67,6 +69,7 @@ export interface PricePoint {
   v: number;
 }
 
+// Synthetic hire/invest event for live ticker and per-agent activity feeds.
 export interface ActivityEvent {
   id: string;
   type: "hire" | "invest";
@@ -92,6 +95,7 @@ export interface MarketplaceStats {
   activeInvestors: number;
 }
 
+// OpenAPI-style endpoint entry rendered in the docs viewer and playground.
 export interface ApiEndpoint {
   method: "GET" | "POST";
   path: string;

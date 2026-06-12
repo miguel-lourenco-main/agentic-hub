@@ -1,3 +1,4 @@
+// Fallback 404 for static export hosts that serve pages/ instead of app/not-found.
 export default function Custom404() {
   return (
     <main style={{ padding: 32 }}>

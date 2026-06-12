@@ -15,6 +15,7 @@ const W = 100
 const H = 100
 const STROKE = "#F7931A"
 
+// Line chart in a fixed viewBox; mouse position maps to the nearest data index.
 export function PriceChart({ data, height = 220, className }: PriceChartProps) {
   const gradientId = useId()
   const containerRef = useRef<HTMLDivElement | null>(null)

@@ -6,6 +6,7 @@ import { AnimatedCounter } from "@/components/ui/animated-counter"
 import { LiveDot } from "@/components/ui/live-dot"
 import { marketplaceStats } from "@/data/stats"
 
+// Abbreviate large headline numbers (e.g. 1.2M, 45.3K).
 function compact(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`
   if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`

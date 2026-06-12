@@ -1,5 +1,6 @@
 "use client";
 
+// Shared search query and transition flag for the home → /agents morph animation.
 import { createContext, useContext, useMemo, useState } from "react";
 
 type SearchUIContextValue = {

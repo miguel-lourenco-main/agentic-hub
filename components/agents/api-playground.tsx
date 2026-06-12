@@ -44,6 +44,7 @@ export function ApiPlayground({ agent }: { agent: Agent }) {
   const handleSend = () => {
     setIsSending(true)
     setResponse(null)
+    // Simulated latency — no real API call in this demo.
     timerRef.current = setTimeout(() => {
       setResponse(buildSampleResponse(agent))
       setIsSending(false)

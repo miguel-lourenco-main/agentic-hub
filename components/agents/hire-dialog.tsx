@@ -42,6 +42,7 @@ export function HireDialog({ agentName, billing, children }: HireDialogProps) {
 
   const handleHire = async () => {
     setIsLoading(true);
+    // Mock payment flow — no blockchain transaction in this demo.
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsSuccess(true);
     setIsLoading(false);

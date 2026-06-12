@@ -1,3 +1,4 @@
+// Fallback 500 for static export hosts that serve pages/ instead of app/error.
 export default function Custom500() {
   return (
     <main style={{ padding: 32 }}>

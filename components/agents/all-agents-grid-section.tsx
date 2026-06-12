@@ -9,6 +9,7 @@ import { useInView } from "framer-motion";
 export function AllAgentsGridSection() {
   const [visibleCount, setVisibleCount] = useState(9);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  // Load the next page of cards when the sentinel enters the viewport.
   const inView = useInView(loadMoreRef, { margin: "0px 0px 200px 0px" });
 
   const visibleAgents = useMemo(() => agents.slice(0, visibleCount), [visibleCount]);

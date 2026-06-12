@@ -1,5 +1,6 @@
 "use client";
 
+// Resolves the active search query from props, React context, URL, or cookie fallback.
 import { AnimatePresence, motion } from "framer-motion";
 import { SearchResults } from "@/components/agents/search-results";
 import { useSearchParams } from "next/navigation";

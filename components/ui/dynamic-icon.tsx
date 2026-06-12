@@ -8,6 +8,7 @@ interface DynamicIconProps extends LucideProps {
 }
 
 export function DynamicIcon({ name, ...props }: DynamicIconProps) {
+  // Agent data stores kebab-case names; Lucide exports PascalCase components.
   const iconName = name.split("-").map(part => 
     part.charAt(0).toUpperCase() + part.slice(1)
   ).join("");

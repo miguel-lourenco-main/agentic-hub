@@ -54,6 +54,7 @@ export function TypingAnimation({
   useEffect(() => {
     if (!started) return;
 
+    // Array.from splits grapheme clusters so emoji and accented chars type correctly.
     const graphemes = Array.from(children);
     let i = 0;
     const typingEffect = setInterval(() => {

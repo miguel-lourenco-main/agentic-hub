@@ -14,6 +14,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const showSearch = /^\/agents\/?$/.test(stripBasePath(pathname ?? ""));
   const { isTransitioning, setIsTransitioning } = useSearchUI();
+  // Keep the search slot mounted during the home → /agents morph animation.
   const hasSearchSlot = showSearch || isTransitioning;
 
   // When we arrive on /agents, keep the slot pinned until first paint, then clear transition

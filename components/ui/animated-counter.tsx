@@ -30,6 +30,7 @@ export function AnimatedCounter({
       setDisplay(format(value))
       return
     }
+    // Count up when the stat scrolls into view; respects prefers-reduced-motion.
     const controls = animate(0, value, {
       duration: durationMs / 1000,
       ease: [0.16, 1, 0.3, 1],

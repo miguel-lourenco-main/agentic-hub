@@ -28,7 +28,7 @@ export function ReviewsSection({
   const handleSubmitReview = async () => {
     setIsSubmitting(true);
     
-    // Simulate API call
+    // Optimistic local update — no backend in this demo marketplace.
     await new Promise(resolve => setTimeout(resolve, 1500));
     
     const newReview = {

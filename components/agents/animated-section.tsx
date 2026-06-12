@@ -1,5 +1,6 @@
 "use client";
 
+// Thin wrapper that applies Framer layout animations to any HTML tag.
 import { motion } from "framer-motion";
 
 export function AnimatedSection({

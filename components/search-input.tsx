@@ -1,5 +1,6 @@
 "use client";
 
+// Controlled search field shared by the home hero and the agents header.
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";

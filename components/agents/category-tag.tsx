@@ -10,6 +10,7 @@ interface CategoryTagProps {
 
 export function CategoryTag({ category, index }: CategoryTagProps) {
   const handleCategoryClick = () => {
+    // Scroll to the matching section anchor on the agents page.
     const categoryId = category.name === "All Agents" 
       ? "all-agents" 
       : category.name.toLowerCase().replace(/\s+/g, "-");

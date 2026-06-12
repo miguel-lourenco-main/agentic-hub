@@ -35,6 +35,7 @@ const popularAgents = [...agents]
   .sort((a, b) => b.reviewCount - a.reviewCount)
   .slice(0, 3);
 
+// Example prompts shown under the hero search bar.
 const searchSuggestions = [
   { text: "Help me with pair programming", icon: PenLine },
   { text: "Cybersecurity monitoring and threat detection", icon: Bug },
@@ -59,6 +60,7 @@ function HomeContent() {
 
   useEffect(() => {
     if (isFromAgents) {
+      // Rewire history so the browser back button returns home with a smooth transition.
       // Replace the current state with the clean URL
       window.history.replaceState(null, '', withBasePath('/'));
 
