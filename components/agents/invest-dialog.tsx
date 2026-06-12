@@ -14,6 +14,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { GradientText } from "@/components/ui/gradient-text";
+import { SparklineChart } from "@/components/ui/sparkline-chart";
+import { seededRandom } from "@/lib/seeded";
 
 interface InvestDialogProps {
   children: React.ReactNode;
@@ -51,6 +54,10 @@ export function InvestDialog({
 
   const shares = amount ? Number(amount) / pricePerShare : 0;
 
+  // Deterministic mini trend for the market-cap tile (static-export safe)
+  const rand = seededRandom(`invest-${agentName}`);
+  const capTrend = Array.from({ length: 12 }, (_, i) => 0.7 + i * 0.025 + rand() * 0.15);
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -75,26 +82,36 @@ export function InvestDialog({
               className="space-y-6 py-4"
             >
               <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-lg border p-3">
+                <div className="overflow-hidden rounded-lg border hairline bg-black/20 p-3 pb-0">
                   <div className="flex items-center gap-2 text-sm font-medium mb-1">
-                    <TrendingUp className="h-4 w-4 text-primary" />
+                    <TrendingUp className="h-4 w-4 text-gold" />
                     Market Cap
                   </div>
-                  <div className="text-2xl font-bold">
-                    {marketCap.toLocaleString()} SOL
+                  <div className="font-mono text-xl font-bold">
+                    <GradientText>{marketCap.toLocaleString()} SOL</GradientText>
                   </div>
+                  <SparklineChart
+                    data={capTrend}
+                    height={28}
+                    className="-mx-3 mt-1 w-[calc(100%+1.5rem)]"
+                  />
                 </div>
-                <div className="rounded-lg border p-3">
+                <div className="rounded-lg border hairline bg-black/20 p-3">
                   <div className="flex items-center gap-2 text-sm font-medium mb-1">
-                    <Users className="h-4 w-4 text-primary" />
+                    <Users className="h-4 w-4 text-violet" />
                     Available Shares
                   </div>
-                  <div className="text-2xl font-bold">
-                    {availableShares.toLocaleString()}
+                  <div className="font-mono text-xl font-bold">
+                    <GradientText variant="violet">
+                      {availableShares.toLocaleString()}
+                    </GradientText>
                   </div>
+                  <p className="mt-1 font-mono text-xs text-muted-foreground">
+                    @ {pricePerShare} SOL / share
+                  </p>
                 </div>
               </div>
-              <Button className="w-full" onClick={() => setStep(2)} disabled={isLoading}>
+              <Button variant="gradient" className="w-full" onClick={() => setStep(2)} disabled={isLoading}>
                 Continue to Investment
               </Button>
             </motion.div>
@@ -146,6 +163,7 @@ export function InvestDialog({
                   Back
                 </Button>
                 <Button
+                  variant="gradient"
                   className="flex-1"
                   onClick={handleInvest}
                   disabled={!amount || isLoading}

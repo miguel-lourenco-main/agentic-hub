@@ -112,17 +112,21 @@ export function HireDialog({ agentName, billing, children }: HireDialogProps) {
           </div>
           <div className="grid gap-2">
             <Label>Rate</Label>
-            <div className="rounded-lg border bg-muted px-3 py-2 text-sm">
+            <div className="rounded-lg border hairline bg-black/40 px-3 py-2 font-mono text-sm text-gold">
               {billing.rate} {billing.currency} {billing.model}
               {billing.unit && ` (${billing.unit})`}
             </div>
           </div>
           <div className="grid gap-2">
             <Label>Total price</Label>
-            <div className="rounded-lg border bg-muted px-3 py-2 text-sm">
+            <div className="rounded-lg border hairline bg-black/40 px-3 py-2 font-mono text-sm">
               {totalPrice.toFixed(6)} {billing.currency}
             </div>
           </div>
+          <p className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>Network fee</span>
+            <span className="font-mono">0.000005 SOL</span>
+          </p>
         </div>
         <DialogFooter>
           <Button 
@@ -134,10 +138,10 @@ export function HireDialog({ agentName, billing, children }: HireDialogProps) {
             Cancel
           </Button>
           <SparkleBorder isSelected={isSuccess} className="rounded-md">
-            <Button 
-              onClick={handleHire} 
+            <Button
+              onClick={handleHire}
               disabled={isLoading}
-              variant={isSuccess ? "secondary" : "default"}
+              variant={isSuccess ? "secondary" : "gradient"}
               className={cn(
                 "flex items-center w-full",
                 isSuccess && "pointer-events-none"
@@ -151,7 +155,7 @@ export function HireDialog({ agentName, billing, children }: HireDialogProps) {
                 </>
               ) : isSuccess ? (
                 <>
-                  <Check className="mt-1 h-8 w-8 text-green-600" />
+                  <Check className="mt-1 h-8 w-8 text-success" />
                   Payment successful!
                 </>
               ) : (

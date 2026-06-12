@@ -1,91 +1,95 @@
 "use client";
 
 import { BarChart3, Brain, DollarSign, Users } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { MetricsData } from "@/lib/interfaces";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SparklineChart } from "@/components/ui/sparkline-chart";
+import { Agent, MetricsData } from "@/lib/interfaces";
+import { getMetricSeries, MetricKey } from "@/data/mock-series";
+import { cn } from "@/lib/utils";
 
-export function AgentMetrics({ data }: { data: MetricsData }) {
+interface MetricConfig {
+  key: MetricKey;
+  title: string;
+  icon: typeof DollarSign;
+  color: "gold" | "violet" | "success";
+  format: (n: number) => string;
+  // response time improves when it goes down
+  invertTrend?: boolean;
+}
+
+const metricConfigs: MetricConfig[] = [
+  {
+    key: "revenue",
+    title: "Revenue Last Month",
+    icon: DollarSign,
+    color: "gold",
+    format: n => `${n.toLocaleString()} SOL`,
+  },
+  {
+    key: "requests",
+    title: "Requests Last Month",
+    icon: BarChart3,
+    color: "violet",
+    format: n => n.toLocaleString(),
+  },
+  {
+    key: "activeUsers",
+    title: "Active Users",
+    icon: Users,
+    color: "success",
+    format: n => n.toLocaleString(),
+  },
+  {
+    key: "avgResponseTime",
+    title: "Avg Response Time",
+    icon: Brain,
+    color: "gold",
+    format: n => `${n}ms`,
+    invertTrend: true,
+  },
+];
+
+export function AgentMetrics({ data, agent }: { data: MetricsData; agent?: Agent }) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
-            Revenue Last Month
-          </CardTitle>
-          <DollarSign className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            ${data.revenue.total.toLocaleString()}
-          </div>
-          <p
-            className={`text-xs ${data.revenue.change >= 0 ? "text-green-500" : "text-red-500"}`}
-          >
-            {data.revenue.change >= 0 ? "+" : ""}
-            {data.revenue.change}% from last month
-          </p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
-            Requests Last Month
-          </CardTitle>
-          <BarChart3 className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            {data.requests.total.toLocaleString()}
-          </div>
-          <p
-            className={`text-xs ${data.requests.change >= 0 ? "text-green-500" : "text-red-500"}`}
-          >
-            {data.requests.change >= 0 ? "+" : ""}
-            {data.requests.change}% from last month
-          </p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Active Users</CardTitle>
-          <Users className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            {data.activeUsers.total.toLocaleString()}
-          </div>
-          <p
-            className={`text-xs ${data.activeUsers.change >= 0 ? "text-green-500" : "text-red-500"}`}
-          >
-            {data.activeUsers.change >= 0 ? "+" : ""}
-            {data.activeUsers.change}% from last month
-          </p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
-            Avg Response Time
-          </CardTitle>
-          <Brain className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            {data.avgResponseTime.total}ms
-          </div>
-          <p
-            className={`text-xs ${data.avgResponseTime.change <= 0 ? "text-green-500" : "text-red-500"}`}
-          >
-            {data.avgResponseTime.change >= 0 ? "+" : ""}
-            {data.avgResponseTime.change}% from last month
-          </p>
-        </CardContent>
-      </Card>
+      {metricConfigs.map(config => {
+        const metric = data[config.key];
+        const isPositive = config.invertTrend
+          ? metric.change <= 0
+          : metric.change >= 0;
+        return (
+          <Card key={config.key} className="overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">{config.title}</CardTitle>
+              <config.icon className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent className="pb-0">
+              <div className="font-mono text-2xl font-bold tabular-nums">
+                {config.format(metric.total)}
+              </div>
+              <span
+                className={cn(
+                  "mt-1 inline-flex items-center rounded-full px-2 py-0.5 font-mono text-xs",
+                  isPositive
+                    ? "bg-success/10 text-success"
+                    : "bg-destructive/10 text-destructive"
+                )}
+              >
+                {metric.change >= 0 ? "+" : ""}
+                {metric.change}%
+              </span>
+              {agent && (
+                <SparklineChart
+                  data={getMetricSeries(agent, config.key)}
+                  color={config.color}
+                  height={36}
+                  className="mt-2 -mx-6 w-[calc(100%+3rem)]"
+                />
+              )}
+            </CardContent>
+          </Card>
+        );
+      })}
     </div>
   );
 }

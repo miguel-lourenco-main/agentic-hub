@@ -12,10 +12,10 @@ interface SparkleBorderProps {
 
 const sparkleColors = [
   'hsl(var(--primary))',
-  '#FF69B4',  // Hot pink
-  '#9C27B0',  // Purple
-  '#E91E63',  // Pink
-  '#BA68C8',  // Light purple
+  '#F7931A',  // Gold
+  '#FDBA74',  // Light gold
+  '#8B5CF6',  // Violet
+  '#C4B5FD',  // Light violet
 ] as const;
 
 export function SparkleBorder({

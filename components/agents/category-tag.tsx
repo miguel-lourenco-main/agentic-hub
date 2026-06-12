@@ -31,11 +31,11 @@ export function CategoryTag({ category, index }: CategoryTagProps) {
     >
       <button
         onClick={handleCategoryClick}
-        className="inline-flex items-center rounded-lg bg-muted px-3 py-1 text-sm font-medium hover:bg-muted/80 transition-colors cursor-pointer"
+        className="inline-flex items-center rounded-full border hairline bg-white/[0.04] px-3.5 py-1 text-sm font-medium transition-colors hover:border-gold/40 hover:text-gold cursor-pointer"
       >
         {category.name}
-        <span className="ml-2 text-muted-foreground">
-          ({category.count})
+        <span className="ml-2 font-mono text-xs text-muted-foreground">
+          {category.count}
         </span>
       </button>
     </motion.div>
