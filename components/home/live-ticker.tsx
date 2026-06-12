@@ -27,6 +27,7 @@ function TickerItem({ event }: { event: ActivityEvent }) {
   )
 }
 
+// Scrolling marquee of recent hire/invest events from seeded demo data.
 export function LiveTicker() {
   const events = getActivityFeed(undefined, 12)
 

@@ -16,6 +16,7 @@ const developerLinks = [
   { label: "Status", href: "/agents" },
 ]
 
+// Global footer; nav links are placeholders that route to the marketplace demo.
 export function SiteFooter() {
   return (
     <footer className="mt-auto border-t hairline bg-background">

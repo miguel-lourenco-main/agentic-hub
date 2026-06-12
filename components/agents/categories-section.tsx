@@ -4,6 +4,7 @@ import { AnimatedSection } from "@/components/agents/animated-section";
 import { CategoryTag } from "@/components/agents/category-tag";
 import { categories } from "@/data/categories";
 
+// Horizontal filter chips; each tag scrolls to its category section on the page.
 export function CategoriesSection() {
   return (
     <AnimatedSection className="mb-16">

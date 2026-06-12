@@ -6,6 +6,7 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverable?: boolean;
 }
 
+// Base card surface; hoverable adds lift and gold glow for marketplace tiles.
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, hoverable = false, ...props }, ref) => (
     <div

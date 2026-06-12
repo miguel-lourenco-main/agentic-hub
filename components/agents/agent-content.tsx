@@ -31,6 +31,7 @@ interface AgentContentProps {
   metricsData: MetricsData;
 }
 
+// Agent detail page: hire/invest actions, metrics, token panel, and tabbed interface.
 export function AgentContent({ agent, metricsData }: AgentContentProps) {
   const router = useRouter();
   return (

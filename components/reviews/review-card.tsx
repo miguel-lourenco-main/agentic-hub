@@ -11,6 +11,7 @@ interface ReviewCardProps {
   review: Review;
 }
 
+// Single review row with avatar, relative timestamp, and read-only star rating.
 export function ReviewCard({ review }: ReviewCardProps) {
   return (
     <Card>

@@ -32,6 +32,7 @@ const tracks = [
   },
 ]
 
+// Side-by-side "Hire" vs "Invest" tracks explaining the two marketplace flows.
 export function HowItWorks() {
   return (
     <section className="space-y-8 px-4">

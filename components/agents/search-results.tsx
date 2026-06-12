@@ -44,6 +44,7 @@ function SearchResultsSkeleton({query}: {query: string}) {
   );
 }
 
+// Client-side word-match search over agent names/descriptions; capped at three results.
 export function SearchResults({ query }: { query: string }) {
   const [isLoading, setIsLoading] = useState(true);
   const [searchResults, setSearchResults] = useState<typeof agents>([]);

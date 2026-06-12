@@ -8,6 +8,7 @@ import { categories } from "@/data/categories";
 import { agents } from "@/data/agents";
 
 export function FeaturedByCategorySection() {
+  // Top agents per category, excluding the synthetic "All Agents" bucket.
   const getFeaturedAgentsForCategory = (categoryName: string) => {
     return agents.filter(agent => agent.category === categoryName);
   };

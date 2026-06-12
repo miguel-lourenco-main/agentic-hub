@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { testimonials, partnerWordmarks } from "@/data/testimonials"
 
+// Social proof grid plus partner wordmarks — all content is static demo data.
 export function Testimonials() {
   return (
     <section className="space-y-10 px-4">

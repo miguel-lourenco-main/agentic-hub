@@ -13,6 +13,7 @@ interface ReviewsSectionProps {
   totalReviews: number;
 }
 
+// Review list with inline submission form; new reviews update local state only.
 export function ReviewsSection({
   reviews: initialReviews,
   averageRating: initialAvgRating,

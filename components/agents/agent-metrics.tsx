@@ -49,6 +49,7 @@ const metricConfigs: MetricConfig[] = [
   },
 ];
 
+// KPI tiles with sparklines; invertTrend flips green/red for metrics where lower is better.
 export function AgentMetrics({ data, agent }: { data: MetricsData; agent?: Agent }) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

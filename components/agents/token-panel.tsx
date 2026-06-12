@@ -10,6 +10,7 @@ import { getPriceHistory } from "@/data/mock-series"
 import type { Agent } from "@/lib/interfaces"
 import { cn } from "@/lib/utils"
 
+// Agent token economics panel: price chart, stats, and invest entry point.
 export function TokenPanel({ agent }: { agent: Agent }) {
   const history = getPriceHistory(agent)
   const first = history[0]?.v ?? agent.investment.pricePerShare

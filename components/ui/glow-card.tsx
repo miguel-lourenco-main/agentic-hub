@@ -4,6 +4,7 @@ interface GlowCardProps extends React.HTMLAttributes<HTMLDivElement> {
   glow?: "gold" | "violet" | "none"
 }
 
+// Card wrapper with a 1px gradient border and optional gold/violet hover glow.
 export function GlowCard({ glow = "gold", className, children, ...props }: GlowCardProps) {
   return (
     <div

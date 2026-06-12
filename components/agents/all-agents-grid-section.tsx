@@ -6,6 +6,7 @@ import { agents } from "@/data/agents";
 import { useMemo, useRef, useState, useEffect } from "react";
 import { useInView } from "framer-motion";
 
+// Paginated agent grid with infinite scroll via an intersection-observer sentinel.
 export function AllAgentsGridSection() {
   const [visibleCount, setVisibleCount] = useState(9);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);

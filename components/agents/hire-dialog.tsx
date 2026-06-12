@@ -34,6 +34,7 @@ interface HireDialogProps {
   children?: React.ReactNode;
 }
 
+// Mock hire flow with billing model selection and sparkle success state.
 export function HireDialog({ agentName, billing, children }: HireDialogProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);

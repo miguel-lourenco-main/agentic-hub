@@ -12,6 +12,7 @@ interface StarRatingProps extends React.HTMLAttributes<HTMLDivElement> {
   onRatingChange?: (rating: number) => void;
 }
 
+// Star display with optional hover-to-rate; supports half-star values when read-only.
 const sizeClasses = {
   sm: "h-4 w-4",
   md: "h-5 w-5",
@@ -34,6 +35,7 @@ export function StarRating({
     const isHalf = rating - index > 0 && rating - index < 1;
     const isFilled = (hoverRating ?? rating) >= starNumber;
     const isInput = !readOnly && rating === 0;
+    // Hide yellow stroke on empty interactive stars until the user hovers.
     const shouldShowYellowBorder = !isInput || (isInput && (hoverRating !== null && hoverRating >= starNumber));
     
     const starClass = cn(

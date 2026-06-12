@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { withBasePath } from "@/lib/base-path";
 
+// App Router 404 boundary — shown when generateStaticParams misses or notFound() is called.
 export default function NotFound() {
   return (
     <main className="container mx-auto py-16 px-4 text-center">

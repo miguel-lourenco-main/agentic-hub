@@ -26,6 +26,7 @@ interface InvestDialogProps {
   pricePerShare: number;
 }
 
+// Two-step invest modal: market overview, then amount entry — mock flow, no on-chain tx.
 export function InvestDialog({
   children,
   agentName,

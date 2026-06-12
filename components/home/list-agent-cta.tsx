@@ -6,6 +6,7 @@ import { ArrowRight, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { withBasePath } from "@/lib/base-path"
 
+// Bottom-of-home CTA for agent builders; links into the marketplace demo.
 export function ListAgentCta() {
   return (
     <section className="px-4">

@@ -9,6 +9,7 @@ interface ScrollableListProps {
   className?: string;
 }
 
+// Horizontal drag-scroll carousel with fade edges and momentum after mouse release.
 export function ScrollableList({ children, className }: ScrollableListProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);

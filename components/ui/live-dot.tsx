@@ -12,6 +12,7 @@ const dotColors = {
   violet: "bg-violet",
 }
 
+// Pulsing status dot with optional label — used for "Live" and chain badges.
 export function LiveDot({ label, color = "success", className }: LiveDotProps) {
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>

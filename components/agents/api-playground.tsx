@@ -29,6 +29,7 @@ const buildSampleResponse = (agent: Agent) =>
     2
   )
 
+// Browser-side API tester with canned request/response — no network calls.
 export function ApiPlayground({ agent }: { agent: Agent }) {
   const [request, setRequest] = useState(() => buildSampleRequest(agent))
   const [response, setResponse] = useState<string | null>(null)

@@ -18,6 +18,7 @@ const sparkleColors = [
   '#C4B5FD',  // Light violet
 ] as const;
 
+// Imperative border sparkles spawned while a hire option is selected in the dialog.
 export function SparkleBorder({
   children,
   className = "",

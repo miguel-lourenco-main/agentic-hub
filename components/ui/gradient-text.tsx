@@ -4,6 +4,7 @@ interface GradientTextProps extends React.HTMLAttributes<HTMLSpanElement> {
   variant?: "gold" | "violet"
 }
 
+// Applies brand gradient text classes from the design system.
 export function GradientText({
   variant = "gold",
   className,

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useLayoutEffect } from "react";
 
+// Wraps agents routes in a slide-in animation and disables browser scroll restoration.
 function AgentsLayoutContent({
   children,
 }: Readonly<{
