@@ -8,13 +8,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 function SearchResultsSkeleton({query}: {query: string}) {
   return (
     <div className="mb-16">
-      <h2 className="text-2xl font-semibold tracking-tight mb-2">
+      <h2 className="font-heading text-2xl font-semibold tracking-tight mb-2">
         Search Results
       </h2>
       <p className="text-sm text-muted-foreground mb-6">
         Searching for &quot;{query}&quot;...
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ml-[2rem]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[...Array(3)].map((_, i) => (
           <div key={i} className="h-[12rem] rounded-lg border">
             <div className="p-6 flex flex-col justify-between h-full">
@@ -88,7 +88,7 @@ export function SearchResults({ query }: { query: string }) {
   if (searchResults.length === 0) {
     return (
       <div className="mb-16">
-        <h2 className="text-2xl font-semibold tracking-tight mb-2">
+        <h2 className="font-heading text-2xl font-semibold tracking-tight mb-2">
           Search Results
         </h2>
         <p className="text-sm text-muted-foreground mb-6">
@@ -100,13 +100,13 @@ export function SearchResults({ query }: { query: string }) {
 
   return (
     <div className="mb-16">
-      <h2 className="text-2xl font-semibold tracking-tight mb-2">
+      <h2 className="font-heading text-2xl font-semibold tracking-tight mb-2">
         Search Results
       </h2>
       <p className="text-sm text-muted-foreground mb-6">
         Found {searchResults.length} results for &quot;{query}&quot;
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ml-[2rem]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {searchResults.map((agent, index) => (
           <AgentCard
             key={agent.id}

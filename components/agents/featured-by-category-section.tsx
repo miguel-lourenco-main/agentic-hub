@@ -22,9 +22,9 @@ export function FeaturedByCategorySection() {
           <AnimatedSection as="section" key={category.name} className="mb-16">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 
+                <h2
                   id={category.name.toLowerCase().replace(/\s+/g, "-")}
-                  className="text-2xl font-semibold tracking-tight scroll-mt-20"
+                  className="font-heading text-2xl font-semibold tracking-tight scroll-mt-20"
                 >
                   {category.name}
                 </h2>
@@ -32,7 +32,7 @@ export function FeaturedByCategorySection() {
               </div>
               <Link
                 href={`/agents/category/${category.name.toLowerCase().replace(" ", "-")}`}
-                className="text-sm text-muted-foreground hover:text-foreground"
+                className="text-sm text-muted-foreground transition-colors hover:text-gold"
               >
                 View all →
               </Link>

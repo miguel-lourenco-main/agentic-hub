@@ -12,10 +12,17 @@ const config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        heading: ["var(--font-heading)", ...fontFamily.sans],
         mono: ["var(--font-mono)", ...fontFamily.mono]
       },
       colors: {
         border: "hsl(var(--border))",
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          deep: "hsl(var(--gold-deep))"
+        },
+        violet: "hsl(var(--violet))",
+        success: "hsl(var(--success))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -64,6 +71,15 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)"
       },
+      backgroundImage: {
+        "gradient-cta": "linear-gradient(135deg, #EA580C 0%, #F7931A 100%)",
+        "gradient-violet": "linear-gradient(135deg, #7C3AED 0%, #8B5CF6 100%)"
+      },
+      boxShadow: {
+        "glow-gold": "0 0 24px -6px rgba(247, 147, 26, 0.5)",
+        "glow-gold-lg": "0 0 48px -8px rgba(247, 147, 26, 0.6)",
+        "glow-violet": "0 0 24px -6px rgba(139, 92, 246, 0.5)"
+      },
       keyframes: {
         marquee: {
           from: { transform: "translateX(0)" },
@@ -72,11 +88,21 @@ const config = {
         "marquee-vertical": {
           from: { transform: "translateY(0)" },
           to: { transform: "translateY(calc(-100% - var(--gap)))" }
+        },
+        "pulse-dot": {
+          "0%": { transform: "scale(1)", opacity: "0.6" },
+          "100%": { transform: "scale(2.4)", opacity: "0" }
+        },
+        shimmer: {
+          from: { backgroundPosition: "200% 0" },
+          to: { backgroundPosition: "-200% 0" }
         }
       },
       animation: {
         marquee: "marquee var(--duration) infinite linear",
-        "marquee-vertical": "marquee-vertical var(--duration) linear infinite"
+        "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
+        "pulse-dot": "pulse-dot 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        shimmer: "shimmer 2s linear infinite"
       }
     }
   },

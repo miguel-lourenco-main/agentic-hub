@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { AppLogo } from "@/components/app-logo";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ConnectWalletButton } from "@/components/connect-wallet-button";
 import { HeaderSearchInline } from "@/components/search/header-search-inline";
 import { cn } from "@/lib/utils";
 import { useSearchUI } from "@/components/search/search-context";
@@ -30,7 +30,7 @@ export function SiteHeader() {
 
   return (
     <motion.header
-      className="sticky top-0 h-[4rem] z-50 w-full bg-transparent border-border/40 my-3"
+      className="glass sticky top-0 h-[4rem] z-50 w-full"
       initial={false}
       layout
     >
@@ -42,14 +42,14 @@ export function SiteHeader() {
               <HeaderSearchInline />
             </div>
             <motion.div layout>
-              <ThemeToggle />
+              <ConnectWalletButton />
             </motion.div>
           </div>
         ) : (
           <div className={cn("flex w-full items-center justify-between", stripBasePath(pathname ?? "") !== "/agents" && "max-w-7xl mx-auto")}>
             <AppLogo size={42} />
             <motion.div layout>
-              <ThemeToggle />
+              <ConnectWalletButton />
             </motion.div>
           </div>
         )}

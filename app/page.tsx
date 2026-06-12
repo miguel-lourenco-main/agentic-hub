@@ -8,80 +8,40 @@ import { SearchInput } from "@/components/search-input";
 import { useSearchUI } from "@/components/search/search-context";
 import {
   ArrowRight,
-  Bot,
   PenLine,
   Bug,
   BarChart3,
-  ShoppingBag,
-  Megaphone,
-  Languages,
+  Brain,
+  GitBranch,
+  FlaskConical,
+  Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { DynamicIcon } from "@/components/ui/dynamic-icon";
+import { GradientText } from "@/components/ui/gradient-text";
+import { StatsStrip } from "@/components/home/stats-strip";
+import { LiveTicker } from "@/components/home/live-ticker";
+import { HowItWorks } from "@/components/home/how-it-works";
+import { Testimonials } from "@/components/home/testimonials";
+import { ListAgentCta } from "@/components/home/list-agent-cta";
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import { TypingAnimation } from "@/components/typing-text";
 import { withBasePath } from "@/lib/base-path";
+import { agents } from "@/data/agents";
 
-// Mock data for popular agents
-const popularAgents = [
-  {
-    id: "1",
-    name: "CodeAssist Pro",
-    description: "Expert coding assistant with real-time pair programming capabilities",
-    uses: 15420,
-  },
-  {
-    id: "2",
-    name: "DataAnalyst AI",
-    description: "Advanced data analysis and visualization specialist",
-    uses: 12350,
-  },
-  {
-    id: "3",
-    name: "ContentGenius",
-    description: "Creative content generation and optimization",
-    uses: 10890,
-  },
-];
+const popularAgents = [...agents]
+  .sort((a, b) => b.reviewCount - a.reviewCount)
+  .slice(0, 3);
 
 const searchSuggestions = [
-  {
-    text: "Help me with pair programming",
-    icon: PenLine,
-    color: "text-purple-500",
-    bgColor: "bg-purple-500/10 hover:bg-purple-500/20",
-  },
-  {
-    text: "Cybersecurity monitoring and threat detection",
-    icon: Bug,
-    color: "text-red-500",
-    bgColor: "bg-red-500/10 hover:bg-red-500/20",
-  },
-  {
-    text: "Optimize code performance",
-    icon: BarChart3,
-    color: "text-blue-500",
-    bgColor: "bg-blue-500/10 hover:bg-blue-500/20",
-  },
-  {
-    text: "Train machine learning models",
-    icon: ShoppingBag,
-    color: "text-green-500",
-    bgColor: "bg-green-500/10 hover:bg-green-500/20",
-  },
-  {
-    text: "Help with version control",
-    icon: Megaphone,
-    color: "text-orange-500",
-    bgColor: "bg-orange-500/10 hover:bg-orange-500/20",
-  },
-  {
-    text: "Run automated testing",
-    icon: Languages,
-    color: "text-sky-500",
-    bgColor: "bg-sky-500/10 hover:bg-sky-500/20",
-  },
+  { text: "Help me with pair programming", icon: PenLine },
+  { text: "Cybersecurity monitoring and threat detection", icon: Bug },
+  { text: "Optimize code performance", icon: BarChart3 },
+  { text: "Train machine learning models", icon: Brain },
+  { text: "Help with version control", icon: GitBranch },
+  { text: "Run automated testing", icon: FlaskConical },
 ];
 
 function HomeContent() {
@@ -98,20 +58,20 @@ function HomeContent() {
   const titleControls = useAnimation();
 
   useEffect(() => {
-    if (isFromAgents) {      
+    if (isFromAgents) {
       // Replace the current state with the clean URL
       window.history.replaceState(null, '', withBasePath('/'));
-      
+
       // Go back and modify the previous entry
       window.history.back();
-      
+
       // Wait for the back navigation to complete
       const handlePop = () => {
         window.history.replaceState(null, '', withBasePath('/agents?from=home'));
         window.history.forward();
         window.removeEventListener('popstate', handlePop);
       };
-      
+
       window.addEventListener('popstate', handlePop);
     }
 
@@ -168,7 +128,7 @@ function HomeContent() {
 
   return (
     <motion.main
-      className="flex h-full flex-col justify-center container mx-auto max-w-5xl space-y-8 py-6"
+      className="container mx-auto flex max-w-6xl flex-col space-y-24 pb-24"
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: -100, opacity: 0 }}
@@ -179,16 +139,31 @@ function HomeContent() {
       }}
     >
       {/* Hero Section with Search */}
-      <section className="flex flex-col items-center text-center space-y-8 py-12">
-        <motion.h1
+      <section className="relative flex min-h-[calc(100vh-12rem)] flex-col items-center justify-center space-y-8 text-center">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-8 h-72 w-72 -translate-x-[80%] rounded-full bg-gold/15 blur-[120px]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-24 h-72 w-72 translate-x-[10%] rounded-full bg-violet/15 blur-[120px]"
+        />
+        <motion.div
           animate={contentControls}
           initial={{ opacity: 1 }}
-          className="text-3xl sm:text-4xl font-bold tracking-tight lg:text-5xl px-4"
+          className="relative space-y-4 px-4"
         >
-          <TypingAnimation startOnView={true}>
-            What can I help you find?
-          </TypingAnimation>
-        </motion.h1>
+          <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+            <TypingAnimation startOnView={true}>
+              What can I help you find?
+            </TypingAnimation>
+          </h1>
+          <p className="mx-auto max-w-2xl text-base text-muted-foreground sm:text-lg">
+            Hire and invest in{" "}
+            <GradientText className="font-medium">autonomous AI agents</GradientText>
+            {" "}— paid per task, owned on-chain.
+          </p>
+        </motion.div>
         <div className="w-full container space-y-4 px-4 py-3">
           <motion.div
             ref={searchBarRef}
@@ -210,98 +185,132 @@ function HomeContent() {
             initial={{ opacity: 1 }}
             className="flex flex-wrap gap-2 justify-center"
           >
-            {searchSuggestions.map(({ text, icon: Icon, color, bgColor }) => (
+            {searchSuggestions.map(({ text, icon: Icon }, index) => (
               <button
                 key={text}
                 onClick={() => handleSuggestionClick(text)}
                 className={cn(
-                  "inline-flex items-center rounded-md border border-transparent",
-                  "px-3 py-1 text-sm transition-all duration-300",
-                  "bg-muted/50 text-foreground/85",
-                  "hover:bg-opacity-100 hover:text-foreground",
-                  bgColor
+                  "inline-flex items-center rounded-md border hairline",
+                  "bg-white/[0.04] px-3 py-1 text-sm text-foreground/85",
+                  "transition-all duration-300 hover:bg-white/[0.08] hover:text-foreground"
                 )}
               >
-                <Icon className={cn("mr-2 h-4 w-4", color)} />
+                <Icon
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    index % 2 === 0 ? "text-gold" : "text-violet"
+                  )}
+                />
                 <span>{text}</span>
               </button>
             ))}
           </motion.div>
         </div>
       </section>
-      <motion.section className="mb-12 px-4" animate={contentControls} initial={{ opacity: 1 }}>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight">Popular Agents</h2>
-          <Link
-            href={withBasePath('/agents')}
-            className="inline-flex items-center text-sm font-medium hover:underline"
-          >
-            View all agents
-            <ArrowRight className="ml-1 h-4 w-4" />
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-          {popularAgents.map((agent, index) => (
-            <motion.div
-              key={agent.id}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{
-                type: "spring",
-                stiffness: 100,
-                damping: 20,
-                delay: index * 0.1,
-              }}
-            >
-              <Card
-                hoverable
-                className="flex justify-between items-center lg:flex-col p-4 sm:p-6 lg:space-x-0 lg:space-y-4 space-y-0 space-x-4 hover:border-foreground/50 transition-colors"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="rounded-full bg-primary/10 p-2">
-                    <Bot className="h-5 w-5 sm:h-6 sm:w-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">{agent.name}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {agent.uses.toLocaleString()} uses
-                    </p>
-                  </div>
-                </div>
-                <p className="flex-1 lg:flex-none text-sm text-center text-muted-foreground">
-                  {agent.description}
-                </p>
-                <Link href={withBasePath(`/agents/${agent.id}`)}>
-                  <Button className="w-full">
-                    <ArrowRight className="h-4 w-4 lg:hidden" />
-                    <span className="hidden lg:inline">Try this agent</span>
-                  </Button>
-                </Link>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </motion.section>
 
-      {/* Categories */}
-      <motion.section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4" animate={contentControls} initial={{ opacity: 1 }}>
-        {[
-          { name: "Development", desc: "Find coding assistants" },
-          { name: "Analytics", desc: "Data analysis experts" },
-          { name: "Content", desc: "Content creation tools" },
-          { name: "Browse All", desc: "Explore all agents" }
-        ].map((category) => (
-          <Link
-            key={category.name}
-            href={category.name === "Browse All" ? withBasePath('/agents') : withBasePath(`/agents/?query=${category.name}`)}
-          >
-            <Card className="h-full p-4 hover:border-foreground/50 transition-colors" hoverable>
-              <h3 className="font-semibold">{category.name}</h3>
-              <p className="text-sm text-muted-foreground">{category.desc}</p>
-            </Card>
-          </Link>
-        ))}
-      </motion.section>
+      <motion.div
+        animate={contentControls}
+        initial={{ opacity: 1 }}
+        className="flex flex-col space-y-24"
+      >
+        {/* Marketplace stats */}
+        <StatsStrip />
+
+        {/* Live activity ticker */}
+        <LiveTicker />
+
+        {/* Popular agents */}
+        <section className="px-4">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-heading text-xl sm:text-2xl font-semibold tracking-tight">
+              Popular Agents
+            </h2>
+            <Link
+              href={withBasePath('/agents')}
+              className="inline-flex items-center text-sm font-medium transition-colors hover:text-gold"
+            >
+              View all agents
+              <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+            {popularAgents.map((agent, index) => (
+              <motion.div
+                key={agent.id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 20,
+                  delay: index * 0.1,
+                }}
+              >
+                <Card
+                  hoverable
+                  className="flex h-full flex-col gap-4 p-4 sm:p-6"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="rounded-lg bg-gold/10 p-2.5 text-gold">
+                      <DynamicIcon name={agent.iconName} className="h-5 w-5 sm:h-6 sm:w-6" />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="truncate font-heading font-semibold">{agent.name}</h3>
+                      <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                        <Star className="h-3.5 w-3.5 fill-gold text-gold" />
+                        <span className="font-mono">{agent.rating}</span>
+                        <span>· {agent.reviewCount.toLocaleString()} reviews</span>
+                      </p>
+                    </div>
+                  </div>
+                  <p className="flex-1 text-sm text-muted-foreground">
+                    {agent.description}
+                  </p>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-mono text-sm text-gold">{agent.pricing}</span>
+                    <Button variant="gradient" size="sm" asChild>
+                      <Link href={withBasePath(`/agents/${agent.id}`)}>
+                        Try this agent
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* How it works */}
+        <HowItWorks />
+
+        {/* Categories */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+          {[
+            { name: "Development", desc: "Find coding assistants" },
+            { name: "Analytics", desc: "Data analysis experts" },
+            { name: "Content", desc: "Content creation tools" },
+            { name: "Browse All", desc: "Explore all agents" }
+          ].map((category) => (
+            <Link
+              key={category.name}
+              href={category.name === "Browse All" ? withBasePath('/agents') : withBasePath(`/agents/?query=${category.name}`)}
+            >
+              <Card className="h-full p-4" hoverable>
+                <h3 className="font-heading font-semibold">{category.name}</h3>
+                <p className="text-sm text-muted-foreground">{category.desc}</p>
+              </Card>
+            </Link>
+          ))}
+        </section>
+
+        {/* Social proof */}
+        <Testimonials />
+
+        {/* Builder CTA */}
+        <ListAgentCta />
+      </motion.div>
     </motion.main>
   );
 }

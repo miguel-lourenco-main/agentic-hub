@@ -11,10 +11,10 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
   }, [error]);
 
   return (
-    <main className="container mx-auto py-16 px-4">
-      <h1 className="text-3xl font-bold mb-4">Something went wrong</h1>
+    <main className="container mx-auto py-16 px-4 text-center">
+      <h1 className="font-heading text-3xl font-bold mb-4">Something went wrong</h1>
       <p className="text-muted-foreground mb-6">Please try again or return to the homepage.</p>
-      <Link href={withBasePath("/")} className="underline">
+      <Link href={withBasePath("/")} className="underline transition-colors hover:text-gold">
         Go back home
       </Link>
     </main>

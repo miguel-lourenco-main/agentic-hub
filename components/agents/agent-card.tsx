@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { CircleDollarSign } from "lucide-react";
+import { CircleDollarSign, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DynamicIcon } from "@/components/ui/dynamic-icon";
@@ -33,29 +33,33 @@ export function AgentCard({ agent, index, categoryIndex = 0, variant = "grid" }:
     >
       <Card
         hoverable
-        className="flex flex-col justify-between h-[12rem] group relative rounded-lg border p-6 hover:border-foreground/50 transition-colors"
+        className="flex flex-col justify-between h-[12rem] group relative rounded-lg p-6"
       >
         <div className="flex flex-col">
           <div className="flex items-center gap-4 mb-4">
-            <div className="rounded-full bg-primary/10 p-2">
+            <div className="rounded-lg bg-gold/10 p-2 text-gold">
               <DynamicIcon name={agent.iconName} className="h-6 w-6" />
             </div>
-            <div>
-              <h3 className="font-semibold leading-none tracking-tight">
+            <div className="min-w-0 flex-1">
+              <h3 className="truncate font-heading font-semibold leading-none tracking-tight">
                 {agent.name}
               </h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
                 {agent.category}
+                <span className="inline-flex items-center gap-1">
+                  <Star className="h-3 w-3 fill-gold text-gold" />
+                  <span className="font-mono text-xs">{agent.rating}</span>
+                </span>
               </p>
             </div>
           </div>
-          <p className="text-sm text-muted-foreground mb-4">
+          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
             {agent.description}
           </p>
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex items-center text-sm text-muted-foreground">
-            <CircleDollarSign className="mr-1 size-5" />
+          <div className="flex items-center font-mono text-sm text-gold">
+            <CircleDollarSign className="mr-1.5 size-4" />
             {agent.pricing}
           </div>
           <div className="flex gap-2">
@@ -65,7 +69,7 @@ export function AgentCard({ agent, index, categoryIndex = 0, variant = "grid" }:
               </Button>
             </Link>
             <Link href={`/agents/${agent.id}?action=hire`}>
-              <Button size="sm">Hire</Button>
+              <Button variant="gradient" size="sm">Hire</Button>
             </Link>
           </div>
         </div>

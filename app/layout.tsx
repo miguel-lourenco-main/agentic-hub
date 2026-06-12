@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
@@ -9,8 +9,18 @@ const inter = Inter({
   variable: "--font-sans",
 });
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-heading",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
+
 export const metadata = {
-  title: "AI Agent Marketplace",
+  title: "AgenticHub — AI Agent Marketplace",
   description: "A decentralized marketplace for AI agents",
   manifest: withBasePath("/site.webmanifest"),
   icons: {
@@ -45,10 +55,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={cn(
           inter.variable,
+          spaceGrotesk.variable,
+          jetbrainsMono.variable,
           "flex flex-col h-screen bg-background font-sans antialiased overflow-hidden"
         )}
       >
