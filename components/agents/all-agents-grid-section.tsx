@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatedSection } from "@/components/agents/animated-section";
-import { AgentCard } from "@/components/agents/agent-card";
+import { AssetCard } from "@/components/home/asset-card";
 import { agents } from "@/data/agents";
 import { useMemo, useRef, useState, useEffect } from "react";
 import { useInView } from "framer-motion";
@@ -21,22 +21,28 @@ export function AllAgentsGridSection() {
 
   return (
     <AnimatedSection as="section" layout={false} className="mb-16">
-      <h2
-        id="all-agents"
-        className="font-heading text-2xl font-semibold tracking-tight mb-6 scroll-mt-20"
-      >
-        All Agents
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {visibleAgents.map((agent, index) => (
-          <AgentCard key={agent.id} agent={agent} index={index} variant="grid" />
+      <div className="mb-6 flex items-end justify-between gap-4">
+        <div>
+          <p className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground/70">
+            <span className="text-gold">—</span> The full index
+          </p>
+          <h2
+            id="all-agents"
+            className="mt-2 scroll-mt-24 font-heading text-3xl font-semibold tracking-tight"
+          >
+            All agents
+          </h2>
+        </div>
+        <span className="font-mono text-sm text-muted-foreground">
+          {visibleAgents.length} / {agents.length}
+        </span>
+      </div>
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {visibleAgents.map((agent) => (
+          <AssetCard key={agent.id} agent={agent} />
         ))}
       </div>
-      {visibleCount < agents.length && (
-        <div ref={loadMoreRef} className="h-8" />
-      )}
+      {visibleCount < agents.length && <div ref={loadMoreRef} className="h-8" />}
     </AnimatedSection>
   );
 }
-
-

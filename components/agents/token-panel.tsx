@@ -8,7 +8,7 @@ import { PriceChart } from "@/components/ui/price-chart"
 import { InvestDialog } from "@/components/agents/invest-dialog"
 import { getPriceHistory } from "@/data/mock-series"
 import type { Agent } from "@/lib/interfaces"
-import { cn } from "@/lib/utils"
+import { cn, formatInt } from "@/lib/utils"
 
 export function TokenPanel({ agent }: { agent: Agent }) {
   const history = getPriceHistory(agent)
@@ -17,10 +17,10 @@ export function TokenPanel({ agent }: { agent: Agent }) {
   const holders = Math.round(agent.investment.marketCap / 1850)
 
   const rows = [
-    { label: "Market Cap", value: `${agent.investment.marketCap.toLocaleString()} SOL` },
-    { label: "Price / Share", value: `${agent.investment.pricePerShare.toLocaleString()} SOL` },
-    { label: "Available Shares", value: agent.investment.availableShares.toLocaleString() },
-    { label: "Holders", value: holders.toLocaleString() },
+    { label: "Market Cap", value: `${formatInt(agent.investment.marketCap)} SOL` },
+    { label: "Price / Share", value: `${formatInt(agent.investment.pricePerShare)} SOL` },
+    { label: "Available Shares", value: formatInt(agent.investment.availableShares) },
+    { label: "Holders", value: formatInt(holders) },
   ]
 
   return (

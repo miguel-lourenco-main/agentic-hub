@@ -1,7 +1,7 @@
 "use client"
 
 import { useId, useRef, useState } from "react"
-import { motion } from "framer-motion"
+import { useInViewOnce } from "@/lib/motion"
 import { PricePoint } from "@/lib/interfaces"
 import { cn } from "@/lib/utils"
 
@@ -19,6 +19,7 @@ export function PriceChart({ data, height = 220, className }: PriceChartProps) {
   const gradientId = useId()
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [hoverIndex, setHoverIndex] = useState<number | null>(null)
+  const [pathRef, inView] = useInViewOnce<SVGPathElement>()
 
   if (data.length < 2) return null
 
@@ -67,18 +68,17 @@ export function PriceChart({ data, height = 220, className }: PriceChartProps) {
           </linearGradient>
         </defs>
         <path d={area} fill={`url(#${gradientId})`} />
-        <motion.path
+        <path
+          ref={pathRef}
           d={line}
+          pathLength={1}
+          className={cn("draw-line", inView && "is-in")}
           fill="none"
           stroke={STROKE}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
           vectorEffect="non-scaling-stroke"
-          initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
         />
         {hoveredPoint && (
           <>

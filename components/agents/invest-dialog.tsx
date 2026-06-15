@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { GradientText } from "@/components/ui/gradient-text";
 import { SparklineChart } from "@/components/ui/sparkline-chart";
 import { seededRandom } from "@/lib/seeded";
+import { formatInt } from "@/lib/utils";
 
 interface InvestDialogProps {
   children: React.ReactNode;
@@ -88,7 +89,7 @@ export function InvestDialog({
                     Market Cap
                   </div>
                   <div className="font-mono text-xl font-bold">
-                    <GradientText>{marketCap.toLocaleString()} SOL</GradientText>
+                    <GradientText>{formatInt(marketCap)} SOL</GradientText>
                   </div>
                   <SparklineChart
                     data={capTrend}
@@ -103,7 +104,7 @@ export function InvestDialog({
                   </div>
                   <div className="font-mono text-xl font-bold">
                     <GradientText variant="violet">
-                      {availableShares.toLocaleString()}
+                      {formatInt(availableShares)}
                     </GradientText>
                   </div>
                   <p className="mt-1 font-mono text-xs text-muted-foreground">

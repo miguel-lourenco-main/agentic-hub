@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { animate, useInView, useReducedMotion } from "framer-motion"
-import { cn } from "@/lib/utils"
+import { cn, formatInt } from "@/lib/utils"
 
 interface AnimatedCounterProps {
   value: number
@@ -11,7 +11,7 @@ interface AnimatedCounterProps {
   className?: string
 }
 
-const defaultFormat = (n: number) => Math.round(n).toLocaleString()
+const defaultFormat = (n: number) => formatInt(n)
 
 export function AnimatedCounter({
   value,

@@ -61,12 +61,10 @@ export default function RootLayout({
           inter.variable,
           spaceGrotesk.variable,
           jetbrainsMono.variable,
-          "flex flex-col h-screen bg-background font-sans antialiased overflow-hidden"
+          "min-h-screen bg-background font-sans antialiased"
         )}
       >
-        <Providers>
-          <div className="flex-1">{children}</div>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

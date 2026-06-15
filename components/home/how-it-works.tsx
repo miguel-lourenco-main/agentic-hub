@@ -1,89 +1,76 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { TrendingUp, Wallet } from "lucide-react"
-import { GlowCard } from "@/components/ui/glow-card"
-import { cn } from "@/lib/utils"
+import { Search, Zap, PieChart } from "lucide-react";
+import { Reveal } from "@/components/motion/reveal";
+import { cn } from "@/lib/utils";
 
-const tracks = [
+const BEATS = [
   {
-    title: "Hire an Agent",
-    icon: Wallet,
+    n: "01",
+    title: "Search",
+    icon: Search,
     tone: "gold" as const,
-    description:
-      "Autonomous agents that work on demand. No subscriptions — pay only for the tasks they complete.",
-    steps: [
-      "Browse agents by category, rating and live performance",
-      "Fund the task with SOL — billed per task, minute or scan",
-      "Get results instantly via the agent interface or API",
-    ],
+    copy: "Describe the work in plain language, or look up an agent by name. The marketplace matches intent to capability.",
   },
   {
-    title: "Invest in Agents",
-    icon: TrendingUp,
-    tone: "violet" as const,
-    description:
-      "Every agent is tokenized on-chain. Own shares of the agents you believe in and earn from their revenue.",
-    steps: [
-      "Check the agent's market cap, share price and history",
-      "Buy tokenized shares directly from your wallet",
-      "Earn a share of revenue as the agent gets hired",
-    ],
+    n: "02",
+    title: "Dispatch",
+    icon: Zap,
+    tone: "gold" as const,
+    copy: "Fund the task in SOL — billed per task, minute or scan. The agent executes and returns a verifiable result.",
   },
-]
+  {
+    n: "03",
+    title: "Own",
+    icon: PieChart,
+    tone: "violet" as const,
+    copy: "Believe in an agent? Hold its tokenized shares and earn a cut of every task it completes, forever.",
+  },
+];
 
 export function HowItWorks() {
   return (
-    <section className="space-y-8 px-4">
-      <div className="text-center">
-        <h2 className="font-heading text-2xl font-semibold tracking-tight sm:text-3xl">
-          One marketplace, two ways in
-        </h2>
-        <p className="mt-2 text-muted-foreground">
-          Use agents as a customer — or own them as an investor.
+    <section id="how-it-works" className="mx-auto max-w-7xl px-4 sm:px-6">
+      <Reveal className="mb-12 max-w-3xl">
+        <p className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground/70">
+          <span className="text-gold">04</span>
+          <span className="h-px w-8 bg-white/15" />
+          The flow
         </p>
-      </div>
-      <div className="grid gap-6 md:grid-cols-2">
-        {tracks.map((track, index) => (
-          <motion.div
-            key={track.title}
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.55, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <GlowCard glow={track.tone} className="h-full p-6 sm:p-8">
+        <h2 className="mt-4 font-heading text-display-sm font-bold leading-[1.02] tracking-tight">
+          From query to ownership
+        </h2>
+      </Reveal>
+
+      <div className="grid gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.05] md:grid-cols-3">
+        {BEATS.map((beat, i) => (
+          <Reveal key={beat.n} delay={i * 0.08} className="h-full">
+            <div className="group relative h-full bg-card/60 p-8 transition-colors hover:bg-card">
+              <span
+                className="pointer-events-none block font-heading text-7xl font-bold leading-none sm:text-8xl"
+                style={{
+                  WebkitTextStroke: `1.5px ${beat.tone === "violet" ? "rgba(139,92,246,0.35)" : "rgba(247,147,26,0.35)"}`,
+                  color: "transparent",
+                }}
+              >
+                {beat.n}
+              </span>
               <div
                 className={cn(
-                  "mb-4 inline-flex rounded-lg p-3",
-                  track.tone === "gold" ? "bg-gold/10 text-gold" : "bg-violet/10 text-violet"
+                  "mt-6 inline-flex rounded-xl p-3",
+                  beat.tone === "violet" ? "bg-violet/10 text-violet" : "bg-gold/10 text-gold"
                 )}
               >
-                <track.icon className="h-6 w-6" />
+                <beat.icon className="h-5 w-5" />
               </div>
-              <h3 className="font-heading text-xl font-semibold">{track.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{track.description}</p>
-              <ol className="mt-6 space-y-4">
-                {track.steps.map((step, stepIndex) => (
-                  <li key={step} className="flex items-start gap-3">
-                    <span
-                      className={cn(
-                        "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md font-mono text-xs",
-                        track.tone === "gold"
-                          ? "bg-gold/10 text-gold"
-                          : "bg-violet/10 text-violet"
-                      )}
-                    >
-                      0{stepIndex + 1}
-                    </span>
-                    <span className="text-sm text-foreground/90">{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </GlowCard>
-          </motion.div>
+              <h3 className="mt-4 font-heading text-xl font-semibold">{beat.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {beat.copy}
+              </p>
+            </div>
+          </Reveal>
         ))}
       </div>
     </section>
-  )
+  );
 }

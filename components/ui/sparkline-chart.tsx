@@ -1,7 +1,7 @@
 "use client"
 
 import { useId } from "react"
-import { motion } from "framer-motion"
+import { useInViewOnce } from "@/lib/motion"
 import { cn } from "@/lib/utils"
 
 interface SparklineChartProps {
@@ -48,10 +48,12 @@ export function SparklineChart({
   const gradientId = useId()
   const stroke = strokeColors[color]
   const { line, area } = buildPath(data)
+  const [ref, inView] = useInViewOnce<SVGSVGElement>()
   if (!line) return null
 
   return (
     <svg
+      ref={ref}
       viewBox={`0 0 ${WIDTH} 100`}
       preserveAspectRatio="none"
       className={cn("w-full", className)}
@@ -65,18 +67,16 @@ export function SparklineChart({
         </linearGradient>
       </defs>
       {showArea && <path d={area} fill={`url(#${gradientId})`} />}
-      <motion.path
+      <path
         d={line}
+        pathLength={1}
+        className={cn("draw-line", inView && "is-in")}
         fill="none"
         stroke={stroke}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"
-        initial={{ pathLength: 0 }}
-        whileInView={{ pathLength: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
       />
     </svg>
   )
