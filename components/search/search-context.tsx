@@ -1,5 +1,6 @@
 "use client";
 
+// Shared search query + header transition flag — bridges hero search and /agents.
 import { createContext, useContext, useMemo, useState } from "react";
 
 type SearchUIContextValue = {

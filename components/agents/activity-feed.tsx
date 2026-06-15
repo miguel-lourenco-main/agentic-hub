@@ -1,5 +1,6 @@
 "use client"
 
+// Per-agent slice of the global activity feed (seeded mock data).
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LiveDot } from "@/components/ui/live-dot"

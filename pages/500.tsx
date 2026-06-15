@@ -1,3 +1,4 @@
+// Pages Router fallback for static export hosts that serve 500.html on server errors.
 export default function Custom500() {
   return (
     <main style={{ padding: 32 }}>

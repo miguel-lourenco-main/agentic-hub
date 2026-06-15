@@ -1,5 +1,6 @@
 "use client";
 
+// Client-side review form — appends to local state only (demo, no persistence).
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";

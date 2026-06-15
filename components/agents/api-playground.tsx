@@ -1,5 +1,9 @@
 "use client"
 
+/**
+ * Simulated API console — fakes latency and returns a canned JSON response so
+ * builders can preview the hire/invest flow without a live backend.
+ */
 import { useEffect, useRef, useState } from "react"
 import { Loader2, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"

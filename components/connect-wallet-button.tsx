@@ -1,5 +1,6 @@
 "use client"
 
+// Demo wallet toggle — no chain integration; shows connected state in the header.
 import { useState } from "react"
 import { Wallet } from "lucide-react"
 import { Button } from "@/components/ui/button"

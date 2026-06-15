@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Dual-row infinite marquee of recent hire/invest events. Duplicated rows +
+ * CSS animation give seamless looping; pauses on hover.
+ */
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { ActivityEvent } from "@/lib/interfaces";

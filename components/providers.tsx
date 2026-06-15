@@ -1,5 +1,6 @@
 "use client"
 
+// Client-side app shell: motion config, search state, chrome, and scroll/cursor FX.
 import * as React from "react"
 import { MotionConfig } from "framer-motion"
 import { SearchUIProvider } from "@/components/search/search-context"

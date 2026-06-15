@@ -1,5 +1,6 @@
 "use client";
 
+// Paginated agent grid — loads 9 more cards when the sentinel scrolls into view.
 import { AnimatedSection } from "@/components/agents/animated-section";
 import { AssetCard } from "@/components/home/asset-card";
 import { agents } from "@/data/agents";

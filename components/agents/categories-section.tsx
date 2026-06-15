@@ -1,5 +1,6 @@
 "use client";
 
+// Category filter chips + agent count for the marketplace index header.
 import { AnimatedSection } from "@/components/agents/animated-section";
 import { CategoryTag } from "@/components/agents/category-tag";
 import { categories } from "@/data/categories";

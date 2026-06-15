@@ -1,5 +1,9 @@
 "use client"
 
+/**
+ * Minimal inline sparkline — normalized to a fixed viewBox so it scales in cards
+ * without recharts. Stroke draw is CSS-driven via `.draw-line.is-in`.
+ */
 import { useId } from "react"
 import { useInViewOnce } from "@/lib/motion"
 import { cn } from "@/lib/utils"

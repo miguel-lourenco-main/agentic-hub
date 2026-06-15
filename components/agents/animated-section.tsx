@@ -1,5 +1,6 @@
 "use client";
 
+// Thin framer-motion wrapper so marketplace sections can opt out of layout animations.
 import { motion } from "framer-motion";
 
 export function AnimatedSection({

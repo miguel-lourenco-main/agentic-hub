@@ -1,5 +1,6 @@
 "use client";
 
+// Sticky header with two layouts: marketing nav on home, inline search on /agents.
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";

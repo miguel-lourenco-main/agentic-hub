@@ -1,5 +1,6 @@
 "use client";
 
+// Marketplace card with share-price sparkline and 3D tilt hover (home + /agents).
 import Link from "next/link";
 import { ArrowUpRight, Star } from "lucide-react";
 import { DynamicIcon } from "@/components/ui/dynamic-icon";

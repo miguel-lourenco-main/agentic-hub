@@ -1,3 +1,4 @@
+// App Router 404 — used for unknown routes and missing agent IDs at build time.
 import Link from "next/link";
 import { withBasePath } from "@/lib/base-path";
 

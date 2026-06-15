@@ -1,5 +1,9 @@
 "use client"
 
+/**
+ * Count-up on first scroll into view. Starts at 0 on SSR to match hydration;
+ * skips animation when the user prefers reduced motion.
+ */
 import { useEffect, useRef, useState } from "react"
 import { animate, useInView, useReducedMotion } from "framer-motion"
 import { cn, formatInt } from "@/lib/utils"

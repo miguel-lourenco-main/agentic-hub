@@ -1,3 +1,4 @@
+// Pages Router fallback for static export hosts that serve 404.html outside the App Router.
 export default function Custom404() {
   return (
     <main style={{ padding: 32 }}>

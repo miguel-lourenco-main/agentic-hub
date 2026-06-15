@@ -1,5 +1,6 @@
 "use client";
 
+// Horizontal carousels per category — skips the synthetic "All Agents" bucket.
 import { AnimatedSection } from "@/components/agents/animated-section";
 import { ScrollableList } from "@/components/ui/scrollable-list";
 import { AssetCard } from "@/components/home/asset-card";

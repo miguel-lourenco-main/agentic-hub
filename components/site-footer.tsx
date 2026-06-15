@@ -1,3 +1,4 @@
+// Site-wide footer — links are placeholders pointing at the marketplace demo.
 import Link from "next/link"
 import { AppLogo } from "@/components/app-logo"
 import { withBasePath } from "@/lib/base-path"

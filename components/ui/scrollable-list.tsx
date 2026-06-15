@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Drag-to-scroll horizontal list with momentum decay and edge fade overlays.
+ * Used for featured agent carousels on the marketplace page.
+ */
 import { useRef, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { ChevronRight, ChevronLeft } from "lucide-react";

@@ -1,5 +1,9 @@
 "use client"
 
+/**
+ * Interactive share-price chart (SVG). Hover scrubs timestamps; draw animation
+ * uses the same `.draw-line` CSS as SparklineChart.
+ */
 import { useId, useRef, useState } from "react"
 import { useInViewOnce } from "@/lib/motion"
 import { PricePoint } from "@/lib/interfaces"

@@ -1,5 +1,6 @@
 "use client";
 
+// In-page anchor chips — scroll to the matching category section on /agents.
 import { motion } from "framer-motion";
 import type { Category } from "@/lib/types";
 

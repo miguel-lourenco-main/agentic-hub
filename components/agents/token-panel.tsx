@@ -1,5 +1,6 @@
 "use client"
 
+// Agent token summary: 30d price chart, cap/share stats, and invest entry point.
 import { Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { GlowCard } from "@/components/ui/glow-card"

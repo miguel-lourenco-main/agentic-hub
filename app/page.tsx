@@ -1,3 +1,4 @@
+// Landing page — sections are ordered for narrative: hero → tape → model → browse → CTA.
 import { Hero } from "@/components/home/hero";
 import { MarketTape } from "@/components/home/market-tape";
 import { TwoSided } from "@/components/home/two-sided";

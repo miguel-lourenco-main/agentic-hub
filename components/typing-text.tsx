@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Character-by-character reveal (grapheme-safe). Can start on mount or when
+ * scrolled into view; used for decorative headings, not critical content.
+ */
 import { cn } from "@/lib/utils";
 import { motion, MotionProps, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";

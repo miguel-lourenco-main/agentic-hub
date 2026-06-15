@@ -1,3 +1,4 @@
+// Single-row live activity ticker (legacy/alternate to MarketTape on some layouts).
 import Link from "next/link"
 import { ActivityEvent } from "@/lib/interfaces"
 import { getActivityFeed } from "@/data/activity"

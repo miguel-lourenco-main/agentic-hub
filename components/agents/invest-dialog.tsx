@@ -1,5 +1,6 @@
 "use client";
 
+// Two-step invest flow with seeded sparkline — demo only, no chain settlement.
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, TrendingUp, Users } from "lucide-react";

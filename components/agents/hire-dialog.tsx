@@ -1,5 +1,6 @@
 "use client";
 
+// Simulated hire checkout — no wallet or on-chain calls in this demo build.
 import * as React from "react";
 import { Wallet, Loader2, Info, Check } from "lucide-react";
 import {

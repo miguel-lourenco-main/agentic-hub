@@ -1,3 +1,4 @@
+/** Marketplace listing: hire pricing, token investment, embed, API docs, and reviews. */
 export interface Agent {
   id: string;
   name: string;
@@ -32,6 +33,7 @@ export interface Agent {
   averageRating: number;
 }
 
+/** Agent detail KPIs with month-over-month percent change. */
 export interface MetricsData {
   revenue: {
     total: number;
@@ -67,6 +69,7 @@ export interface PricePoint {
   v: number;
 }
 
+/** Synthetic hire/invest event for live ticker and activity feeds. */
 export interface ActivityEvent {
   id: string;
   type: "hire" | "invest";

@@ -1,5 +1,6 @@
 "use client";
 
+// Compact agent tile for search results and horizontal category rows.
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { CircleDollarSign, Star } from "lucide-react";

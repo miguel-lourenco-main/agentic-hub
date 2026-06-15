@@ -1,5 +1,6 @@
 "use client";
 
+// App Router error boundary — catches runtime errors in client/server components.
 import { useEffect } from "react";
 import Link from "next/link";
 import { withBasePath } from "@/lib/base-path";
