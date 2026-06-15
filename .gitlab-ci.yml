@@ -27,3 +27,13 @@ comment_mirror:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
     COMMENT_MIRROR_ALLOWED_PATH_PREFIXES: "app/,components/,lib/,pages/"
+
+ci_fix:
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+ci_fix_gate_retry_orchestrator:
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+ci_fix_cleanup_branches:
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
