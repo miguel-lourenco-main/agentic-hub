@@ -9,7 +9,7 @@ import { marketplaceStats } from "@/data/stats"
 function compact(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`
   if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`
-  return Math.round(n).toLocaleString()
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
 const stats = [

@@ -12,7 +12,7 @@ export default function AgentsPage() {
   const query = "";
   return (
     <Suspense>
-      <main className="container mx-auto py-6 px-4 pb-24">
+      <main className="mx-auto max-w-7xl px-4 pb-24 pt-24 sm:px-6">
         {/* Search Results (animated, code-split) */}
         <AnimatedResults query={query} />
 

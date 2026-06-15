@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Wallet, Sparkles, ArrowLeft } from "lucide-react";
+import { Wallet, Sparkles, ArrowLeft, Star } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -12,9 +12,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ReviewsSection } from "@/components/reviews/reviews-section";
-import { StarRating } from "@/components/ui/star-rating";
 import { Button } from "@/components/ui/button";
 import { DynamicIcon } from "@/components/ui/dynamic-icon";
+import { LiveDot } from "@/components/ui/live-dot";
 import { AgentMetrics } from "@/components/agents/agent-metrics";
 import { TokenPanel } from "@/components/agents/token-panel";
 import { ActivityFeed } from "@/components/agents/activity-feed";
@@ -22,7 +22,9 @@ import { ApiDocsViewer } from "@/components/agents/api-docs-viewer";
 import { ApiPlayground } from "@/components/agents/api-playground";
 import { HireDialog } from "@/components/agents/hire-dialog";
 import { InvestDialog } from "@/components/agents/invest-dialog";
+import { AgentCore } from "@/components/webgl/agent-core";
 import { getApiDocs } from "@/data/api-docs";
+import { findNodeIndexById } from "@/lib/agent-graph";
 import type { Agent, MetricsData } from "@/lib/interfaces";
 import { useRouter } from "next/navigation";
 
@@ -33,90 +35,101 @@ interface AgentContentProps {
 
 export function AgentContent({ agent, metricsData }: AgentContentProps) {
   const router = useRouter();
+  const nodeIndex = findNodeIndexById(agent.id);
   return (
-    <main className="container max-w-6xl mx-auto p-6">
+    <main className="mx-auto max-w-6xl px-4 pb-24 pt-24 sm:px-6">
       <button
-        className="mb-6 flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
+        className="mb-8 flex items-center gap-2 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
         onClick={() => router.back()}
       >
-        <ArrowLeft className="h-5 w-5" />
-        <span className="text-sm font-medium">Back</span>
+        <ArrowLeft className="h-4 w-4" />
+        back to floor
       </button>
-      {/* Agent Header */}
+
+      {/* Editorial header: identity + focused agent core */}
       <motion.div
-        initial={{ opacity: 0, x: 100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{
-          type: "spring",
-          stiffness: 100,
-          damping: 20,
-        }}
+        className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <Card className="mb-6">
-          <CardHeader>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <div className="w-fit rounded-lg bg-gold/10 p-3 text-gold">
-                <DynamicIcon name={agent.iconName} className="h-8 w-8" />
-              </div>
-              <div className="flex-1">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <CardTitle className="font-heading text-2xl">{agent.name}</CardTitle>
-                    <CardDescription>{agent.description}</CardDescription>
-                  </div>
-                  <div className="sm:text-right">
-                    <div className="flex items-center gap-2">
-                      <StarRating rating={agent.averageRating} readOnly />
-                      <span className="font-mono text-sm font-medium">
-                        {agent.averageRating.toFixed(1)}
-                      </span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {agent.reviews.length} review
-                      {agent.reviews.length !== 1 ? "s" : ""}
-                    </p>
-                  </div>
-                </div>
-              </div>
+        <div>
+          <div className="mb-5 flex items-center gap-3">
+            <div className="rounded-xl border border-gold/20 bg-gold/10 p-2.5 text-gold">
+              <DynamicIcon name={agent.iconName} className="h-6 w-6" />
             </div>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-                <span className="rounded-full border hairline bg-white/[0.04] px-3 py-1">
-                  {agent.category}
-                </span>
-                <span className="font-mono text-gold">
-                  {agent.billing.rate} {agent.billing.currency} {agent.billing.model}
-                </span>
-              </div>
-              <div className="flex flex-col gap-2 sm:flex-row">
-                <HireDialog agentName={agent.name} billing={agent.billing}>
-                  <Button size="lg" variant="gradient">
-                    <Wallet className="mr-2 h-4 w-4" />
-                    Hire
-                  </Button>
-                </HireDialog>
-                <InvestDialog
-                  agentName={agent.name}
-                  marketCap={agent.investment.marketCap}
-                  availableShares={agent.investment.availableShares}
-                  pricePerShare={agent.investment.pricePerShare}
-                >
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-violet/40 text-violet transition-shadow hover:bg-violet/10 hover:text-violet hover:shadow-glow-violet"
-                  >
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Invest
-                  </Button>
-                </InvestDialog>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+              {agent.category}
+            </span>
+          </div>
+
+          <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-5xl">
+            {agent.name}
+          </h1>
+          <p className="mt-3 max-w-xl text-muted-foreground">{agent.description}</p>
+
+          {/* mono spec strip */}
+          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-y border-white/[0.07] py-4 font-mono text-sm">
+            <span className="text-gold">
+              {agent.billing.rate} {agent.billing.currency}
+              <span className="text-muted-foreground/60"> · {agent.billing.model}</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Star className="h-3.5 w-3.5 fill-gold text-gold" />
+              <span>{agent.averageRating.toFixed(1)}</span>
+              <span className="text-muted-foreground/60">
+                ({agent.reviews.length} review{agent.reviews.length !== 1 ? "s" : ""})
+              </span>
+            </span>
+            <span className="text-violet">
+              {(agent.investment.marketCap / 1_000_000).toFixed(1)}M
+              <span className="text-muted-foreground/60"> mkt cap</span>
+            </span>
+          </div>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <HireDialog agentName={agent.name} billing={agent.billing}>
+              <Button size="lg" variant="gradient">
+                <Wallet className="mr-2 h-4 w-4" />
+                Hire agent
+              </Button>
+            </HireDialog>
+            <InvestDialog
+              agentName={agent.name}
+              marketCap={agent.investment.marketCap}
+              availableShares={agent.investment.availableShares}
+              pricePerShare={agent.investment.pricePerShare}
+            >
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-violet/40 text-violet transition-shadow hover:bg-violet/10 hover:text-violet hover:shadow-glow-violet"
+              >
+                <Sparkles className="mr-2 h-4 w-4" />
+                Invest
+              </Button>
+            </InvestDialog>
+          </div>
+        </div>
+
+        {/* focused agent core */}
+        <div className="relative mx-auto aspect-square w-full max-w-[26rem] overflow-hidden rounded-[1.5rem] border border-white/[0.08] bg-gradient-to-br from-white/[0.05] to-transparent">
+          <div className="pointer-events-none absolute left-5 top-5 z-10">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground/70">
+              Network position
+            </p>
+            <p className="mt-1 flex items-center gap-1.5 font-mono text-[10px] text-muted-foreground/50">
+              <LiveDot /> node {nodeIndex >= 0 ? nodeIndex + 1 : "—"} / 45
+            </p>
+          </div>
+          <AgentCore
+            className="absolute inset-0"
+            focusIndex={nodeIndex >= 0 ? nodeIndex : undefined}
+          />
+        </div>
       </motion.div>
+
+      <div className="mt-12" />
 
       {/* Metrics Section */}
       <motion.section

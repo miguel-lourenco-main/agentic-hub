@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SparklineChart } from "@/components/ui/sparkline-chart";
 import { Agent, MetricsData } from "@/lib/interfaces";
 import { getMetricSeries, MetricKey } from "@/data/mock-series";
-import { cn } from "@/lib/utils";
+import { cn, formatInt } from "@/lib/utils";
 
 interface MetricConfig {
   key: MetricKey;
@@ -23,21 +23,21 @@ const metricConfigs: MetricConfig[] = [
     title: "Revenue Last Month",
     icon: DollarSign,
     color: "gold",
-    format: n => `${n.toLocaleString()} SOL`,
+    format: n => `${formatInt(n)} SOL`,
   },
   {
     key: "requests",
     title: "Requests Last Month",
     icon: BarChart3,
     color: "violet",
-    format: n => n.toLocaleString(),
+    format: n => formatInt(n),
   },
   {
     key: "activeUsers",
     title: "Active Users",
     icon: Users,
     color: "success",
-    format: n => n.toLocaleString(),
+    format: n => formatInt(n),
   },
   {
     key: "avgResponseTime",
