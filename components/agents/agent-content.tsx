@@ -37,13 +37,20 @@ export function AgentContent({ agent, metricsData }: AgentContentProps) {
   const router = useRouter();
   const nodeIndex = findNodeIndexById(agent.id);
   return (
-    <main className="mx-auto max-w-6xl px-4 pb-24 pt-24 sm:px-6">
+    <main className="relative mx-auto max-w-6xl px-4 pb-24 pt-24 sm:px-6">
+      {/* Sleek back control: a compact pill that floats beside the header and
+          reveals its label on hover, so it no longer reserves a full line of
+          vertical space above the agent identity. */}
       <button
-        className="mb-8 flex items-center gap-2 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
+        type="button"
         onClick={() => router.back()}
+        aria-label="Back to floor"
+        className="group/back absolute left-4 top-[5.5rem] z-20 inline-flex items-center gap-0 rounded-full border border-white/[0.08] bg-white/[0.03] py-1.5 pl-1.5 pr-1.5 font-mono text-xs text-muted-foreground backdrop-blur-sm transition-all hover:border-gold/30 hover:text-foreground sm:left-6"
       >
-        <ArrowLeft className="h-4 w-4" />
-        back to floor
+        <ArrowLeft className="h-4 w-4 transition-transform group-hover/back:-translate-x-0.5" />
+        <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-300 group-hover/back:max-w-[8rem] group-hover/back:pl-1.5 group-hover/back:pr-1 group-hover/back:opacity-100">
+          back to floor
+        </span>
       </button>
 
       {/* Editorial header: identity + focused agent core */}
