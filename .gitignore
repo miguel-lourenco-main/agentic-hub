@@ -30,6 +30,9 @@ out/
 build
 dist
 
+# TypeScript incremental build cache
+*.tsbuildinfo
+
 # Cloudflare
 .wrangler
 
