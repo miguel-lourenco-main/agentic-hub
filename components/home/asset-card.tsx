@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Star } from "lucide-react";
 import { DynamicIcon } from "@/components/ui/dynamic-icon";
@@ -18,11 +19,17 @@ function compact(n: number): string {
 }
 
 export function AssetCard({ agent, className }: { agent: Agent; className?: string }) {
-  const series = getPriceHistory(agent).map((p) => p.v);
-  const first = series[0] ?? 1;
-  const last = series[series.length - 1] ?? 1;
-  const change = ((last - first) / first) * 100;
-  const up = change >= 0;
+  // getPriceHistory is a deterministic seeded random walk; memoize so it is not
+  // recomputed (a 30-step loop) on every re-render while the grid lazy-loads
+  // more cards. Keyed on the agent id since the series only depends on that.
+  const { series, change, up } = useMemo(() => {
+    const s = getPriceHistory(agent).map((p) => p.v);
+    const first = s[0] ?? 1;
+    const last = s[s.length - 1] ?? 1;
+    const ch = ((last - first) / first) * 100;
+    return { series: s, change: ch, up: ch >= 0 };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [agent.id]);
 
   return (
     <TiltCard glow="gold" className={cn("h-full rounded-2xl", className)}>
