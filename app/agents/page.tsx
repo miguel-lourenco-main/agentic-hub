@@ -1,6 +1,7 @@
 import nextDynamic from "next/dynamic";
 import { Suspense } from "react";
 
+// Client-only sections: they read search state / animate and must not block static gen.
 const AnimatedResults = nextDynamic(() => import("@/components/agents/animated-results").then(m => m.AnimatedResults), { ssr: false, loading: () => null });
 const CategoriesSection = nextDynamic(() => import("@/components/agents/categories-section").then(m => m.CategoriesSection), { ssr: false, loading: () => null });
 const FeaturedByCategorySection = nextDynamic(() => import("@/components/agents/featured-by-category-section").then(m => m.FeaturedByCategorySection), { ssr: false, loading: () => null });

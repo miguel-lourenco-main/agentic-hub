@@ -21,6 +21,7 @@ const NAV = [
 
 export function SiteHeader() {
   const pathname = usePathname();
+  // Expand the search slot on /agents, or while the hero→header morph is mid-flight.
   const showSearch = /^\/agents\/?$/.test(stripBasePath(pathname ?? ""));
   const { isTransitioning, setIsTransitioning } = useSearchUI();
   const hasSearchSlot = showSearch || isTransitioning;
@@ -34,6 +35,7 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
+    // Clear the morph flag once /agents owns the search slot.
     if (!showSearch) {
       setIsTransitioning(false);
       return;
@@ -50,6 +52,7 @@ export function SiteHeader() {
     const target = document.getElementById(id);
     if (!target) return;
     e.preventDefault();
+    // Prefer Lenis when smooth-scroll is active so ScrollTrigger stays in sync.
     const lenis = (window as unknown as { __lenis?: { scrollTo: (t: HTMLElement, o?: object) => void } }).__lenis;
     if (lenis) lenis.scrollTo(target, { offset: -80 });
     else target.scrollIntoView({ behavior: "smooth" });

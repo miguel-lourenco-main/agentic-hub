@@ -35,6 +35,7 @@ type Props = {
 
 const RADIUS = 1.62;
 
+/** Soft radial sprite used for agent nodes and the strike tracer. */
 function makeDotTexture(): THREE.Texture {
   const s = 64;
   const c = document.createElement("canvas");
@@ -52,6 +53,7 @@ function makeDotTexture(): THREE.Texture {
   return tex;
 }
 
+/** Expanding ring sprite stamped when a hire/invest strike lands. */
 function makeRingTexture(): THREE.Texture {
   const s = 128;
   const c = document.createElement("canvas");
@@ -77,6 +79,7 @@ export default function AgentCoreGL({
   const mountRef = useRef<HTMLDivElement | null>(null);
   const onStrikeRef = useRef(onStrike);
   const onHoverRef = useRef(onHover);
+  // Refs keep the RAF loop from rebinding when parent callbacks change.
   onStrikeRef.current = onStrike;
   onHoverRef.current = onHover;
   const focusRef = useRef<number | undefined>(focusIndex);

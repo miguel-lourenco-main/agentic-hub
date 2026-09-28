@@ -26,6 +26,7 @@ function TapeItem({ event }: { event: ActivityEvent }) {
   );
 }
 
+/** Duplicate the event list so CSS marquee can loop seamlessly. */
 function Row({ events, reverse }: { events: ActivityEvent[]; reverse?: boolean }) {
   return (
     <div
@@ -51,6 +52,7 @@ function Row({ events, reverse }: { events: ActivityEvent[]; reverse?: boolean }
 }
 
 export function MarketTape() {
+  // Two independent seeded feeds so the dual marquee doesn't look mirrored.
   const top = getActivityFeed(undefined, 14);
   const bottom = getActivityFeed("global-2", 14);
 

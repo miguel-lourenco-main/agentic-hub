@@ -13,6 +13,7 @@ interface AnimatedCounterProps {
 
 const defaultFormat = (n: number) => formatInt(n)
 
+/** Count-up when scrolled into view; jumps to final value under reduced motion. */
 export function AnimatedCounter({
   value,
   format = defaultFormat,
@@ -22,6 +23,7 @@ export function AnimatedCounter({
   const ref = useRef<HTMLSpanElement | null>(null)
   const isInView = useInView(ref, { once: true, margin: "-40px" })
   const reducedMotion = useReducedMotion()
+  // Start at 0 so SSR markup matches the pre-animation client frame.
   const [display, setDisplay] = useState(() => format(reducedMotion ? value : 0))
 
   useEffect(() => {

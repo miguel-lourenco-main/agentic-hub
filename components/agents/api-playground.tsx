@@ -5,6 +5,8 @@ import { Loader2, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import type { Agent } from "@/lib/interfaces"
 
+// Demo playground — no live agent API; Send fakes latency then returns a sample.
+
 const buildSampleRequest = (agent: Agent) =>
   JSON.stringify(
     {
@@ -44,6 +46,7 @@ export function ApiPlayground({ agent }: { agent: Agent }) {
   const handleSend = () => {
     setIsSending(true)
     setResponse(null)
+    // Simulated round-trip; replace with a real fetch when agents go live.
     timerRef.current = setTimeout(() => {
       setResponse(buildSampleResponse(agent))
       setIsSending(false)

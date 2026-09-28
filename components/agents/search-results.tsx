@@ -17,6 +17,7 @@ const SORTS: { key: SortKey; label: string }[] = [
   { key: "price-desc", label: "Price ↓" },
 ];
 
+/** ANY-token match over name / description / category (tokens length > 1). */
 function matches(agent: (typeof agents)[number], words: string[]): boolean {
   if (words.length === 0) return true;
   const haystack = [agent.name, agent.description, agent.category]
@@ -25,6 +26,7 @@ function matches(agent: (typeof agents)[number], words: string[]): boolean {
   return words.some((w) => haystack.includes(w));
 }
 
+/** Client-side filter/sort of the seed agent catalog for a search query. */
 export function SearchResults({ query }: { query: string }) {
   const [category, setCategory] = useState<string>("All Agents");
   const [sort, setSort] = useState<SortKey>("relevance");

@@ -9,6 +9,7 @@ type AppLogoProps = {
   showWordmark?: boolean;
 };
 
+/** Shared logo; layoutId keeps the mark morphing between header slots. */
 export function AppLogo({ className, size = 28, showWordmark = false }: AppLogoProps) {
   return (
     <motion.div layoutId="app-logo" layout className={className}>

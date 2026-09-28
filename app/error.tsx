@@ -4,9 +4,10 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { withBasePath } from "@/lib/base-path";
 
+/** Client error boundary for the App Router tree. */
 export default function GlobalError({ error }: { error: Error & { digest?: string } }) {
   useEffect(() => {
-    // You could log the error to an error reporting service here
+    // Hook for an error reporting service (digest is Next's stable id).
     // console.error(error);
   }, [error]);
 

@@ -1,3 +1,7 @@
+// Shared marketplace domain types. Demo data in data/ conforms to these;
+// keep fields in sync when extending agent metadata, billing, or activity.
+
+/** Listed AI agent: service metadata, pricing, investment, embed + OpenAPI. */
 export interface Agent {
   id: string;
   name: string;
@@ -17,7 +21,9 @@ export interface Agent {
     availableShares: number;
     pricePerShare: number;
   };
+  /** Sandboxed UI URL embedded on the agent detail page. */
   embedUrl: string;
+  /** OpenAPI-shaped docs blob surfaced in ApiDocsViewer. */
   apiDocs: Record<string, unknown>;
   reviews: Array<{
     id: string;
@@ -32,6 +38,7 @@ export interface Agent {
   averageRating: number;
 }
 
+/** KPI tiles on the agent detail metrics strip (totals + period deltas). */
 export interface MetricsData {
   revenue: {
     total: number;
@@ -62,11 +69,13 @@ export interface Review {
   updatedAt?: Date;
 }
 
+/** Time-series sample for price / sparkline charts (`t` label, `v` value). */
 export interface PricePoint {
   t: string;
   v: number;
 }
 
+/** Recent hire/invest event shown in live feeds and the market tape. */
 export interface ActivityEvent {
   id: string;
   type: "hire" | "invest";

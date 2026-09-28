@@ -33,8 +33,10 @@ interface AgentContentProps {
   metricsData: MetricsData;
 }
 
+/** Agent detail surface: identity, hire/invest, metrics, API docs, reviews. */
 export function AgentContent({ agent, metricsData }: AgentContentProps) {
   const router = useRouter();
+  // Highlight this agent’s node in the shared constellation graph.
   const nodeIndex = findNodeIndexById(agent.id);
   return (
     <main className="relative mx-auto max-w-6xl px-4 pb-24 pt-24 sm:px-6">

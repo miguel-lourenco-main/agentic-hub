@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { withBasePath } from "@/lib/base-path";
 
+/** App Router 404 — links home via withBasePath for subpath deploys. */
 export default function NotFound() {
   return (
     <main className="container mx-auto py-16 px-4 text-center">

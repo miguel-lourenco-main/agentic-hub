@@ -1,4 +1,4 @@
-// Static export compatible page
+// Static export compatible page — every agent id is pre-rendered at build.
 
 import { notFound } from "next/navigation";
 import { AgentContent } from "@/components/agents/agent-content";

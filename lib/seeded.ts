@@ -2,6 +2,7 @@
 // exported, so build-time HTML must match client hydration — never use
 // Math.random() or Date.now() when generating demo data.
 
+/** FNV-ish string hash → unsigned 32-bit seed. */
 function hashString(input: string): number {
   let h = 1779033703 ^ input.length;
   for (let i = 0; i < input.length; i++) {
@@ -11,6 +12,7 @@ function hashString(input: string): number {
   return h >>> 0;
 }
 
+/** Mulberry32 PRNG: same seed always yields the same [0,1) sequence. */
 function mulberry32(seed: number): () => number {
   let a = seed;
   return () => {
@@ -22,6 +24,7 @@ function mulberry32(seed: number): () => number {
   };
 }
 
+/** Stable RNG keyed by string (agent id, chart series, etc.). */
 export function seededRandom(key: string): () => number {
   return mulberry32(hashString(key));
 }

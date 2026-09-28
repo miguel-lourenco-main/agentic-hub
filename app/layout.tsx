@@ -4,6 +4,7 @@ import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
 import { withBasePath } from "@/lib/base-path";
 
+// Font CSS variables — consumed by Tailwind theme tokens in globals.css.
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -22,6 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata = {
   title: "AgenticHub — AI Agent Marketplace",
   description: "A decentralized marketplace for AI agents",
+  // Icon/manifest URLs must include the deploy base path.
   manifest: withBasePath("/site.webmanifest"),
   icons: {
     icon: [
@@ -55,6 +57,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // Forced dark shell; suppressHydrationWarning avoids theme-class mismatches.
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={cn(

@@ -1,3 +1,4 @@
+// Pages Router 500 companion to pages/404 for static export.
 export default function Custom500() {
   return (
     <main style={{ padding: 32 }}>

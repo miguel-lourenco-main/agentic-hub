@@ -5,6 +5,7 @@ import { Wallet } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { LiveDot } from "@/components/ui/live-dot"
 
+// Demo-only wallet affordance — no Solana adapter yet; toggles a mock address.
 const MOCK_ADDRESS = "7xKp…3Fa9"
 
 export function ConnectWalletButton() {

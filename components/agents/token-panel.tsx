@@ -13,6 +13,7 @@ import { cn, formatInt } from "@/lib/utils"
 export function TokenPanel({ agent }: { agent: Agent }) {
   const history = getPriceHistory(agent)
   const first = history[0]?.v ?? agent.investment.pricePerShare
+  // Seeded series → % change vs opening print (demo, not live order book).
   const changePct = ((agent.investment.pricePerShare - first) / first) * 100
   const holders = Math.round(agent.investment.marketCap / 1850)
 

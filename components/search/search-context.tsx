@@ -2,9 +2,13 @@
 
 import { createContext, useContext, useMemo, useState } from "react";
 
+// Shared search query + transition flag so the header input and /agents
+// results stay in sync across client navigations (static-export friendly).
+
 type SearchUIContextValue = {
   query: string;
   setQuery: (q: string) => void;
+  /** True while the shared search morphs from hero → header. */
   isTransitioning: boolean;
   setIsTransitioning: (v: boolean) => void;
 };

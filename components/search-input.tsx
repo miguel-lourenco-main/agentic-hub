@@ -14,6 +14,7 @@ type SearchInputProps = {
   className?: string;
 };
 
+/** Controlled search field shared by the hero and the sticky header. */
 export function SearchInput({
   value,
   onChange,

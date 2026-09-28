@@ -42,6 +42,7 @@ export function HireDialog({ agentName, billing, children }: HireDialogProps) {
 
   const handleHire = async () => {
     setIsLoading(true);
+    // Demo hire flow — no wallet tx; delay then celebrate + close.
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsSuccess(true);
     setIsLoading(false);
@@ -55,6 +56,7 @@ export function HireDialog({ agentName, billing, children }: HireDialogProps) {
 
   const totalPrice = billing.rate * parseInt(amount || "0");
 
+  /** Map billing.model to the quantity noun shown beside the amount input. */
   const getUnitLabel = () => {
     switch (billing.model) {
       case "per unit":

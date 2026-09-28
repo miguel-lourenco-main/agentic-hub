@@ -1,3 +1,4 @@
+// Pages Router 404 for static-export edge cases outside the App Router tree.
 export default function Custom404() {
   return (
     <main style={{ padding: 32 }}>
