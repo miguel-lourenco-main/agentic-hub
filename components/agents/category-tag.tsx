@@ -3,27 +3,16 @@
 import { motion } from "framer-motion";
 import { categoryAccentColor, categoryAccentTriple } from "@/lib/category-theme";
 import type { Category } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 interface CategoryTagProps {
   category: Category;
   index: number;
+  active: boolean;
+  onClick: () => void;
 }
 
-export function CategoryTag({ category, index }: CategoryTagProps) {
-  const handleCategoryClick = () => {
-    const categoryId = category.name === "All Agents" 
-      ? "all-agents" 
-      : category.name.toLowerCase().replace(/\s+/g, "-");
-    const element = document.getElementById(categoryId);
-    if (element) {
-      element.scrollIntoView({ 
-        behavior: "smooth", 
-        block: "start",
-        inline: "nearest"
-      });
-    }
-  };
-
+export function CategoryTag({ category, index, active, onClick }: CategoryTagProps) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -31,9 +20,16 @@ export function CategoryTag({ category, index }: CategoryTagProps) {
       transition={{ delay: index * 0.1 }}
     >
       <button
-        onClick={handleCategoryClick}
+        type="button"
+        aria-pressed={active}
+        onClick={onClick}
         style={{ ["--accent" as string]: categoryAccentTriple(category.name) }}
-        className="group inline-flex items-center rounded-full border hairline bg-white/[0.04] px-3.5 py-1 text-sm font-medium transition-colors hover:border-[rgb(var(--accent)/0.5)] hover:text-[rgb(var(--accent))] cursor-pointer"
+        className={cn(
+          "group inline-flex items-center rounded-full border hairline px-3.5 py-1 text-sm font-medium transition-colors hover:border-[rgb(var(--accent)/0.5)] hover:text-[rgb(var(--accent))] cursor-pointer",
+          active
+            ? "border-[rgb(var(--accent)/0.6)] bg-[rgb(var(--accent)/0.1)] text-[rgb(var(--accent))]"
+            : "bg-white/[0.04]"
+        )}
       >
         {/* accent dot keeps each category visually distinct in the index row */}
         <span
@@ -48,4 +44,4 @@ export function CategoryTag({ category, index }: CategoryTagProps) {
       </button>
     </motion.div>
   );
-} 
+}

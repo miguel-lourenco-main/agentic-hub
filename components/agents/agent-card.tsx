@@ -37,8 +37,8 @@ export function AgentCard({ agent, index, categoryIndex = 0, variant = "grid" }:
       }}
     >
       {/* Whole card is the primary affordance: clicking anywhere opens the
-          agent. The "Hire" button is a nested action that stops propagation so
-          it can shortcut straight to the hire flow. */}
+          agent. The "Try agent" button uses the same label as the marketplace
+          cards and stops propagation so the click is handled once. */}
       <Card
         hoverable
         role="link"
@@ -113,10 +113,13 @@ export function AgentCard({ agent, index, categoryIndex = 0, variant = "grid" }:
             {agent.pricing}
           </div>
           <Link
-            href={`/agents/${agent.id}?action=hire`}
+            href={`/agents/${agent.id}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <Button variant="gradient" size="sm">Hire</Button>
+            <Button variant="gradient" size="sm">
+              Try agent
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </Button>
           </Link>
         </div>
       </Card>

@@ -26,7 +26,33 @@ import { AgentCore } from "@/components/webgl/agent-core";
 import { getApiDocs } from "@/data/api-docs";
 import { findNodeIndexById } from "@/lib/agent-graph";
 import type { Agent, MetricsData } from "@/lib/interfaces";
+import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+
+function BackPill({
+  onClick,
+  className,
+}: {
+  onClick: () => void;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label="Back to floor"
+      className={cn(
+        "group/back items-center gap-0 rounded-full border border-white/[0.08] bg-white/[0.03] p-1.5 font-mono text-xs text-muted-foreground backdrop-blur-sm transition-all hover:border-gold/30 hover:text-foreground",
+        className
+      )}
+    >
+      <ArrowLeft className="h-4 w-4 shrink-0 transition-transform group-hover/back:-translate-x-0.5" />
+      <span className="hidden max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-300 group-hover/back:max-w-[8rem] group-hover/back:pl-1.5 group-hover/back:pr-1 group-hover/back:opacity-100 lg:inline">
+        back to floor
+      </span>
+    </button>
+  );
+}
 
 interface AgentContentProps {
   agent: Agent;
@@ -38,20 +64,14 @@ export function AgentContent({ agent, metricsData }: AgentContentProps) {
   const nodeIndex = findNodeIndexById(agent.id);
   return (
     <main className="relative mx-auto max-w-6xl px-4 pb-24 pt-24 sm:px-6">
-      {/* Sleek back control: a compact pill that floats beside the header and
-          reveals its label on hover, so it no longer reserves a full line of
-          vertical space above the agent identity. */}
-      <button
-        type="button"
+      {/* Sleek back control. On desktop it floats above the header (the
+          header is vertically centred against the agent core, so there is
+          room); on phones it sits inline in the identity row so it never
+          overlaps the category icon. */}
+      <BackPill
         onClick={() => router.back()}
-        aria-label="Back to floor"
-        className="group/back absolute left-4 top-[5.5rem] z-20 inline-flex items-center gap-0 rounded-full border border-white/[0.08] bg-white/[0.03] py-1.5 pl-1.5 pr-1.5 font-mono text-xs text-muted-foreground backdrop-blur-sm transition-all hover:border-gold/30 hover:text-foreground sm:left-6"
-      >
-        <ArrowLeft className="h-4 w-4 transition-transform group-hover/back:-translate-x-0.5" />
-        <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-300 group-hover/back:max-w-[8rem] group-hover/back:pl-1.5 group-hover/back:pr-1 group-hover/back:opacity-100">
-          back to floor
-        </span>
-      </button>
+        className="absolute left-6 top-[5.5rem] z-20 hidden lg:inline-flex"
+      />
 
       {/* Editorial header: identity + focused agent core */}
       <motion.div
@@ -62,6 +82,10 @@ export function AgentContent({ agent, metricsData }: AgentContentProps) {
       >
         <div>
           <div className="mb-5 flex items-center gap-3">
+            <BackPill
+              onClick={() => router.back()}
+              className="inline-flex h-11 w-11 shrink-0 justify-center lg:hidden"
+            />
             <div className="rounded-xl border border-gold/20 bg-gold/10 p-2.5 text-gold">
               <DynamicIcon name={agent.iconName} className="h-6 w-6" />
             </div>
