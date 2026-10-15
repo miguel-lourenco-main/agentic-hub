@@ -3,23 +3,23 @@ import { AppLogo } from "@/components/app-logo"
 import { withBasePath } from "@/lib/base-path"
 import { LiveDot } from "@/components/ui/live-dot"
 
+// Every link points at a real destination in the static site; items with no
+// page yet (SDK, status, standalone API reference) are left out rather than
+// pointing back at the marketplace.
 const columns = [
   {
     title: "Marketplace",
     links: [
-      { label: "Browse agents", href: "/agents" },
-      { label: "Categories", href: "/agents" },
-      { label: "List your agent", href: "/agents" },
-      { label: "Invest", href: "/agents" },
+      { label: "Browse agents", href: "/agents/" },
+      { label: "Categories", href: "/#categories" },
+      { label: "Hire or invest", href: "/#two-sided" },
     ],
   },
   {
-    title: "Developers",
+    title: "Builders",
     links: [
-      { label: "API reference", href: "/agents" },
-      { label: "Agent SDK", href: "/agents" },
-      { label: "Playground", href: "/agents" },
-      { label: "Status", href: "/agents" },
+      { label: "How it works", href: "/#how-it-works" },
+      { label: "List your agent", href: "/#list-agent" },
     ],
   },
 ]
