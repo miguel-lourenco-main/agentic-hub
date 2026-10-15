@@ -7,10 +7,16 @@ import { DynamicIcon } from "@/components/ui/dynamic-icon";
 import { categories } from "@/data/categories";
 import { agents } from "@/data/agents";
 import { getCategoryTheme, categoryAccentColor } from "@/lib/category-theme";
+import { ALL_CATEGORIES, useAgentFilters } from "@/lib/agent-filters";
 
 export function FeaturedByCategorySection() {
+  const { filters } = useAgentFilters();
   const getFeaturedAgentsForCategory = (categoryName: string) =>
     agents.filter((agent) => agent.category === categoryName);
+
+  // The per-category rows are the unfiltered browse layout; once a category
+  // chip is active the filtered grid below is the list.
+  if (filters.category !== ALL_CATEGORIES) return null;
 
   return (
     <>
